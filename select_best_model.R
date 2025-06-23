@@ -18,17 +18,20 @@
 #' }
 #' @export 
 #'
-select_best_model <- function(dataset, model_df, Response, Conc = log_Conc, list_obj = NULL) {
+select_best_model <- function(dataset, model_df, Response, model_Conc = model_Conc, list_obj = NULL) {
   requireNamespace("drc", quietly = TRUE)
   requireNamespace("rlang", quietly = TRUE)
   requireNamespace("dplyr", quietly = TRUE)
   
+  print("1")
+  print(str(dataset))
   # Rename to standard columns
   ds <- dataset %>%
     dplyr::rename(
       Response = {{Response}},
-      mConc = {{Conc}}
+      mConc = {{model_Conc}}
     )
+  print("2")
   
   # Get best model name
   best_model_name <- model_df %>%

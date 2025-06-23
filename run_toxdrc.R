@@ -17,24 +17,24 @@ run_toxdrc <- function(.dataset,
                        .EDargs = NULL,
                        .return_type = c("separate", "combined")) {
   
-  source("~/Desktop/Research/2024/toxdrc/remove_outliers.R", echo=TRUE)
-  source("~/Desktop/Research/2024/toxdrc/cv_flag.R", echo=TRUE)
-  source("~/Desktop/Research/2024/toxdrc/solvent_check.R", echo=TRUE)
-  source("~/Desktop/Research/2024/toxdrc/blank_correct_response.R", echo=TRUE)
-  source("~/Desktop/Research/2024/toxdrc/normalize_response.R", echo=TRUE)
-  source("~/Desktop/Research/2024/toxdrc/log_concs.R", echo=TRUE)
-  source("~/Desktop/Research/2024/toxdrc/average_response.R", echo=TRUE)
-  source("~/Desktop/Research/2024/toxdrc/is_toxic.R", echo=TRUE)
-  source("~/Desktop/Research/2024/toxdrc/my_mselect.R", echo=TRUE)
-  source("~/Desktop/Research/2024/toxdrc/safe_drm.R", echo=TRUE)
-  source("~/Desktop/Research/2024/toxdrc/fit_models.R", echo=TRUE)
-  source("~/Desktop/Research/2024/toxdrc/hormesis_validity.R", echo=TRUE)
-  source("~/Desktop/Research/2024/toxdrc/get_model_concs.R", echo=TRUE)
-  source("~/Desktop/Research/2024/toxdrc/select_best_model.R", echo=TRUE)
-  source("~/Desktop/Research/2024/toxdrc/extract_metadata.R", echo=TRUE)
-  source("~/Desktop/Research/2024/toxdrc/red_button.R", echo=TRUE)
-  source("~/Desktop/Research/2024/toxdrc/red_button_NT.R", echo=TRUE)
-  source("~/Desktop/Research/2024/toxdrc/model_estimates.R", echo=TRUE)
+  source("~/Desktop/Research/toxdrc/remove_outliers.R", echo=TRUE)
+  source("~/Desktop/Research/toxdrc/cv_flag.R", echo=TRUE)
+  source("~/Desktop/Research/toxdrc/solvent_check.R", echo=TRUE)
+  source("~/Desktop/Research/toxdrc/blank_correct_response.R", echo=TRUE)
+  source("~/Desktop/Research/toxdrc/normalize_response.R", echo=TRUE)
+  source("~/Desktop/Research/toxdrc/log_concs.R", echo=TRUE)
+  source("~/Desktop/Research/toxdrc/average_response.R", echo=TRUE)
+  source("~/Desktop/Research/toxdrc/is_toxic.R", echo=TRUE)
+  source("~/Desktop/Research/toxdrc/my_mselect.R", echo=TRUE)
+  source("~/Desktop/Research/toxdrc/safe_drm.R", echo=TRUE)
+  source("~/Desktop/Research/toxdrc/fit_models.R", echo=TRUE)
+  source("~/Desktop/Research/toxdrc/hormesis_validity.R", echo=TRUE)
+  source("~/Desktop/Research/toxdrc/get_model_concs.R", echo=TRUE)
+  source("~/Desktop/Research/toxdrc/select_best_model.R", echo=TRUE)
+  source("~/Desktop/Research/toxdrc/extract_metadata.R", echo=TRUE)
+  source("~/Desktop/Research/toxdrc/red_button.R", echo=TRUE)
+  source("~/Desktop/Research/toxdrc/red_button_NT.R", echo=TRUE)
+  source("~/Desktop/Research/toxdrc/model_estimates.R", echo=TRUE)
   
   .if_nontoxic <- match.arg(.if_nontoxic)
   .return_type <- match.arg(.return_type)
@@ -85,13 +85,21 @@ run_toxdrc <- function(.dataset,
       result$metadata$is_toxic <- result$is_toxic
       return(result)
     }
-    
+  
+
     result <- log_concs(dataset = result$dataset, Conc = {{.Conc}}, list_obj = result)
     log_Conc <- rlang::sym("log_Conc")
     
     result <- fit_models(dataset = result$dataset, log_Conc = {{log_Conc}}, Response = {{.Response}}, list_obj = result)
     
-    result <- select_best_model(dataset = result$dataset, model_df = result$model_df, Response = {{.Response}}, list_obj = result)
+    result$dataset <- get_model_concs(dataset = result$dataset, model_df = result$model_df)
+    model_Conc <- rlang::sym("model_Conc")
+    
+    print(str(result$dataset))
+    
+    result <- select_best_model(dataset = result$dataset, model_Conc = model_Conc, model_df = result$model_df, Response = {{.Response}}, list_obj = result)
+    
+    print("hello")
     
     result <- extract_metadata(dataset = result$dataset, list_obj = result, ID_cols = c(.IDcols, "Model"))
     

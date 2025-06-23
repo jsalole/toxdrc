@@ -21,16 +21,16 @@ get_model_concs <- function(dataset, model_df, sort_by = "IC") {
     .[1]
   
   # Define models that require log-transformed concentrations
-  manual_log_models <- c("G.2", "G.3", "G.4", "LL.2", "LL.4")
+  manual_log_models <- c("G.2", "G.3", "G.4")
   
   # Set model_Conc based on model type
- # dataset$model_Conc <- if (best_model %in% manual_log_models) {
-    #dataset$log_Conc
- # } else {
-   # dataset$Conc
-  #}
-  #
-  dataset$model_Conc <- dataset$Conc
+  if (best_model %in% manual_log_models) {
+    dataset$model_Conc <- dataset$log_Conc
+  } else {
+    dataset$model_Conc <- dataset$Conc
+  }
+  
+  print(dataset)
   
   return(dataset)
 }
