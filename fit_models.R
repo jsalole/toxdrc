@@ -51,7 +51,7 @@ fit_models <- function(dataset, Conc= NULL, log_Conc = NULL, Response, list_obj 
         fitted_model <- drm(data = ds, Response ~ Conc, fct = model())
         models <- my_mselect(fitted_model, list(LL.2(), LL.3u(), 
                                                 LL.4(), LL.5(), LN.2(), W1.2(), 
-                                                W1.4(), W2.2(), W2.4(), BC.4(), BC.5()), sorted = "IC")
+                                                W1.4(), W2.2(), W2.4(), BC.4(), BC.5()))
         break
       }
     }
@@ -65,7 +65,7 @@ fit_models <- function(dataset, Conc= NULL, log_Conc = NULL, Response, list_obj 
   if ("log_Conc" %in% names(ds)) {
     for (log_model in log_model_list) {
       log_safe_model <- safe_drm(data = ds, Response ~ log_Conc, fct = log_model())
-      if (!is.null(safe_model)) {
+      if (!is.null(log_safe_model)) {
         log_fitted_model <- drm(data = ds, Response ~ log_Conc, fct = log_model())
         log_models <- my_mselect(log_fitted_model, list(G.2(), 
                                                     G.3(), G.4()))
