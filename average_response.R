@@ -8,12 +8,12 @@
 #' @param dataset A data frame containing the data.
 #' @param Conc Unquoted column name for concentration.
 #' @param Response Unquoted column name for the primary response variable to calculate mean_response.
-#' @param keep_cols Optional character vector of columns to preserve without averaging (e.g., identifiers like TestID, Type, etc.)
-#' @param list_obj Optional existing list object to update.
+#' @param keep_cols Optional character vector of columns to preserve without averaging (any identifier columns) This will take the first non-NA value from the specified column(s) and apply to the averaged row for the column(s).
+#' @param list_obj Optional existing list object to update, used in run_toxdrc(). 
 #'
 #' @return A list containing:
 #' \describe{
-#'   \item{dataset}{The dataset averaged by concentration, preserving selected columns, with mean_response, Note, and Validity.}
+#'   \item{dataset}{The dataset averaged by concentration, preserving selected columns. Dataset is collapsed to 1 row per a concentration.}
 #'   \item{average_response_summary}{Summary of number of concentration levels processed.}
 #'   \item{pre_average_dataset}{The dataset before averaging.}
 #' }
@@ -22,10 +22,10 @@
 average_response <- function(dataset, Conc, Response, keep_cols = NULL, list_obj = NULL) {
   requireNamespace("dplyr", quietly = TRUE)
 
-  # Backup full dataset before any modifications
+  # The pre-average dataset is saved to a new name to call if needed.
   pre_average_dataset <- dataset
   
-  # Handle keep_cols safely
+  # The specified columns are checked to see if they exist; warns user if any are not found. Moves forward with valid column names.
   if (!is.null(keep_cols)) {
     missing_cols <- keep_cols[!keep_cols %in% names(dataset)]
     if (length(missing_cols) > 0) {
@@ -34,9 +34,11 @@ average_response <- function(dataset, Conc, Response, keep_cols = NULL, list_obj
     }
   }
   
+  # Checking if $Note and $Validity exist in dataset; used in run_toxdrc().
   has_note <- "Note" %in% names(dataset)
   has_validity <- "Validity" %in% names(dataset)
   
+  # Groups dataset by $Conc, and averages $Response. Collapses to 1 row per concentration level, and preserves first non-NA value from specified columns, $Note, and $Validity. 
   averaged_dataset <- dataset %>%
     dplyr::group_by({{Conc}}) %>%
     dplyr::summarise(
@@ -59,12 +61,12 @@ average_response <- function(dataset, Conc, Response, keep_cols = NULL, list_obj
       .groups = "drop"
     )
   
-  # Summary
+  # summary shows keeps vector of unique concentration levels, if needed.
   summary_df <- tibble::tibble(
     n_conc_levels = dplyr::n_distinct(dplyr::pull(averaged_dataset, {{Conc}}))
   )
   
-  # Output
+  # Output as a list, either a new list, or attached to supplied list_obj 
   if (is.null(list_obj)) {
     return(list(
       dataset = averaged_dataset,
