@@ -20,9 +20,10 @@ model_estimates <- function(dataset,
                             list_obj = NULL,
                             EDargs = list()) {
   
-  ED_arguments <- c(list(model, c(EDx)), EDargs)
+  manual_log_models <- c("G.2", "G.3", "G.4")
   
-  print(model)
+  
+  ED_arguments <- c(list(model, c(EDx)), EDargs)
   
   # Attempt to extract ECx estimate using ...
   ED_vals <- tryCatch(
@@ -32,6 +33,12 @@ model_estimates <- function(dataset,
       return(rep(NA, 4))
     }
   )
+  
+  # Scale to log scale if needed
+  
+  if (!(metadata$Model %in% manual_log_models)) {
+    ED_vals <- log(ED_vals)
+  } 
   
   # Define output names
   estimate_names <- c(paste0("EC", EDx * 100),

@@ -23,7 +23,6 @@ select_best_model <- function(dataset, model_df, Response, model_Conc = model_Co
   requireNamespace("rlang", quietly = TRUE)
   requireNamespace("dplyr", quietly = TRUE)
   
-  print("1")
   print(str(dataset))
   # Rename to standard columns
   ds <- dataset %>%
@@ -31,7 +30,6 @@ select_best_model <- function(dataset, model_df, Response, model_Conc = model_Co
       Response = {{Response}},
       mConc = {{model_Conc}}
     )
-  print("2")
   
   # Get best model name
   best_model_name <- model_df %>%
