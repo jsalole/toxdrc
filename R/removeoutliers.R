@@ -1,13 +1,13 @@
 #' Remove outliers iteratively using Grubbs' test.
 #'
-#' This function removes statistical outliers from each concentration by iteratively applying Grubbs' test.
+#' This function removes statistical outliers from each testing group by iteratively applying Grubbs' test.
 #'
 #' @param dataset A dataframe.
-#' @param Conc Unquoted column name of \code {dataset} that groups observations to determine outliers, (e.g. Conc).
-#' @param Response Unquoted column name of \code {dataset} with observations to determine outliers, (e.g. RFU).
-#' @param list_obj Optional existing list object, used for integration with \code {runtoxdrc}.
+#' @param Conc Unquoted column name of dataset that groups observations to determine outliers, (e.g. Conc).
+#' @param Response Unquoted column name of dataset with observations to determine outliers, (e.g. RFU).
+#' @param list_obj Optional existing list object, used for integration with runtoxdrc.
 #'
-#' @returns An modified \code{dataset} with outliers removed. If list_obj provided, updates this within a list; primarly for \code {runtoxdrc} and adds \code{$removed_outliers} to the list to track changes. If no list_obj provided, prints the removed rows and returns the edited \code{dataset}.
+#' @returns An modified dataset with outliers removed. If list_obj provided, updates this within a list; primarly for code runtoxdrc and adds removed_outliers to the list to track changes. If no list_obj provided, prints the removed rows and returns the edited dataset.
 #' @export
 #'
 #' @examples
