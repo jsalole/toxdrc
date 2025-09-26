@@ -1,9 +1,9 @@
 Package: toxdrc
-Title: What the Package Does (One Line, Title Case)
-Version: 0.0.0.9000
+Title: toxdrc
+Version: 0.1
 Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
+    person("Jack", "Salole", , "salolj@mcmaster.ca", role = c("aut", "cre"))
+Description: toxdrc provides a variety of tools for assessing dose response curves, with an emphasis on toxicity test data. The main feature of this package are modular functions which combine to form pipelines to automate data analysis for very large datasets. Dose response curves are fit and point estimation is estimate. Data can also be manipulated during this pipeline (outliers, CV calculation, validity criteria, etc.)
 License: CC BY 4.0
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -12,8 +12,8 @@ URL: https://github.com/jsalole/toxdrc
 BugReports: https://github.com/jsalole/toxdrc/issues
 Imports: 
     dplyr,
-    drc,
-    outliers
+    outliers,
+    purr
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
