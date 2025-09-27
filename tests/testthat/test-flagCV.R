@@ -6,3 +6,8 @@ test_that("flagCV identifies groups with high CV and flags them", {
   expect_equal(df_c, flagCV(dataset = df, Conc = x, Response = y, max_val = 30, update_dataset = TRUE)
   )
 })
+
+test_that("flagCV identifies groups with high CV and flags them via printing", {
+  expect_equal(df, flagCV(dataset = df, Conc = x, Response = y, max_val = 30, update_dataset = FALSE)
+  )
+})

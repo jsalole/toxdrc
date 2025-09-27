@@ -4,7 +4,14 @@
 \alias{flagCV}
 \title{Check for groups with high CV}
 \usage{
-flagCV(dataset, Conc, Response, max_val = 30, update_dataset = FALSE)
+flagCV(
+  dataset,
+  Conc,
+  Response,
+  max_val = 30,
+  update_dataset = FALSE,
+  list_obj = NULL
+)
 }
 \arguments{
 \item{dataset}{A dataframe.}
@@ -16,7 +23,17 @@ flagCV(dataset, Conc, Response, max_val = 30, update_dataset = FALSE)
 \item{max_val}{The maximum CV before a group is flagged.}
 
 \item{update_dataset}{Logical. If TRUE, adds rows to supplied 'dataset' to return. If FALSE, dataset is not changed and results are printed.}
+
+\item{list_obj}{Optional existing list object, used for integration with \code{runtoxdrc}. If \code{update_dataset} is set to FALSE, this should be left as NULL.}
+}
+\value{
+Prints a summary dataframe is printed indicating the CV of each \code{Conc} supplied with a note if they are flagged.If update_dataset is set to TRUE, returns modified \code{dataset}. If FALSE, the original dataset is returned.
 }
 \description{
-This function calculates the coefficent of variation (CV) of each of the groups, and flags if 'max_val' is exceeded.
+This function calculates the coefficient of variation (CV) of each of the groups, and flags if 'max_val' is exceeded.
+}
+\examples{
+df <- data.frame(x = rep(1:2, each = 3), y = c(10, 11, 9, 20, 40, 60))
+flagCV(dataset = df, Conc = x, Response = y, max_val = 30)
+
 }
