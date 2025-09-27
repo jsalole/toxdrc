@@ -9,14 +9,14 @@ removeoutliers(dataset, Conc, Response, list_obj = NULL)
 \arguments{
 \item{dataset}{A dataframe.}
 
-\item{Conc}{Unquoted column name of dataset that groups observations to determine outliers, (e.g. Conc).}
+\item{Conc}{Unquoted column name of 'dataset' that groups observations to determine outliers, (e.g. Conc).}
 
-\item{Response}{Unquoted column name of dataset with observations to determine outliers, (e.g. RFU).}
+\item{Response}{Unquoted column name of 'dataset' with observations to determine outliers, (e.g. RFU).}
 
-\item{list_obj}{Optional existing list object, used for integration with runtoxdrc.}
+\item{list_obj}{Optional existing list object, used for integration with 'runtoxdrc'.}
 }
 \value{
-An modified dataset with outliers removed. If list_obj provided, updates this within a list; primarly for code runtoxdrc and adds removed_outliers to the list to track changes. If no list_obj provided, prints the removed rows and returns the edited dataset.
+An modified 'dataset' with outliers removed. If 'list_obj' provided, updates this within a list; primarly for code 'runtoxdrc' and adds '$removed_outliers' to the list to track changes. If no 'list_obj' provided, prints the removed rows and returns the edited 'dataset'.
 }
 \description{
 This function removes statistical outliers from each testing group by iteratively applying Grubbs' test.
@@ -24,5 +24,5 @@ This function removes statistical outliers from each testing group by iterativel
 \examples{
 
 df <- data.frame(x = rep(1:2, each = 3),y = c(3, 5, 7, 3, 4, 30))
-remove_outliers(dataset = df, Conc = x, Response = y)
+removeoutliers(dataset = df, Conc = x, Response = y)
 }
