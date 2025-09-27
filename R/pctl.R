@@ -14,7 +14,8 @@
 #' @export
 #'
 #' @examples df <- data.frame(x = rep(1:2, each = 3), y = c(10, 11, 9, 20, 40, 60))
-#' pctl(dataset = pre_df, Conc = x, reference_group = 1, positive_group = 2, Response = y, max_diff = 10)
+#' pctl(dataset = df, Conc = x, reference_group = 1,
+#'      positive_group = 2, Response = y, max_diff = 10)
 #'
 
 pctl <- function(dataset, Conc, reference_group = "Control", positive_group = 0, Response, max_diff = 10, list_obj = NULL) {

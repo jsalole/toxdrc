@@ -54,7 +54,7 @@ flagCV <- function(dataset, Conc, Response, max_val = 30, list_obj = NULL) {
   print(summary_df)
 
   updated_dataset <- updated_dataset %>%
-    dplyr::select(-c(CV))
+    dplyr::select(-c(.data$CV))
 
   if (!is.null(list_obj)) {
     if (!is.list(list_obj)) stop("Provided list_obj must be a list.")
