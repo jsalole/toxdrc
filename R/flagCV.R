@@ -54,7 +54,11 @@ flagCV <- function(dataset, Conc, Response, max_val = 30, update_dataset = FALSE
     )
 
   if (!(is.null(list_obj))) {
+    if (is.list(list_obj)) {
     list_obj$CVresults <- summary_df
+    } else {
+      stop("Provided list_obj must be a list.")
+    }
   }
 
   print(summary_df)
