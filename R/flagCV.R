@@ -6,18 +6,16 @@
 #' @param Conc Unquoted column name of 'dataset' that groups observations to calculate CV in (e.g. Conc).
 #' @param Response Unquoted column name of 'dataset' with observations to calculate CV in (e.g. RFU).
 #' @param max_val The maximum CV before a group is flagged.
-#' @param update_dataset Logical. If TRUE, adds rows to supplied 'dataset' to return. If FALSE, dataset is not changed and results are printed.
-#' @param list_obj Optional existing list object, used for integration with `runtoxdrc`. If `update_dataset` is set to FALSE, this should be left as NULL.
+#' @param list_obj Optional existing list object, used for integration with `runtoxdrc`.
 #'
-#' @returns Prints a summary dataframe is printed indicating the CV of each `Conc` supplied with a note if they are flagged.If update_dataset is set to TRUE, returns modified `dataset`. If FALSE, the original dataset is returned.
-#'
+#' @returns Prints a summary dataframe is printed indicating the CV of each `Conc` supplied with a note if they are flagged. The flag is updated in `dataset`. If list_object is supplied, returns modified `dataset` and test results `CVresults` in this growing list object.
 #'
 #' @export
 #'
 #' @examples df <- data.frame(x = rep(1:2, each = 3), y = c(10, 11, 9, 20, 40, 60))
 #' flagCV(dataset = df, Conc = x, Response = y, max_val = 30)
 #'
-flagCV <- function(dataset, Conc, Response, max_val = 30, update_dataset = FALSE, list_obj = NULL) {
+flagCV <- function(dataset, Conc, Response, max_val = 30, list_obj = NULL) {
 
   updated_dataset <- dataset %>%
     dplyr::mutate(
@@ -53,23 +51,16 @@ flagCV <- function(dataset, Conc, Response, max_val = 30, update_dataset = FALSE
       .groups = "drop"
     )
 
-  if (!(is.null(list_obj))) {
-    if (is.list(list_obj)) {
-    list_obj$CVresults <- summary_df
-    } else {
-      stop("Provided list_obj must be a list.")
-    }
-  }
-
   print(summary_df)
-  if (!update_dataset) {
-    return(dataset)
-  } else {
-    if (!(is.null(list_obj))) {
-      list_object$dataset <- updated_dataset
-      return(list_obj)
-    } else {
-    return(updated_dataset)
+
+  updated_dataset <- updated_dataset %>%
+    dplyr::select(-c(CV))
+
+  if (!is.null(list_obj)) {
+    if (!is.list(list_obj)) stop("Provided list_obj must be a list.")
+    list_obj$dataset <- updated_dataset
+    list_obj$CVresults <- as.data.frame(summary_df)
+    return(list_obj)
   }
-  }
+  return(updated_dataset)
 }
