@@ -8,9 +8,9 @@
 #' @param positive_group Quoted name OR value of procedural group, or positive control (i.e. "ctl+", 0)
 #' @param Response Unquoted column name of `dataset` with observations to compare (e.g. RFU).
 #' @param max_diff The maximum % difference between groups before they are flagged.
-#' @param list_obj Optional existing list object, used for integration with `runtoxdrc`. If `update_dataset` is set to FALSE, this should be left as NULL.
+#' @param list_obj Optional existing list object, used for integration with `runtoxdrc`.
 #'
-#' @returns A modified dataframe with an additional column, `Validity`.
+#' @returns Prints a summary dataframe is printed indicating the percent difference of the control groups. The flag is updated in `dataset`. If list_object is supplied, returns modified `dataset` and test results `pctlresults` in this growing list object.
 #' @export
 #'
 #' @examples df <- data.frame(x = rep(1:2, each = 3), y = c(10, 11, 9, 20, 40, 60))
