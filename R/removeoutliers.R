@@ -7,7 +7,7 @@
 #' @param Response Unquoted column name of `dataset` with observations to determine outliers in (e.g. RFU).
 #' @param list_obj Optional existing list object, used for integration with `runtoxdrc`.
 #'
-#' @returns An modified `dataset` with outliers removed. If `list_obj` provided, updates this within a list. This is primarly for integration wit `runtoxdrc` as it adds `$removed_outliers` to the growing list to track changes. If no `list_obj` provided, prints the removed rows and returns the edited `dataset`.
+#' @returns A modified `dataset` with outliers removed. If `list_obj` provided, updates this within a list. This is primarly for integration wit `runtoxdrc` as it adds `removed_outliers` to the growing list to track changes. If no `list_obj` provided, prints the removed rows and returns the edited `dataset`.
 #' @export
 #'
 #' @examples
