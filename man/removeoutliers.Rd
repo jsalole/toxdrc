@@ -16,7 +16,7 @@ removeoutliers(dataset, Conc, Response, list_obj = NULL)
 \item{list_obj}{Optional existing list object, used for integration with \code{runtoxdrc}.}
 }
 \value{
-An modified \code{dataset} with outliers removed. If \code{list_obj} provided, updates this within a list. This is primarly for integration wit \code{runtoxdrc} as it adds \verb{$removed_outliers} to the growing list to track changes. If no \code{list_obj} provided, prints the removed rows and returns the edited \code{dataset}.
+A modified \code{dataset} with outliers removed. If \code{list_obj} provided, updates this within a list. This is primarly for integration wit \code{runtoxdrc} as it adds \code{removed_outliers} to the growing list to track changes. If no \code{list_obj} provided, prints the removed rows and returns the edited \code{dataset}.
 }
 \description{
 This function removes statistical outliers from each testing group by iteratively applying Grubbs' test.
