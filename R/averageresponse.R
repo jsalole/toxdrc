@@ -1,0 +1,63 @@
+#' Average response variable
+#'
+#'  Average the response variable by group or exposure condition.
+#' @param dataset A dataframe.
+#' @param Conc Unquoted column name of `dataset` that groups observations (e.g. Conc).
+#' @param Response Unquoted column name of `dataset` with observations (e.g. RFU).
+#' @param keep_cols Optional. Columns given as a vector `c("column1", "column2")` used in the identification of data or important metadata. These columns are preserved in the returned dataset with the first value (not NA, NULL, or blank) of these columns within each level of `Conc`. Examples of this are metric type (mortality, indicator name), test information (well plate size, test time, test ID). These values should be identical within a testing group.
+#' @param list_obj Optional existing list object, used for integration with `runtoxdrc`.
+#'
+#' @returns A modified dataset with one row for each level of `Conc`. The averaged response is given for each level, in addition to the value. If `list_obj` provided, returns this within a list. This is primarly for integration wit `runtoxdrc` as it saves the `pre_average_dataset` to the growing list to track changes. If no `list_obj` provided it returns the edited `dataset`.
+#'
+#'
+#'@importFrom dplyr all_of
+#' @export
+#'
+#' @examples
+#' df <- data.frame(x = rep(1:2, each = 3), y = c(100, 110, 90, 40, 50, 60),
+#'                  time = c("noon", "noon", "noon",
+#'                    "", "one_pm", ""))
+#' averageresponse(dataset = df, Conc = x, Response = y, keep_cols = c("time"))
+#'
+averageresponse <- function(dataset, Conc, Response, keep_cols = NULL, list_obj = NULL) {
+
+  pre_average_dataset <- dataset
+
+  # The specified columns are checked to see if they exist and warns user if any are not found. Moves forward with valid column names.
+  if (!is.null(keep_cols)) {
+    missing_cols <- keep_cols[!keep_cols %in% names(dataset)]
+    if (length(missing_cols) > 0) {
+      warning("Some specified keep_cols not found in dataset: ", paste(missing_cols, collapse = ", "))
+      keep_cols <- keep_cols[keep_cols %in% names(dataset)]  # Only keep valid columns
+    }
+  }
+
+  # Groups dataset by $Conc, and averages $Response. Collapses to 1 row per concentration level, and preserves first non-NA value from specified columns, $Note, and $Validity.
+
+  averaged_dataset <- dataset %>%
+    dplyr::group_by({{Conc}}) %>%
+    dplyr::summarise(
+      mean_response = mean({{Response}}, na.rm = TRUE),
+      dplyr::across(
+        all_of(keep_cols),
+        ~ first_nonmissing(.),
+        .names = "{.col}"
+      ),
+      .groups = "drop"
+    )
+
+  print(averaged_dataset)
+
+  # Output as a list, either a new list, or attached to supplied list_obj
+  if (is.null(list_obj)) {
+    return(as.data.frame(averaged_dataset))
+  } else {
+    if (is.list(list_obj)) {
+      list_obj$dataset <- as.data.frame(averaged_dataset)
+      list_obj$pre_average_dataset <- as.data.frame(pre_average_dataset)
+      return(list_obj)
+    } else {
+      stop("Provided list_obj must be a list.")
+    }
+  }
+}
