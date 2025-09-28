@@ -2,6 +2,7 @@
 
 export(blankcorrect)
 export(flagCV)
+export(normalizeresponse)
 export(pctl)
 export(removeoutliers)
 importFrom(magrittr,"%>%")
