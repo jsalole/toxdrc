@@ -27,10 +27,10 @@ pctl(
 
 \item{max_diff}{The maximum \% difference between groups before they are flagged.}
 
-\item{list_obj}{Optional existing list object, used for integration with \code{runtoxdrc}. If \code{update_dataset} is set to FALSE, this should be left as NULL.}
+\item{list_obj}{Optional existing list object, used for integration with \code{runtoxdrc}.}
 }
 \value{
-A modified dataframe with an additional column, \code{Validity}.
+Prints a summary dataframe is printed indicating the percent difference of the control groups. The flag is updated in \code{dataset}. If list_object is supplied, returns modified \code{dataset} and test results \code{pctlresults} in this growing list object.
 }
 \description{
 This function evaluates the difference between two groups with the intention of evaluating validity criteria. This can be used for solvent controls, and similar control groups commonly used in toxicity testing, or even to compare more abstract concepts (order of testing, time of day, etc) to validate a method. Careful consideration should be given the max_diff value. The default is set to 10\% difference.
