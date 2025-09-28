@@ -17,7 +17,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Jack Salole \email{salolj@mcmaster.ca}
+\strong{Maintainer}: Jack Salole \email{salolej@mcmaster.ca}
 
 }
 \keyword{internal}
