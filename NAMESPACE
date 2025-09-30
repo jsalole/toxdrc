@@ -2,6 +2,7 @@
 
 export(averageresponse)
 export(blankcorrect)
+export(checktoxicity)
 export(flagCV)
 export(normalizeresponse)
 export(pctl)
