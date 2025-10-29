@@ -8,9 +8,8 @@ modelcomp(
   dataset,
   Conc,
   Response,
-  models = NULL,
-  models_fx = NULL,
-  metric = c("IC", "Res var", "Lack of fit", "no"),
+  model_list = NULL,
+  metric = c("IC", "Res var", "Lack of fit"),
   list_obj = NULL
 )
 }
@@ -21,16 +20,14 @@ modelcomp(
 
 \item{Response}{Unquoted column name of \code{dataset} of dependant variable.}
 
-\item{models}{Optional. A string of model function names (i.e. \code{"LL.2"}).}
-
-\item{models_fx}{Optional. A list of model functions (i.e \code{LL.2}).}
+\item{model_list}{Optional. A list of named model function names (i.e. \code{model_list <- list("LL.4" = LL.4)}).}
 
 \item{metric}{Dictates which model parameter is used to compare model fit.}
 
 \item{list_obj}{Optional existing list object, used for integration with \code{runtoxdrc}.}
 }
 \value{
-A dataframe comparing model fits to the data. If list_obj is provided, stores this datafram in \code{list_obj$model_df}.
+A fitetd drm model selected from the . If list_obj is provided, stores this datafram in \code{list_obj$model_df}.
 }
 \description{
 Comparing model fits
