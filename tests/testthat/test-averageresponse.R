@@ -16,12 +16,12 @@ expt_list <- list (
 )
 
 test_that("normalize response normalizes in df", {
-  expect_equal(expt_df, averageresponse(dataset = pre_df, Conc = x, Response = y, keep_cols = c("time"))
+  expect_equal(expt_df, averageresponse(dataset = pre_df, Conc = x, Response = y, IDcols = c("time"))
   )
 })
 
 
 test_that("normalize response normalizes in list", {
-  expect_equal(expt_list, averageresponse(dataset = pre_list$dataset, Conc = x, Response = y, keep_cols = c("time"), list_obj = pre_list)
+  expect_equal(expt_list, averageresponse(dataset = pre_list$dataset, Conc = x, Response = y, IDcols = c("time"), list_obj = pre_list)
   )
 })

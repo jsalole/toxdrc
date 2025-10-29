@@ -4,7 +4,7 @@
 \alias{averageresponse}
 \title{Average response variable}
 \usage{
-averageresponse(dataset, Conc, Response, keep_cols = NULL, list_obj = NULL)
+averageresponse(dataset, Conc, Response, IDcols = NULL, list_obj = NULL)
 }
 \arguments{
 \item{dataset}{A dataframe.}
@@ -13,7 +13,7 @@ averageresponse(dataset, Conc, Response, keep_cols = NULL, list_obj = NULL)
 
 \item{Response}{Unquoted column name of \code{dataset} with observations (e.g. RFU).}
 
-\item{keep_cols}{Optional. Columns given as a vector \code{c("column1", "column2")} used in the identification of data or important metadata. These columns are preserved in the returned dataset with the first value (not NA, NULL, or blank) of these columns within each level of \code{Conc}. Examples of this are metric type (mortality, indicator name), test information (well plate size, test time, test ID). These values should be identical within a testing group.}
+\item{IDcols}{Optional. Columns given as a vector \code{c("column1", "column2")} used in the identification of data or important metadata. These columns are preserved in the returned dataset with the first value (not NA, NULL, or blank) of these columns within each level of \code{Conc}. Examples of this are metric type (mortality, indicator name), test information (well plate size, test time, test ID). These values should be identical within a testing group.}
 
 \item{list_obj}{Optional existing list object, used for integration with \code{runtoxdrc}.}
 }
@@ -27,6 +27,6 @@ Average the response variable by group or exposure condition.
 df <- data.frame(x = rep(1:2, each = 3), y = c(100, 110, 90, 40, 50, 60),
                  time = c("noon", "noon", "noon",
                    "", "one_pm", ""))
-averageresponse(dataset = df, Conc = x, Response = y, keep_cols = c("time"))
+averageresponse(dataset = df, Conc = x, Response = y, IDcols = c("time"))
 
 }
