@@ -19,25 +19,33 @@
 #'                    "", "one_pm", ""))
 #' averageresponse(dataset = df, Conc = x, Response = y, IDcols = c("time"))
 #'
-averageresponse <- function(dataset, Conc, Response, IDcols = NULL, list_obj = NULL) {
-
+averageresponse <- function(
+  dataset,
+  Conc,
+  Response,
+  IDcols = NULL,
+  list_obj = NULL
+) {
   pre_average_dataset <- dataset
 
   # The specified columns are checked to see if they exist and warns user if any are not found. Moves forward with valid column names.
   if (!is.null(IDcols)) {
     missing_cols <- IDcols[!IDcols %in% names(dataset)]
     if (length(missing_cols) > 0) {
-      warning("Some specified IDcols not found in dataset: ", paste(missing_cols, collapse = ", "))
-      IDcols <- IDcols[IDcols %in% names(dataset)]  # Only keep valid columns
+      warning(
+        "Some specified IDcols not found in dataset: ",
+        paste(missing_cols, collapse = ", ")
+      )
+      IDcols <- IDcols[IDcols %in% names(dataset)] # Only keep valid columns
     }
   }
 
-  # Groups dataset by $Conc, and averages $Response. Collapses to 1 row per concentration level, and preserves first non-NA value from specified columns, $Note, and $Validity.
+  # Groups dataset by $Conc, and averages $Response. Collapses to 1 row per concentration level, and preserves first non-NA value from specified columns.
 
   averaged_dataset <- dataset %>%
-    dplyr::group_by({{Conc}}) %>%
+    dplyr::group_by({{ Conc }}) %>%
     dplyr::summarise(
-      mean_response = mean({{Response}}, na.rm = TRUE),
+      mean_response = mean({{ Response }}, na.rm = TRUE),
       dplyr::across(
         all_of(IDcols),
         ~ first_nonmissing(.),
