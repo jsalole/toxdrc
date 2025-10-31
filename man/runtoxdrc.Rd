@@ -2,7 +2,7 @@
 % Please edit documentation in R/runtoxdrc.R
 \name{runtoxdrc}
 \alias{runtoxdrc}
-\title{Title}
+\title{A pipeline for dose response curve modelling and analysis.}
 \usage{
 runtoxdrc(
   dataset,
@@ -34,9 +34,6 @@ runtoxdrc(
   output = c("summary", "full")
 )
 }
-\arguments{
-\item{output}{}
-}
 \description{
-Title
+A pipeline for dose response curve modelling and analysis.
 }

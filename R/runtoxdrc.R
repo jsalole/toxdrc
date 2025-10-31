@@ -4,7 +4,6 @@
 #' @importFrom dplyr pull filter mutate
 #'
 #' @export
-#' @examples
 #'
 runtoxdrc <- function(
   dataset,
