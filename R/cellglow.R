@@ -1,6 +1,8 @@
-#' Example Toxicity test data
+#' Example toxicity test data with multiple experimental groups.
 #'
-#' A subset of data from a study using the RTgill-W1 assay. Data collected as part of a study. Full dataset is available within a data repository.
+#' A subset of data from a study using the RTgill-W1 assay (ISO 21115/OECD 249). Briefly, cells are exposed to a toxicant and the fluorescent signal is measured using 3 indicators.
+#'
+#' Data collected as part of a study. Full dataset is available within a data repository:
 #' Salole, Jack; Wilson, Joanna; Taylor, Lisa, 2025, "RTgill-W1 Assay - Optimization and Effluent Testing", https://doi.org/10.5683/SP3/ES7GDM, Borealis, V2.
 #'
 #'
@@ -20,4 +22,4 @@
 #'   ...
 #' }
 #' @source https://doi.org/10.5683/SP3/ES7GDM
-"RTgill"
+"cellglow"
