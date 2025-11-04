@@ -12,8 +12,7 @@ averaged_toxresult <- toxresult %>%
 
 averaged_toxresult <- as.data.frame(averaged_toxresult)
 
-
-test_that("blank correction", {
+test_that("average response", {
   expect_equal(
     averageresponse(
       toxresult,
