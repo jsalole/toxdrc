@@ -10,24 +10,33 @@
 #' @export
 #'
 #' @examples
-#' df <- data.frame(x = rep(1:2, each = 3), y = c(3, 5, 4, 20, 40, 60))
-#' blankcorrect(dataset = df, Conc = x, blank_group = 1, Response = y)
+#' blankcorrect(
+#'      toxresult,
+#'      Conc = Conc,
+#'      blank_group = "Blank",
+#'      Response = RFU
+#'    )
 #'
-blankcorrect <- function(dataset, Conc, blank_group = "Blank", Response, list_obj = NULL) {
-
+blankcorrect <- function(
+  dataset,
+  Conc,
+  blank_group = "Blank",
+  Response,
+  list_obj = NULL
+) {
   dataset <- dataset %>%
     dplyr::mutate(
-      {{Response}} := as.numeric({{Response}})
+      {{ Response }} := as.numeric({{ Response }})
     )
 
-  blank_rows <- dataset %>% dplyr::filter({{Conc}} == blank_group)
+  blank_rows <- dataset %>% dplyr::filter({{ Conc }} == blank_group)
 
   if (nrow(blank_rows) == 0) {
     stop('No blank_group rows found for background correction.')
   }
 
-  blank_mean <- mean(dplyr::pull(blank_rows, {{Response}}), na.rm = TRUE)
-  blank_sd <- sd(dplyr::pull(blank_rows, {{Response}}), na.rm = TRUE)
+  blank_mean <- mean(dplyr::pull(blank_rows, {{ Response }}), na.rm = TRUE)
+  blank_sd <- sd(dplyr::pull(blank_rows, {{ Response }}), na.rm = TRUE)
 
   blank_cv <- if (!is.na(blank_mean) && !is.na(blank_sd) && blank_mean != 0) {
     (blank_sd / blank_mean) * 100
@@ -35,10 +44,9 @@ blankcorrect <- function(dataset, Conc, blank_group = "Blank", Response, list_ob
     NA_real_
   }
 
-
   dataset <- dataset %>%
     dplyr::mutate(
-      c_response = {{Response}} - blank_mean
+      c_response = {{ Response }} - blank_mean
     )
 
   summary_df <- data.frame(

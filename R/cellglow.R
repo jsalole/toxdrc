@@ -14,7 +14,7 @@
 #'   \item{Conc}{Concentration of reference toxicant (3,4 dichloranaline). 0 is solvent control, "control" is a lab control}
 #'   \item{RFU}{Fluoresence produced as determined by a plate reader}
 #'   \item{Dye}{Three cell viability indicators; aB = alamarBlue, CFDA = 5-CFDA-AM, NR = Neutral Red}
-#'   \item{Type}{Only spiked exists in this dataset; indicated a reference toxicant was added to the effluent.}
+#'   \item{Type}{Only spiked exists in this dataset; indicates a reference toxicant was added to the effluent.}
 #'   \item{Replicate}{The experimental replicate; replication occured at a well-plate level.}
 
 #' /item

@@ -20,8 +20,16 @@
 #' checktoxicity(dataset = lt$dataset, Conc = x, Response = y, effect = 85,
 #' type = "abs", list_obj = lt)
 #'
-checktoxicity <- function(dataset, Conc, Response, effect, type = c("rel", "abs"), reference_group = "0", target_group = NULL, list_obj = NULL) {
-
+checktoxicity <- function(
+  dataset,
+  Conc,
+  Response,
+  effect,
+  type = c("rel", "abs"),
+  reference_group = "0",
+  target_group = NULL,
+  list_obj = NULL
+) {
   type <- match.arg(type)
 
   # establish threshold for both relative and absolute
@@ -30,8 +38,10 @@ checktoxicity <- function(dataset, Conc, Response, effect, type = c("rel", "abs"
 
   if (type == "rel") {
     response_threshold <- dataset %>%
-      dplyr::filter({{Conc}} == reference_group) %>%
-      dplyr::summarise(threshold = mean({{Response}}, na.rm = TRUE) * effect) %>%
+      dplyr::filter({{ Conc }} == reference_group) %>%
+      dplyr::summarise(
+        threshold = mean({{ Response }}, na.rm = TRUE) * effect
+      ) %>%
       dplyr::pull(.data$threshold)
   } else {
     response_threshold <- effect
@@ -41,36 +51,35 @@ checktoxicity <- function(dataset, Conc, Response, effect, type = c("rel", "abs"
 
   if (!is.null(target_group)) {
     summary_df <- dataset %>%
-      dplyr::filter({{Conc}}) == target_group
+      dplyr::filter({{ Conc }}) ==
+      target_group
   } else {
     summary_df <- dataset
   }
 
   # check if response above threshold
 
-    response_values <- dplyr::pull(summary_df, {{Response}})
-    all_above <- all(response_values > response_threshold)
-    if (all_above == TRUE) {
-      print("Test effect does not exceed threshold")
-      toxic_effect <- FALSE
-    } else {
-      print("Test effect exceeds threshold")
-      toxic_effect <- TRUE
-    }
+  response_values <- dplyr::pull(summary_df, {{ Response }})
+  all_above <- all(response_values > response_threshold)
+  if (all_above == TRUE) {
+    print("Test effect does not exceed threshold")
+    toxic_effect <- FALSE
+  } else {
+    print("Test effect exceeds threshold")
+    toxic_effect <- TRUE
+  }
 
   # store results
 
-    if (is.null(list_obj)) {
-      return(dataset)
-    }
+  if (is.null(list_obj)) {
+    return(toxic_effect)
+  }
 
-    if (is.list(list_obj)) {
-      list_obj$dataset <- dataset
-      list_obj$effect <- toxic_effect
-      return(list_obj)
-    } else {
-      stop("Provided list_obj must be a list.")
-    }
+  if (is.list(list_obj)) {
+    list_obj$dataset <- dataset
+    list_obj$effect <- toxic_effect
+    return(list_obj)
+  } else {
+    stop("Provided list_obj must be a list.")
+  }
 }
-
-
