@@ -5,7 +5,7 @@
 \alias{cellglow}
 \title{Example toxicity test data with multiple experimental groups.}
 \format{
-\subsection{\code{RTgill}}{
+\subsection{\code{cellglow}}{
 
 A data frame with 1,080 rows and 7 columns:
 \describe{

@@ -14,10 +14,12 @@
 #' @export
 #'
 #' @examples
-#' df <- data.frame(x = rep(1:2, each = 3), y = c(100, 110, 90, 40, 50, 60),
-#'                  time = c("noon", "noon", "noon",
-#'                    "", "one_pm", ""))
-#' averageresponse(dataset = df, Conc = x, Response = y, IDcols = c("time"))
+#' averageresponse(
+#'      toxresult,
+#'      Conc = Conc,
+#'      Response = RFU,
+#'      IDcols = c("TestID", "Test_Number", "Dye", "Type", "Replicate")
+#'    )
 #'
 averageresponse <- function(
   dataset,
@@ -53,6 +55,8 @@ averageresponse <- function(
       ),
       .groups = "drop"
     )
+
+  averaged_dataset <- as.data.frame(averaged_dataset)
 
   print(averaged_dataset)
 

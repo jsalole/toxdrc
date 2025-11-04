@@ -24,9 +24,11 @@ A modified dataset with one row for each level of \code{Conc}. The averaged resp
 Average the response variable by group or exposure condition.
 }
 \examples{
-df <- data.frame(x = rep(1:2, each = 3), y = c(100, 110, 90, 40, 50, 60),
-                 time = c("noon", "noon", "noon",
-                   "", "one_pm", ""))
-averageresponse(dataset = df, Conc = x, Response = y, IDcols = c("time"))
+averageresponse(
+     toxresult,
+     Conc = Conc,
+     Response = RFU,
+     IDcols = c("TestID", "Test_Number", "Dye", "Type", "Replicate")
+   )
 
 }

@@ -6,7 +6,7 @@
 \alias{toxdrc-package}
 \title{toxdrc: toxdrc}
 \description{
-toxdrc provides a variety of tools for assessing dose response curves, with an emphasis on toxicity test data. The main feature of this package are modular functions which combine to form pipelines to automate data analysis for large datasets. Dose response curves are fit and point estimation is estimate. Data can also be manipulated during this pipeline (outliers, CV calculation, validity criteria, etc.)
+toxdrc provides a variety of tools for assessing dose response curves, with an emphasis on toxicity test data. The main feature of this package are modular functions which combine to form pipelines to automate data analysis for large datasets. Data can also be manipulated during this pipeline (outliers, CV calculation, validity criteria, etc.)
 }
 \seealso{
 Useful links:

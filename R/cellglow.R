@@ -6,7 +6,7 @@
 #' Salole, Jack; Wilson, Joanna; Taylor, Lisa, 2025, "RTgill-W1 Assay - Optimization and Effluent Testing", https://doi.org/10.5683/SP3/ES7GDM, Borealis, V2.
 #'
 #'
-#' @format ## `RTgill`
+#' @format ## `cellglow`
 #' A data frame with 1,080 rows and 7 columns:
 #' \describe{
 #'   \item{TestID}{Combination of Test_Number, Dye, Type, and Replicate}

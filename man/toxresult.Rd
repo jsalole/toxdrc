@@ -5,7 +5,7 @@
 \alias{toxresult}
 \title{Example toxicity test data from a single experimental subset.}
 \format{
-\subsection{\code{RTgill}}{
+\subsection{\code{toxresult}}{
 
 A data frame with 1,080 rows and 7 columns:
 \describe{
