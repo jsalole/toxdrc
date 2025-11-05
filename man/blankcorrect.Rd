@@ -24,7 +24,11 @@ A modified dataframe with an additional column, \code{c_response}.
 Blank correct a response variable.
 }
 \examples{
-df <- data.frame(x = rep(1:2, each = 3), y = c(3, 5, 4, 20, 40, 60))
-blankcorrect(dataset = df, Conc = x, blank_group = 1, Response = y)
+blankcorrect(
+     toxresult,
+     Conc = Conc,
+     blank_group = "Blank",
+     Response = RFU
+   )
 
 }

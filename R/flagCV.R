@@ -16,40 +16,35 @@
 #' flagCV(dataset = df, Conc = x, Response = y, max_val = 30)
 #'
 flagCV <- function(dataset, Conc, Response, max_val = 30, list_obj = NULL) {
-
   updated_dataset <- dataset %>%
+    dplyr::group_by({{ Conc }}) %>%
     dplyr::mutate(
-      CV = NA_real_,
-      CVflag = ""
+      CV = (sd({{ Response }}, na.rm = TRUE) /
+        mean({{ Response }}, na.rm = TRUE)) *
+        100,
+      CVflag = ifelse(CV > max_val, "*", "")
     ) %>%
-    dplyr::group_by({{Conc}}) %>%
-    dplyr::group_split() %>%
-    purrr::map_dfr(~ {
-      subset_data <- .x
-
-      mean_val <- mean(dplyr::pull(subset_data, {{Response}}), na.rm = TRUE)
-      sd_val <- sd(dplyr::pull(subset_data, {{Response}}), na.rm = TRUE)
-      cv_percent <- (sd_val / mean_val) * 100
-
-      subset_data %>%
-        dplyr::mutate(
-          CV = cv_percent,
-          CVflag = ifelse(cv_percent > max_val, "*", "")
-        )
-    }) %>%
     dplyr::ungroup()
 
   updated_dataset <- as.data.frame(updated_dataset)
 
-  .data = NULL #.data defined to give context to summary df and avoid warning flag.
+  # CVflag + CV set to null to avoid following error : flagCV: no visible binding for global variable ‘CV’
+  #flagCV: no visible binding for global variable ‘CVflag’
+  #Undefined global functions or variables:
+  # CV CVflag
+
+  CV <- NULL
+  CVflag <- NULL
 
   summary_df <- updated_dataset %>%
-    dplyr::group_by({{Conc}}) %>%
+    dplyr::group_by({{ Conc }}) %>%
     dplyr::summarise(
-      CV = unique(.data$CV),
-      CVflag = unique(.data$CVflag),
+      CV = unique(CV),
+      CVflag = unique(CVflag),
       .groups = "drop"
     )
+
+  summary_df <- as.data.frame(summary_df)
 
   print(summary_df)
 
@@ -57,9 +52,11 @@ flagCV <- function(dataset, Conc, Response, max_val = 30, list_obj = NULL) {
     dplyr::select(-c("CV"))
 
   if (!is.null(list_obj)) {
-    if (!is.list(list_obj)) stop("Provided list_obj must be a list.")
+    if (!is.list(list_obj)) {
+      stop("Provided list_obj must be a list.")
+    }
     list_obj$dataset <- updated_dataset
-    list_obj$CVresults <- as.data.frame(summary_df)
+    list_obj$CVresults <- summary_df
     return(list_obj)
   }
   return(updated_dataset)

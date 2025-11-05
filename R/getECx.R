@@ -17,14 +17,19 @@ getECx <- function(
   EDx = 0.5,
   metadata = NULL,
   list_obj = NULL,
-  EDargs = NULL
+  EDargs = list()
 ) {
-  if (is.null(EDargs)) {
-    EDargs <- c(list(model, c(EDx)), EDargs)
-  }
+  EDargs <- c(
+    list(
+      object = model,
+      respLev = c(EDx),
+      display = FALSE
+    ),
+    EDargs
+  )
 
   EDvals <- tryCatch(
-    as.vector(do.call(ED, EDargs)),
+    do.call(ED, EDargs),
     error = function(e) {
       warning("ECx estimation failed in model_estimates: ", e$message)
       return(rep(NA, 4))

@@ -1,25 +1,56 @@
-pre_df <- data.frame(x = rep(1:2, each = 3), y = c(10, 11, 9, 20, 40, 60))
+highCV_toxresult <- toxresult
+highCV_toxresult$RFU[15:17] <- c(1000, 5000, 10000)
+highCV_toxresult_f <- highCV_toxresult %>%
+  dplyr::group_by(Conc) %>%
+  mutate(
+    meanRFU = mean(RFU),
+    sdRFU = sd(RFU),
+    CV = sdRFU / meanRFU * 100
+  ) %>%
+  dplyr::select(-c("meanRFU", "sdRFU")) %>%
+  dplyr::ungroup() %>%
+  mutate(
+    CVflag = ifelse(CV > 30, "*", "")
+  ) %>%
+  dplyr::select((-c("CV")))
+highCV_toxresult_f <- as.data.frame(highCV_toxresult_f)
 
-expt_df <- data.frame(x = rep(1:2, each = 3), y = c(10, 11, 9, 20, 40, 60), CVflag = c("", "", "", "*", "*", "*"))
+lowCV_toxresult <- toxresult %>%
+  dplyr::group_by(Conc) %>%
+  mutate(
+    meanRFU = mean(RFU),
+    sdRFU = sd(RFU),
+    CV = sdRFU / meanRFU * 100
+  ) %>%
+  dplyr::select(-c("meanRFU", "sdRFU")) %>%
+  dplyr::ungroup() %>%
+  mutate(
+    CVflag = ifelse(CV > 30, "*", "")
+  ) %>%
+  dplyr::select((-c("CV")))
 
-pre_list <- list(
-  dataset = pre_df,
-  Group = "B"
-)
+lowCV_toxresult <- as.data.frame(lowCV_toxresult)
 
-expt_list <- list (
- dataset = expt_df,
- Group = "B",
- CVresults = data.frame(x = c(1, 2), CV = c(10, 50), CVflag = c("", "*"))
-)
-
-test_that("flagCV identifies groups with high CV and flags them", {
-  expect_equal(expt_df, flagCV(dataset = pre_df, Conc = x, Response = y, max_val = 30)
+test_that("flags high CV concs", {
+  expect_equal(
+    flagCV(
+      dataset = highCV_toxresult,
+      Conc = Conc,
+      Response = RFU,
+      max_val = 30
+    ),
+    highCV_toxresult_f
   )
 })
 
-test_that("flagCV identifies groups with high CV and flags them in a list", {
-  expect_equal(expt_list, flagCV(dataset = pre_list$dataset, Conc = x, Response = y, max_val = 30, list_obj = pre_list)
+test_that("no flag for low CV", {
+  expect_equal(
+    flagCV(
+      dataset = toxresult,
+      Conc = Conc,
+      Response = RFU,
+      max_val = 30
+    ),
+    lowCV_toxresult
   )
 })
-

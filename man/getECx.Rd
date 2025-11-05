@@ -10,7 +10,7 @@ getECx(
   EDx = 0.5,
   metadata = NULL,
   list_obj = NULL,
-  EDargs = NULL
+  EDargs = list()
 )
 }
 \arguments{
