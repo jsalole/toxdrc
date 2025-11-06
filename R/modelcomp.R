@@ -27,11 +27,11 @@ modelcomp <- function(
   # models needs a better arg name
   if (is.null(model_list)) {
     model_list <- list(
-  "LL.4" = LL.4,
-  "LN.4" = LN.4,
-  "W1.4" = W1.4,
-  "W2.4" = W2.4
-)
+      "LL.4" = LL.4(),
+      "LN.4" = LN.4(),
+      "W1.4" = W1.4(),
+      "W2.4" = W2.4()
+    )
   }
 
   safe_model <- NULL
@@ -40,13 +40,15 @@ modelcomp <- function(
   best_model <- NULL
 
   ds <- dataset %>%
-    dplyr::rename(Response = {{ Response }})
-  dplyr::rename(Conc = {{ Conc }})
+    dplyr::rename(
+      Response = {{ Response }},
+      Conc = {{ Conc }}
+    )
 
   for (model in model_list) {
-    safe_model <- safe_drm(data = ds, Response ~ Conc, fct = model())
+    safe_model <- safe_drm(data = ds, Response ~ Conc, fct = model)
     if (!is.null(safe_model)) {
-      fitted_model <- drm(data = ds, Response ~ Conc, fct = model())
+      fitted_model <- drm(data = ds, Response ~ Conc, fct = model)
       # if this line is a problem, might not accept named lists. Could just unname inputted list.
       model_df <- mselect2(fitted_model, model_list, sorted = metric)
       break
@@ -55,15 +57,19 @@ modelcomp <- function(
 
   if (!is.null(model_df) && nrow(model_df) > 0) {
     model_df <- model_df[
-      !(model_df$model %in% c("model")),
+      !(rownames(model_df) %in% c("model")),
       ,
       drop = FALSE
     ]
     print(model_df)
-    best_model_name <- model_df$model[[1]]
-    
+    best_model_name <- rownames(model_df)[1]
+
     #if this line is the problem, add brackets directly to list entries.
-    best_model <- drm(data = ds, Response ~ Conc, fct = model_list[[best_model_name]]())
+    best_model <- drm(
+      data = ds,
+      Response ~ Conc,
+      fct = model_list[[best_model_name]]
+    )
     print(best_model)
   }
 
@@ -76,6 +82,6 @@ modelcomp <- function(
     list_obj$model <- best_model
     return(list_obj)
   }
-
+  print(best_model)
   return(best_model)
 }

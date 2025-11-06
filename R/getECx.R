@@ -36,6 +36,9 @@ getECx <- function(
     }
   )
 
+  #estimate names need to generate automatically from legnth of EDx vector. For each entry, give ECx + std.error_(ECx). If interval in list, also have 95u_ecx and 95lECx.
+  #in vector form, gives all EC50s, then all std errs, etc.
+
   estimate_names <- c(
     paste0("EC", EDx * 100),
     "Std. Error",
