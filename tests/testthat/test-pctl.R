@@ -1,28 +1,35 @@
-pre_df <- data.frame(x = rep(1:2, each = 3), y = c(10, 11, 9, 20, 40, 60))
+toxresult_neg <- toxresult
+toxresult_neg$Validity <- ""
 
-expt_df <- data.frame(x = rep(1:2, each = 3), y = c(10, 11, 9, 20, 40, 60), Validity = c("*", "*", "*", "*", "*", "*"))
+toxresult_pos <- toxresult
+toxresult_pos[toxresult_pos$Conc == "0", ]$RFU <- c(10, 20)
+toxresult_pos_check <- toxresult_pos
+toxresult_pos$Validity <- "*"
 
-pre_list <- list(
-  dataset = pre_df,
-  Group = "B"
-)
-
-expt_list <- list (
-  dataset = expt_df,
-  Group = "B",
-  pctlresults = data.frame(
-    p_ctl_mean = 40,
-    ref_ctl_mean = 10,
-    percent_difference = 300
-  )
-)
-
-test_that("pctl flags differences between groups", {
-  expect_equal(expt_df, pctl(dataset = pre_df, Conc = x, reference_group = 1, positive_group = 2, Response = y, max_diff = 10)
-  )
+test_that("pctl does not flag if no solvent effect", {
+  (expect_equal(
+    pctl(
+      dataset = toxresult,
+      Conc,
+      reference_group = "Control",
+      positive_group = 0,
+      RFU,
+      max_diff = 10
+    ),
+    toxresult_neg
+  ))
 })
 
-test_that("pctl flags differences between groups", {
-  expect_equal(expt_list, pctl(dataset = pre_list$dataset, Conc = x, reference_group = 1, positive_group = 2, Response = y, max_diff = 10, list_obj = pre_list)
-  )
+test_that("pctl flags solvent effect", {
+  (expect_equal(
+    pctl(
+      dataset = toxresult_pos_check,
+      Conc,
+      reference_group = "Control",
+      positive_group = 0,
+      RFU,
+      max_diff = 10
+    ),
+    toxresult_pos
+  ))
 })

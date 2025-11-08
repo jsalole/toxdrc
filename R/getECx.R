@@ -58,7 +58,12 @@ getECx <- function(
     if (!is.list(list_obj)) {
       stop("Provided list_obj must be a list.")
     }
-    results <- cbind(metadata, EDvals)
+
+    if (is.null(metadata)) {
+      results <- EDvals
+    } else {
+      results <- cbind(metadata, EDvals)
+    }
     list_obj$results <- results
     return(list_obj)
   }

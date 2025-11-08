@@ -109,6 +109,8 @@ runtoxdrc <- function(
       Conc = {{ Conc }},
       reference_group = comp.group,
       target_group = target.group,
+      effect = toxic.lvl,
+      type = "rel",
       Response = {{ Response }},
       list_obj = result
     )
@@ -157,10 +159,5 @@ runtoxdrc <- function(
   #should test if this give the wanted result. It is just a way to avoid a red button call that will likley bottleneck the number of EDx that can be provided.
   names(results_list) <- names(split_list)
 
-  if (output == "summary") {
-    summary_df <- dplyr::bind_rows(lapply(results_list, function(x) x$metadata))
-    return(summary_df)
-  } else {
-    return(results_list)
-  }
+  return(results_list)
 }
