@@ -7,6 +7,7 @@
 #' @param Response Unquoted column name of `dataset` with observations (e.g. RFU).
 #' @param effect Numeric value dictating the point at which observations are flagged as toxic; can be relative or absolute (see `type`.)
 #' @param type Indicates if the effect argument is relative ("rel") to `reference group` or an absolute ("abs") value.
+#' @param direction Indicates if toxicity is a higher ("above"), lower ("below"), or any change ("different"). Default: "below".
 #' @param reference_group Quoted name OR value of reference group to compare response to (i.e. "ctl", 0)
 #' @param target_group Optional. Can be used to limit the compairison to certain groups (highest exposure concentration).
 #' @param list_obj Optional existing list object, used for integration with `runtoxdrc`.
@@ -26,7 +27,7 @@ checktoxicity <- function(
   Response,
   effect,
   type = c("rel", "abs"),
-  direction = c("below", "above", "different"),
+  direction = c("below", "above"),
   reference_group = "0",
   target_group = NULL,
   list_obj = NULL
@@ -36,17 +37,13 @@ checktoxicity <- function(
   type <- match.arg(type)
   direction <- match.arg(direction)
 
+  if (direction == "different" && length(effect) != 2) {
+    stop(
+      "Must supply both lower and upper limits in `effect` when direction = 'different'."
+    )
+  }
+
   # establish threshold for both relative and absolute
-
-  #establish threshold using relative and absolute
-
-  #if below
-
-  #if above
-
-  #if different
-
-  .data <- NULL # to avoid error from NSE in pull
 
   if (type == "rel") {
     response_threshold <- dataset %>%
@@ -59,8 +56,9 @@ checktoxicity <- function(
     response_threshold <- effect
   }
 
-  # filter dataset if applicable
+  .data <- NULL # to avoid error from NSE in pull
 
+  #filter dataset if needed
   if (!is.null(target_group)) {
     summary_df <- dataset %>%
       dplyr::filter({{ Conc }}) ==
@@ -69,16 +67,32 @@ checktoxicity <- function(
     summary_df <- dataset
   }
 
-  # check if response above threshold
-
   response_values <- dplyr::pull(summary_df, {{ Response }})
-  all_above <- all(response_values > response_threshold)
-  if (all_above == TRUE) {
-    print("Test effect does not exceed threshold")
-    toxic_effect <- FALSE
-  } else {
-    print("Test effect exceeds threshold")
-    toxic_effect <- TRUE
+
+  #if below
+
+  if (direction == "below") {
+    all_above <- all(response_values > response_threshold)
+    if (all_above == TRUE) {
+      statment <- ("Test effect does not exceed threshold")
+      toxic_effect <- FALSE
+    } else {
+      statment <- ("Test effect exceeds threshold")
+      toxic_effect <- TRUE
+    }
+  }
+
+  #if above
+
+  if (direction == "above") {
+    all_below <- all(response_values < response_threshold)
+    if (all_below == TRUE) {
+      statment <- ("Test effect does not exceed threshold")
+      toxic_effect <- FALSE
+    } else {
+      statment <- ("Test effect exceeds threshold")
+      toxic_effect <- TRUE
+    }
   }
 
   # store results
