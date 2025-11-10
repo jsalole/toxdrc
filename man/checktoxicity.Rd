@@ -24,7 +24,7 @@ checktoxicity(
 
 \item{effect}{Numeric value dictating the point at which observations are flagged as toxic; can be relative or absolute (see \code{type}.)}
 
-\item{type}{Indicates if the effect argument is relative ("rel") to \verb{reference group} or an absolute value ("abs").}
+\item{type}{Indicates if the effect argument is relative ("rel") to \verb{reference group} or an absolute ("abs") value.}
 
 \item{reference_group}{Quoted name OR value of reference group to compare response to (i.e. "ctl", 0)}
 

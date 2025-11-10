@@ -6,7 +6,7 @@
 #' @param Conc Unquoted column name of `dataset` that groups observations (e.g. Conc).
 #' @param Response Unquoted column name of `dataset` with observations (e.g. RFU).
 #' @param effect Numeric value dictating the point at which observations are flagged as toxic; can be relative or absolute (see `type`.)
-#' @param type Indicates if the effect argument is relative ("rel") to `reference group` or an absolute value ("abs").
+#' @param type Indicates if the effect argument is relative ("rel") to `reference group` or an absolute ("abs") value.
 #' @param reference_group Quoted name OR value of reference group to compare response to (i.e. "ctl", 0)
 #' @param target_group Optional. Can be used to limit the compairison to certain groups (highest exposure concentration).
 #' @param list_obj Optional existing list object, used for integration with `runtoxdrc`.
@@ -30,6 +30,8 @@ checktoxicity <- function(
   target_group = NULL,
   list_obj = NULL
 ) {
+  # need to add a above or below or relative
+
   type <- match.arg(type)
 
   # establish threshold for both relative and absolute

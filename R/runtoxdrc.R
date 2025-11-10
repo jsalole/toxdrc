@@ -27,12 +27,10 @@ runtoxdrc <- function(
   toxic.type = c("rel", "abs"),
   comp.group = 0,
   target.group = NULL,
-  non.toxic = c("skip", "continue"),
   model.list = NULL,
   model.metric = c("IC", "Res var", "Lack of fit"),
   EDx = 0.5,
-  EDargs = NULL,
-  output = c("summary", "full")
+  EDargs = NULL
 ) {
   split_list <- split(dataset, interaction(dataset[IDcols], drop = TRUE))
 
@@ -115,7 +113,7 @@ runtoxdrc <- function(
       list_obj = result
     )
 
-    if (!result$effect && non.toxic == "skip") {
+    if (!result$effect) {
       result <- getmetadata(
         dataset = result$dataset,
         IDcols = IDcols,
