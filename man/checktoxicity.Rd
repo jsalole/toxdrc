@@ -10,6 +10,7 @@ checktoxicity(
   Response,
   effect,
   type = c("rel", "abs"),
+  direction = c("below", "above"),
   reference_group = "0",
   target_group = NULL,
   list_obj = NULL
@@ -25,6 +26,8 @@ checktoxicity(
 \item{effect}{Numeric value dictating the point at which observations are flagged as toxic; can be relative or absolute (see \code{type}.)}
 
 \item{type}{Indicates if the effect argument is relative ("rel") to \verb{reference group} or an absolute ("abs") value.}
+
+\item{direction}{Indicates if toxicity is a higher ("above"), lower ("below"), or any change ("different"). Default: "below".}
 
 \item{reference_group}{Quoted name OR value of reference group to compare response to (i.e. "ctl", 0)}
 

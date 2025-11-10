@@ -13,10 +13,10 @@
 #' @details
 #' **Available configuration functions:**
 #' \itemize{
-#'   \item [`drc_qc()`] — Quality control and filtering options
-#'   \item [`drc_normalization()`] — Blank correction and normalization
-#'   \item [`drc_toxicity()`] — Toxicity threshold and response-level options
-#'   \item [`drc_modelling()`] — Model selection, fitting criteria, and EDx calculation
+#'   \item [`toxdrc_qc()`] — Quality control and filtering options
+#'   \item [`toxdrc_normalization()`] — Blank correction and normalization
+#'   \item [`toxdrc_toxicity()`] — Toxicity threshold and response-level options
+#'   \item [`toxdrc_modelling()`] — Model selection, fitting criteria, and EDx calculation
 #' }
 #'
 #' Each of these functions returns a **named list of configuration parameters**
@@ -24,21 +24,21 @@
 #'
 #' @seealso
 #' [runtoxdrc()],
-#' [drc_qc()],
-#' [drc_normalization()],
-#' [drc_toxicity()],
-#' [drc_modelling()]
+#' [toxdrc_qc()],
+#' [toxdrc_normalization()],
+#' [toxdrc_toxicity()],
+#' [toxdrc_modelling()]
 #'
 #' @examples
 #' # Overview page example
 #' ?config_runtoxdrc
 #'
 #' # Example: create a custom QC list and pass it to runtoxdrc()
-#' qc_config <- drc_qc(outlier.test = TRUE, cvflag.lvl = 20)
+#' qc_config <- toxdrc_qc(outlier.test = TRUE, cvflag.lvl = 20)
 #' runtoxdrc(cellglow, qc = qc_config)
 #'
 #' @name config_runtoxdrc
-NULL
+config_runtoxdrc <- function() {}
 
 
 # ============================================================
@@ -61,12 +61,12 @@ NULL
 #' @return A named list containing the quality control configuration for use in [runtoxdrc()].
 #'
 #' @examples
-#' drc_qc()
-#' drc_qc(outlier.test = TRUE, cvflag.lvl = 20)
+#' toxdrc_qc()
+#' toxdrc_qc(outlier.test = TRUE, cvflag.lvl = 20)
 #'
 #' @seealso [config_runtoxdrc], [runtoxdrc()]
 #' @export
-drc_qc <- function(
+toxdrc_qc <- function(
   outlier.test = FALSE,
   cv.flag = TRUE,
   cvflag.lvl = 30,
@@ -105,12 +105,12 @@ drc_qc <- function(
 #' @return A named list containing normalization configuration for use in [runtoxdrc()].
 #'
 #' @examples
-#' drc_normalization()
-#' drc_normalization(blank.correction = TRUE, relative.label = "Control")
+#' toxdrc_normalization()
+#' toxdrc_normalization(blank.correction = TRUE, relative.label = "Control")
 #'
 #' @seealso [config_runtoxdrc], [runtoxdrc()]
 #' @export
-drc_normalization <- function(
+toxdrc_normalization <- function(
   blank.correction = FALSE,
   blank.label = "Blank",
   normalize.resp = FALSE,
@@ -135,19 +135,19 @@ drc_normalization <- function(
 #'
 #' @param toxic.lvl Numeric. Cutoff point to determine if modelling occurs. Default: 0.7.
 #' @param toxic.type Character. Indicates if `toxic.lvl` is absolute ("abs") or relative ("rel") to some group. Default: "rel".
-#' @param toxic.direction Character. Indicates if toxicity is a higher ("above"), lower ("below"), or any change ("different"). Default: "below".
+#' @param toxic.direction Character. Indicates if toxicity is a higher ("above") or lower ("below"). Default: "below".
 #' @param comp.group Character/Numeric. Label used for the group values will be compared to if `toxic.type` is "rel". Default: 0.
 #' @param target.group Character/Numeric. Optional. Restrict comparisons to given group(s). Default: NULL.
 #'
 #' @return A named list containing toxicity determination settings for use in [runtoxdrc()].
 #'
 #' @examples
-#' drc_toxicity()
-#' drc_toxicity(toxic.lvl = 0.5, toxic.direction = "above")
+#' toxdrc_toxicity()
+#' toxdrc_toxicity(toxic.lvl = 0.5, toxic.direction = "above")
 #'
 #' @seealso [config_runtoxdrc], [runtoxdrc()]
 #' @export
-drc_toxicity <- function(
+toxdrc_toxicity <- function(
   toxic.lvl = 0.7,
   toxic.type = c("rel", "abs"),
   toxic.direction = c("below", "above", "different"),
@@ -184,12 +184,12 @@ drc_toxicity <- function(
 #' @return A named list containing model fitting and selection settings for use in [runtoxdrc()].
 #'
 #' @examples
-#' drc_modelling()
-#' drc_modelling(EDargs.supplement = list(interval = "delta", level = 0.9))
+#' toxdrc_modelling()
+#' toxdrc_modelling(EDargs.supplement = list(interval = "delta", level = 0.9))
 #'
 #' @seealso [config_runtoxdrc], [runtoxdrc()], [drc::ED()]
 #' @export
-drc_modelling <- function(
+toxdrc_modelling <- function(
   model.list = list(
     "LL.4" = LL.4(),
     "LN.4" = LN.4(),

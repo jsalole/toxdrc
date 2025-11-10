@@ -1,19 +1,29 @@
 #' A pipeline for dose response curve modelling and analysis.
 #'
+#' @param dataset A dataframe.
+#' @param Conc Unquoted column name of `dataset` of independent variable.
+#' @param Response Unquoted column name of `dataset` of dependant variable.
+#' @param IDcols Optional. Columns given as a vector `c("column1", "column2")` used in the identification of data or important metadata. These columns are preserved in the returned dataset with the first value (not NA, NULL, or blank) of these columns within each level of `Conc`. Examples of this are metric type (mortality, indicator name), test information (well plate size, test time, test ID). These values should be identical within a testing group.
+#' @param qc Quality control and filtering options. See `toxdrc_qc()` for defaults.
+#' @param normalization Normalization options. See `toxdrc_normalization()`.
+#' @param toxicity Toxicity threshold and response-level options. See `toxdrc_toxicity()` for defaults
+#' @param modelling Model selection, fitting criteria, and EDx calculation options. See `toxdrc_modelling()` for defaults.
 #'
 #' @importFrom dplyr pull filter mutate
 #'
 #' @export
+#'
+#' @seealso [config_runtoxdrc()]
 #'
 runtoxdrc <- function(
   dataset,
   Conc,
   Response,
   IDcols = NULL,
-  qc = drc_qc(),
-  normalization = drc_normalization(),
-  toxicity = drc_toxicity(),
-  modeling = drc_modeling()
+  qc = toxdrc_qc(),
+  normalization = toxdrc_normalization(),
+  toxicity = toxdrc_toxicity(),
+  modelling = toxdrc_modelling()
 ) {
   split_list <- split(dataset, interaction(dataset[IDcols], drop = TRUE))
 

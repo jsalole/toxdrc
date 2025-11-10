@@ -29,9 +29,8 @@ getECx <- function(
   )
 
   EDvals <- tryCatch(
-    do.call(ED, EDargs),
+    suppressWarnings(do.call(ED, EDargs)),
     error = function(e) {
-      warning("ECx estimation failed in model_estimates: ", e$message)
       return(rep(NA, 4))
     }
   )

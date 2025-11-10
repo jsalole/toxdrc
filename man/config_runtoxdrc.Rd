@@ -3,6 +3,9 @@
 \name{config_runtoxdrc}
 \alias{config_runtoxdrc}
 \title{Configuration helpers for \code{runtoxdrc()}}
+\usage{
+config_runtoxdrc()
+}
 \description{
 A top-level overview of the modular configuration functions used by \code{\link[=runtoxdrc]{runtoxdrc()}}.
 }
@@ -13,10 +16,10 @@ they need without manually handling all arguments in \code{runtoxdrc()}.
 
 \strong{Available configuration functions:}
 \itemize{
-\item \code{\link[=drc_qc]{drc_qc()}} — Quality control and filtering options
-\item \code{\link[=drc_normalization]{drc_normalization()}} — Blank correction and normalization
-\item \code{\link[=drc_toxicity]{drc_toxicity()}} — Toxicity threshold and response-level options
-\item \code{\link[=drc_modeling]{drc_modeling()}} — Model selection, fitting criteria, and EDx calculation
+\item \code{\link[=toxdrc_qc]{toxdrc_qc()}} — Quality control and filtering options
+\item \code{\link[=toxdrc_normalization]{toxdrc_normalization()}} — Blank correction and normalization
+\item \code{\link[=toxdrc_toxicity]{toxdrc_toxicity()}} — Toxicity threshold and response-level options
+\item \code{\link[=toxdrc_modelling]{toxdrc_modelling()}} — Model selection, fitting criteria, and EDx calculation
 }
 
 Each of these functions returns a \strong{named list of configuration parameters}
@@ -27,14 +30,14 @@ suitable for passing directly to \code{\link[=runtoxdrc]{runtoxdrc()}}.
 ?config_runtoxdrc
 
 # Example: create a custom QC list and pass it to runtoxdrc()
-qc_config <- drc_qc(outlier.test = TRUE, cvflag.lvl = 20)
+qc_config <- toxdrc_qc(outlier.test = TRUE, cvflag.lvl = 20)
 runtoxdrc(cellglow, qc = qc_config)
 
 }
 \seealso{
 \code{\link[=runtoxdrc]{runtoxdrc()}},
-\code{\link[=drc_qc]{drc_qc()}},
-\code{\link[=drc_normalization]{drc_normalization()}},
-\code{\link[=drc_toxicity]{drc_toxicity()}},
-\code{\link[=drc_modeling]{drc_modeling()}}
+\code{\link[=toxdrc_qc]{toxdrc_qc()}},
+\code{\link[=toxdrc_normalization]{toxdrc_normalization()}},
+\code{\link[=toxdrc_toxicity]{toxdrc_toxicity()}},
+\code{\link[=toxdrc_modelling]{toxdrc_modelling()}}
 }

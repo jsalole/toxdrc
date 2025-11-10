@@ -8,30 +8,33 @@ runtoxdrc(
   dataset,
   Conc,
   Response,
-  IDcols,
-  Rep,
-  outlier.test = FALSE,
-  cv.flag = TRUE,
-  cvflag.lvl = 30,
-  pctl.test = FALSE,
-  pctl.lvl = 10,
-  pctl.label = 0,
-  ref.label = "Control",
-  blank.correction = FALSE,
-  blank.label = "Blank",
-  normalize.resp = FALSE,
-  relative.label = 0,
-  avg.resp = TRUE,
-  toxic.lvl = 0.7,
-  toxic.type = c("rel", "abs"),
-  comp.group = 0,
-  target.group = NULL,
-  model.list = NULL,
-  model.metric = c("IC", "Res var", "Lack of fit"),
-  EDx = 0.5,
-  EDargs = NULL
+  IDcols = NULL,
+  qc = drc_qc(),
+  normalization = drc_normalization(),
+  toxicity = drc_toxicity(),
+  modelling = drc_modelling()
 )
+}
+\arguments{
+\item{dataset}{A dataframe.}
+
+\item{Conc}{Unquoted column name of \code{dataset} of independent variable.}
+
+\item{Response}{Unquoted column name of \code{dataset} of dependant variable.}
+
+\item{IDcols}{Optional. Columns given as a vector \code{c("column1", "column2")} used in the identification of data or important metadata. These columns are preserved in the returned dataset with the first value (not NA, NULL, or blank) of these columns within each level of \code{Conc}. Examples of this are metric type (mortality, indicator name), test information (well plate size, test time, test ID). These values should be identical within a testing group.}
+
+\item{qc}{Quality control and filtering options. See \code{toxdrc_qc()} for defaults.}
+
+\item{normalization}{Normalization options. See \code{toxdrc_normalization()}.}
+
+\item{toxicity}{Toxicity threshold and response-level options. See \code{toxdrc_toxicity()} for defaults}
+
+\item{modelling}{Model selection, fitting criteria, and EDx calculation options. See \code{toxdrc_modelling()} for defaults.}
 }
 \description{
 A pipeline for dose response curve modelling and analysis.
+}
+\seealso{
+\code{\link[=config_runtoxdrc]{config_runtoxdrc()}}
 }
