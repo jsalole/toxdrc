@@ -1,6 +1,6 @@
-# =============
-# LANDING PAGE
-# =============
+# ============================================================
+# Top-level overview page for configuration helpers
+# ============================================================
 
 #' Configuration helpers for `runtoxdrc()`
 #'
@@ -16,7 +16,7 @@
 #'   \item [`drc_qc()`] — Quality control and filtering options
 #'   \item [`drc_normalization()`] — Blank correction and normalization
 #'   \item [`drc_toxicity()`] — Toxicity threshold and response-level options
-#'   \item [`drc_modeling()`] — Model selection, fitting criteria, and EDx calculation
+#'   \item [`drc_modelling()`] — Model selection, fitting criteria, and EDx calculation
 #' }
 #'
 #' Each of these functions returns a **named list of configuration parameters**
@@ -27,7 +27,7 @@
 #' [drc_qc()],
 #' [drc_normalization()],
 #' [drc_toxicity()],
-#' [drc_modeling()]
+#' [drc_modelling()]
 #'
 #' @examples
 #' # Overview page example
@@ -38,63 +38,34 @@
 #' runtoxdrc(cellglow, qc = qc_config)
 #'
 #' @name config_runtoxdrc
-#' @docType package
 NULL
 
 
-#' Configuration helper functions for `runtoxdrc()`
-#'
-#' These helper functions provide modular configuration lists for customizing
-#' different stages of the `runtoxdrc()` workflow, including data quality control,
-#' normalization, model fitting, toxicity evaluation, and result averaging.
-#'
-#' Each helper returns a named list with default options. Users can modify
-#' only the parameters they need, without manually handling all arguments
-#' in `runtoxdrc()`.
-#'
-#' @details
-#' **Available configuration functions:**
-#' \itemize{
-#'   \item [`drc_qc()`] — Quality control and filtering options
-#'   \item [`drc_normalization()`] — Blank correction and normalization
-#'   \item [`drc_modeling()`] — Model selection and fitting criteria
-#'   \item [`drc_toxicity()`] — Toxicity threshold and response-level options
-#'   \item [`drc_averaging()`] — Data averaging and aggregation options
-#' }
-#'
-#' @return Each function returns a named list of configuration parameters.
-#'
-#' @seealso [runtoxdrc()]
-#'
-#' @examples
-#' # Default QC configuration
-#' drc_qc()
-#'
-#' # Example: enable outlier test and adjust CV flag threshold
-#' drc_qc(outlier.test = TRUE, cvflag.lvl = 20)
-#'
-#' # Example: pass to runtoxdrc
-#' runtoxdrc(cellglow, qc = drc_qc(outlier.test = TRUE))
-#'
-#'
-#' @rdname config_runtoxdrc
-#'
-#' @description
-#' **Quality control configuration**
+# ============================================================
+# Quality control configuration helper
+# ============================================================
+
+#' Quality control configuration for `runtoxdrc()`
 #'
 #' Defines how quality control is applied to the response data before model fitting.
 #'
-#' @param outlier.test Logical. Indicates if outliers should be identified.
-#' @param cv.flag Logical. Indicates if CVs of the response variable should be calculated within each Conc group and flagged (if exceeding `cvflag.lvl`).
-#' @param cvflag.lvl Numeric. The % at which CVs are considered high.
-#' @param pctl.test Logical. Indicates if positive control/solvent effects should be evaluated.
-#' @param pctl.lvl Character. The % difference in the response `ref.label` and `pctl.label` at which tests are flagged.
-#' @param ref.label Character. Label used for the true control level.
-#' @param pctl.label Character. Label used for the positive control level.
-#' @param avg.resp Logical. Indicates if responses should be averaged at each Conc level.
-
-#' @return A list containing quality control settings for use in [runtoxdrc()].
+#' @param outlier.test Logical. Indicates if outliers should be identified. Default: FALSE.
+#' @param cv.flag Logical. Flag CVs of the response variable. Default: TRUE.
+#' @param cvflag.lvl Numeric. Percent at which CVs are considered high. Default: 30.
+#' @param pctl.test Logical. Indicates if positive control/solvent effects should be evaluated. Default: FALSE.
+#' @param pctl.lvl Numeric. Percent difference in response `ref.label` and `pctl.label` at which tests are flagged. Default: 10.
+#' @param ref.label Character. Label used for the true control level. Default: "Control".
+#' @param pctl.label Character. Label used for the positive control level. Default: 0.
+#' @param avg.resp Logical. Indicates if responses should be averaged at each concentration. Default: TRUE.
 #'
+#' @return A named list containing the quality control configuration for use in [runtoxdrc()].
+#'
+#' @examples
+#' drc_qc()
+#' drc_qc(outlier.test = TRUE, cvflag.lvl = 20)
+#'
+#' @seealso [config_runtoxdrc], [runtoxdrc()]
+#' @export
 drc_qc <- function(
   outlier.test = FALSE,
   cv.flag = TRUE,
@@ -117,20 +88,28 @@ drc_qc <- function(
   )
 }
 
-#' @rdname config_runtoxdrc
-#'
-#' @description
-#' **Normalization configuration**
+
+# ============================================================
+# Normalization configuration helper
+# ============================================================
+
+#' Normalization configuration for `runtoxdrc()`
 #'
 #' Defines how normalization steps are applied to the response data before model fitting.
 #'
-#' @param blank.correction Logical. Indicates if the response variable should be blank corrected.
-#' @param blank.label Character. Label used for the blank level.
-#' @param normalize.resp Logical. Indicates if response variable should be normalized to a given group.
-#' @param relative.label Character. Label used for the group values will be normalized to.
-
-#' @return A list containing normalization settings for use in [runtoxdrc()].
-
+#' @param blank.correction Logical. Indicates if the response variable should be blank corrected. Default: FALSE.
+#' @param blank.label Character. Label used for the blank level. Default: "Blank".
+#' @param normalize.resp Logical. Indicates if response variable should be normalized to a given group. Default: FALSE.
+#' @param relative.label Character/Numeric. Label or value used for the group values will be normalized to. Default: 0.
+#'
+#' @return A named list containing normalization configuration for use in [runtoxdrc()].
+#'
+#' @examples
+#' drc_normalization()
+#' drc_normalization(blank.correction = TRUE, relative.label = "Control")
+#'
+#' @seealso [config_runtoxdrc], [runtoxdrc()]
+#' @export
 drc_normalization <- function(
   blank.correction = FALSE,
   blank.label = "Blank",
@@ -145,21 +124,29 @@ drc_normalization <- function(
   )
 }
 
-#' @rdname config_runtoxdrc
-#'
-#' @description
-#' **Toxicity configuration**
+
+# ============================================================
+# Toxicity configuration helper
+# ============================================================
+
+#' Toxicity configuration for `runtoxdrc()`
 #'
 #' Defines how toxicity is determined before and during model fitting.
 #'
-#' @param toxic.lvl. Numeric. A cutoff point to determine if modelling occurs. The response variable must Indicates if the response variable should be blank corrected.
-#' @param toxic.type Character. Indicates if `toxic.lvl` is an absolute ("abs") value or relative ("rel") to some group.
-#' @param toxic.direction Character. Indicates if toxicity is indicated by a higher ("above") or lower ("below") response, or  a change in either direction ("different").
-#' @param comp.group Character. Label used for the group values will be compared to, if `toxic.type` is set to relative ("rel").
-#' @param target.group Character. If NULL, all groups are evaluated to determine toxicity. Giving group name(s) will restrict compairisons to given groups.
-
-#' @return A list containing toxicity determination settings for use in [runtoxdrc()].
-
+#' @param toxic.lvl Numeric. Cutoff point to determine if modelling occurs. Default: 0.7.
+#' @param toxic.type Character. Indicates if `toxic.lvl` is absolute ("abs") or relative ("rel") to some group. Default: "rel".
+#' @param toxic.direction Character. Indicates if toxicity is a higher ("above"), lower ("below"), or any change ("different"). Default: "below".
+#' @param comp.group Character/Numeric. Label used for the group values will be compared to if `toxic.type` is "rel". Default: 0.
+#' @param target.group Character/Numeric. Optional. Restrict comparisons to given group(s). Default: NULL.
+#'
+#' @return A named list containing toxicity determination settings for use in [runtoxdrc()].
+#'
+#' @examples
+#' drc_toxicity()
+#' drc_toxicity(toxic.lvl = 0.5, toxic.direction = "above")
+#'
+#' @seealso [config_runtoxdrc], [runtoxdrc()]
+#' @export
 drc_toxicity <- function(
   toxic.lvl = 0.7,
   toxic.type = c("rel", "abs"),
@@ -176,31 +163,33 @@ drc_toxicity <- function(
   )
 }
 
-#' @rdname config_runtoxdrc
-#'
-#' @description
-#' **Modelling configuration**
-#'
-#' Defines how models are fitted, selected, and point estimates are estimated.
-#'
-#' @param model.list A named list of model functions to be fitted. Defaults include
-#'   `"LL.4"`, `"LN.4"`, `"W1.4"`, and `"W2.4"`.
-#' @param model.metric Character. Criterion used to select the best model. Choices are
-#'   `"IC"` (information criterion), `"Res var"` (residual variance), or `"Lack of fit"`.
-#'   Defaults to `"IC"`.
-#' @param EDx Numeric. The effective dose level to estimate (e.g., 0.5 for ED50). Default is 0.5.
-#' @param interval Character. Method for calculating confidence intervals of EDx. Choices are
-#'   `"tfls"`, `"fls"`, `"delta"`, or `"none"`. Default is `"tfls"`.
-#' @param level Numeric. Confidence level for the interval calculation. Default is 0.95.
-#' @param type Character. Whether EDx is calculated as `"absolute"` or `"relative"`. Default is `"absolute"`.
-#' @param EDargs.supplement List. Optional. User-supplied list of additional or overriding ED arguments.
-#'   These will be merged with defaults. Can include elements like `interval`, `level`, `type`, or other arguments from `drc::ED()`.
-#'
-#' @seealso [drc::ED()]
 
-#' @return A list containing model fitting and selection settings for use in [runtoxdrc()].
+# ============================================================
+# Modelling configuration helper
+# ============================================================
 
-drc_modeling <- function(
+#' Modelling configuration for `runtoxdrc()`
+#'
+#' Defines how dose-response models are fitted, selected, and how effective dose (EDx)
+#' point estimates are calculated.
+#'
+#' @param model.list Named list of model functions to be fitted. Defaults: `"LL.4"`, `"LN.4"`, `"W1.4"`, `"W2.4"`.
+#' @param model.metric Character. Criterion used to select the best model. Choices: `"IC"`, `"Res var"`, `"Lack of fit"`. Default: "IC".
+#' @param EDx Numeric. The effective dose level to estimate (e.g., 0.5 for ED50). Default: 0.5.
+#' @param interval Character. Method for calculating confidence intervals of EDx. Choices: `"tfls"`, `"fls"`, `"delta"`, `"none"`. Default: "tfls".
+#' @param level Numeric. Confidence level for the interval calculation. Default: 0.95.
+#' @param type Character. Whether EDx is calculated as `"absolute"` or `"relative"`. Default: "absolute".
+#' @param EDargs.supplement List. Optional user-supplied list of additional or overriding ED arguments. Can include `interval`, `level`, `type`, or other arguments compatible with `drc::ED()`.
+#'
+#' @return A named list containing model fitting and selection settings for use in [runtoxdrc()].
+#'
+#' @examples
+#' drc_modelling()
+#' drc_modelling(EDargs.supplement = list(interval = "delta", level = 0.9))
+#'
+#' @seealso [config_runtoxdrc], [runtoxdrc()], [drc::ED()]
+#' @export
+drc_modelling <- function(
   model.list = list(
     "LL.4" = LL.4(),
     "LN.4" = LN.4(),
@@ -214,6 +203,12 @@ drc_modeling <- function(
   type = c("absolute", "relative"),
   EDargs.supplement = list()
 ) {
+  EDargs <- list(
+    interval = match.arg(interval),
+    level = level,
+    type = match.arg(type)
+  )
+
   if (length(EDargs.supplement) > 0) {
     EDargs <- utils::modifyList(EDargs, EDargs.supplement)
   }
@@ -222,10 +217,6 @@ drc_modeling <- function(
     model.list = model.list,
     model.metric = match.arg(model.metric),
     EDx = EDx,
-    EDargs = list(
-      interval = match.arg(interval),
-      level = level,
-      type = match.arg(type)
-    )
+    EDargs = EDargs
   )
 }

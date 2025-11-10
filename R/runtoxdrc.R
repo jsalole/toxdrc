@@ -9,28 +9,11 @@ runtoxdrc <- function(
   dataset,
   Conc,
   Response,
-  IDcols,
-  Rep,
-  outlier.test = FALSE,
-  cv.flag = TRUE,
-  cvflag.lvl = 30,
-  pctl.test = FALSE,
-  pctl.lvl = 10,
-  pctl.label = 0,
-  ref.label = "Control",
-  blank.correction = FALSE,
-  blank.label = "Blank",
-  normalize.resp = FALSE,
-  relative.label = 0,
-  avg.resp = TRUE,
-  toxic.lvl = 0.7,
-  toxic.type = c("rel", "abs"),
-  comp.group = 0,
-  target.group = NULL,
-  model.list = NULL,
-  model.metric = c("IC", "Res var", "Lack of fit"),
-  EDx = 0.5,
-  EDargs = NULL
+  IDcols = NULL,
+  qc = drc_qc(),
+  normalization = drc_normalization(),
+  toxicity = drc_toxicity(),
+  modeling = drc_modeling()
 ) {
   split_list <- split(dataset, interaction(dataset[IDcols], drop = TRUE))
 
@@ -39,7 +22,7 @@ runtoxdrc <- function(
     result <- list(dataset = subset)
     result$ID <- name
 
-    if (outlier.test) {
+    if (qc$outlier.test) {
       result <- removeoutliers(
         dataset = result$dataset,
         Conc = {{ Conc }},
@@ -48,50 +31,50 @@ runtoxdrc <- function(
       )
     }
 
-    if (cv.flag) {
+    if (qc$cv.flag) {
       result$dataset <- flagCV(
         dataset = result$dataset,
         Conc = {{ Conc }},
         Response = {{ Response }},
-        max_val = cvflag.lvl
+        max_val = qc$cvflag.lvl
       )
     }
 
-    if (pctl.test) {
+    if (qc$pctl.test) {
       result <- pctl(
         dataset = result$dataset,
         Conc = {{ Conc }},
-        reference_group = ref.label,
-        positive_group = pctl.label,
+        reference_group = qc$ref.label,
+        positive_group = qc$pctl.label,
         Response = {{ Response }},
-        max_diff = pctl.lvl,
+        max_diff = qc$pctl.lvl,
         list_obj = result
       )
     }
 
-    if (blank.correction) {
+    if (normalization$blank.correction) {
       result <- blankcorrect(
         dataset = result$dataset,
         Conc = {{ Conc }},
-        blank_group = blank.label,
+        blank_group = normalization$blank.label,
         Response = {{ Response }},
         list_obj = result
       )
       Response <- rlang::sym("c_response")
     }
 
-    if (normalize.resp) {
+    if (normalization$normalize.resp) {
       result <- normalizeresponse(
         dataset = result$dataset,
         Conc = {{ Conc }},
-        reference_group = relative.label,
+        reference_group = normalization$relative.label,
         Response = {{ Response }},
         list_obj = result
       )
       Response <- rlang::sym("normalized_response")
     }
 
-    if (avg.resp) {
+    if (qc$avg.resp) {
       result <- averageresponse(
         dataset = result$dataset,
         Conc = {{ Conc }},
@@ -105,10 +88,11 @@ runtoxdrc <- function(
     result <- checktoxicity(
       dataset = result$dataset,
       Conc = {{ Conc }},
-      reference_group = comp.group,
-      target_group = target.group,
-      effect = toxic.lvl,
-      type = "rel",
+      reference_group = toxicity$comp.group,
+      target_group = toxicity$target.group,
+      effect = toxicity$toxic.lvl,
+      type = toxicity$type,
+      direction = toxicity$toxic.direction,
       Response = {{ Response }},
       list_obj = result
     )
@@ -137,18 +121,18 @@ runtoxdrc <- function(
       dataset = result$dataset,
       Conc = {{ Conc }},
       Response = {{ Response }},
-      model_list = model.list,
-      metric = model.metric,
+      model_list = modelling$model.list,
+      metric = modelling$model.metric,
       list_obj = result
     )
 
     result <- getECx(
       dataset = result$dataset,
       model = result$model,
-      EDx = EDx,
+      EDx = modelling$EDx,
       metadata = result$metadata,
       list_obj = result,
-      EDargs = EDargs
+      EDargs = modelling$EDargs
     )
 
     return(result)

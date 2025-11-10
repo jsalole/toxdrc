@@ -26,6 +26,7 @@ checktoxicity <- function(
   Response,
   effect,
   type = c("rel", "abs"),
+  direction = c("below", "above", "different"),
   reference_group = "0",
   target_group = NULL,
   list_obj = NULL
@@ -33,8 +34,17 @@ checktoxicity <- function(
   # need to add a above or below or relative
 
   type <- match.arg(type)
+  direction <- match.arg(direction)
 
   # establish threshold for both relative and absolute
+
+  #establish threshold using relative and absolute
+
+  #if below
+
+  #if above
+
+  #if different
 
   .data <- NULL # to avoid error from NSE in pull
 
