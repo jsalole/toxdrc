@@ -11,6 +11,7 @@
 #' @param reference_group Quoted name OR value of reference group to compare response to (i.e. "ctl", 0)
 #' @param target_group Optional. Can be used to limit the compairison to certain groups (highest exposure concentration).
 #' @param list_obj Optional existing list object, used for integration with `runtoxdrc`.
+#' @param quiet Logical. Whether results should be hidden. Default: FALSE.
 #'
 #' @returns The supplied dataset, unchanged, with and a printed message indicating if a test is or is not toxic. If list_obj is supplied, the results of the test  are saved under `effect`, where `effect = TRUE` indicates an effect that exceeds the threshold.
 #' @export

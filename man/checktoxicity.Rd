@@ -35,6 +35,8 @@ checktoxicity(
 \item{target_group}{Optional. Can be used to limit the compairison to certain groups (highest exposure concentration).}
 
 \item{list_obj}{Optional existing list object, used for integration with \code{runtoxdrc}.}
+
+\item{quiet}{Logical. Whether results should be hidden. Default: FALSE.}
 }
 \value{
 The supplied dataset, unchanged, with and a printed message indicating if a test is or is not toxic. If list_obj is supplied, the results of the test  are saved under \code{effect}, where \code{effect = TRUE} indicates an effect that exceeds the threshold.

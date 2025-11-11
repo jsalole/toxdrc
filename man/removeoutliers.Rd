@@ -14,6 +14,8 @@ removeoutliers(dataset, Conc, Response, list_obj = NULL, quiet = FALSE)
 \item{Response}{Unquoted column name of \code{dataset} with observations to determine outliers in (e.g. RFU).}
 
 \item{list_obj}{Optional existing list object, used for integration with \code{runtoxdrc}.}
+
+\item{quiet}{Logical. Whether results should be hidden. Default: FALSE.}
 }
 \value{
 A modified \code{dataset} with outliers removed. If \code{list_obj} provided, updates this within a list. This is primarly for integration wit \code{runtoxdrc} as it adds \code{removed_outliers} to the growing list to track changes. If no \code{list_obj} provided, prints the removed rows and returns the edited \code{dataset}.

@@ -4,6 +4,7 @@
 #' @param dataset A dataframe.
 #' @param Conc Unquoted column name of `dataset` that groups observations (e.g. Conc).
 #' @param Response Unquoted column name of `dataset` with observations (e.g. RFU).
+#' @param quiet Logical. Whether results should be hidden. Default: FALSE.
 #' @param IDcols Optional. Columns given as a vector `c("column1", "column2")` used in the identification of data or important metadata. These columns are preserved in the returned dataset with the first value (not NA, NULL, or blank) of these columns within each level of `Conc`. Examples of this are metric type (mortality, indicator name), test information (well plate size, test time, test ID). These values should be identical within a testing group.
 #' @param list_obj Optional existing list object, used for integration with `runtoxdrc`.
 #'

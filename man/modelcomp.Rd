@@ -26,6 +26,8 @@ modelcomp(
 \item{metric}{Dictates which model parameter is used to compare model fit.}
 
 \item{list_obj}{Optional existing list object, used for integration with \code{runtoxdrc}.}
+
+\item{quiet}{Logical. Whether results should be hidden. Default: FALSE.}
 }
 \value{
 A fitetd drm model selected from the . If list_obj is provided, stores this datafram in \code{list_obj$model_df}.

@@ -7,6 +7,8 @@
 #' @param Response Unquoted column name of 'dataset' with observations to calculate CV in (e.g. RFU).
 #' @param max_val The maximum CV before a group is flagged.
 #' @param list_obj Optional existing list object, used for integration with `runtoxdrc`.
+#' @param quiet Logical. Whether results should be hidden. Default: FALSE.
+
 #'
 #' @returns Prints a summary dataframe is printed indicating the CV of each `Conc` supplied with a note if they are flagged. The flag is updated in `dataset`. If list_object is supplied, returns modified `dataset` and test results `CVresults` in this growing list object.
 #'

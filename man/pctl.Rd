@@ -29,6 +29,8 @@ pctl(
 \item{max_diff}{The maximum \% difference between groups before they are flagged.}
 
 \item{list_obj}{Optional existing list object, used for integration with \code{runtoxdrc}.}
+
+\item{quiet}{Logical. Whether results should be hidden. Default: FALSE.}
 }
 \value{
 Prints a summary dataframe is printed indicating the percent difference of the control groups. The flag is updated in \code{dataset}. If list_object is supplied, returns modified \code{dataset} and test results \code{pctlresults} in this growing list object.

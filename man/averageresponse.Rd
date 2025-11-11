@@ -23,6 +23,8 @@ averageresponse(
 \item{IDcols}{Optional. Columns given as a vector \code{c("column1", "column2")} used in the identification of data or important metadata. These columns are preserved in the returned dataset with the first value (not NA, NULL, or blank) of these columns within each level of \code{Conc}. Examples of this are metric type (mortality, indicator name), test information (well plate size, test time, test ID). These values should be identical within a testing group.}
 
 \item{list_obj}{Optional existing list object, used for integration with \code{runtoxdrc}.}
+
+\item{quiet}{Logical. Whether results should be hidden. Default: FALSE.}
 }
 \value{
 A modified dataset with one row for each level of \code{Conc}. The averaged response is given for each level, in addition to the value. If \code{list_obj} provided, returns this within a list. This is primarly for integration wit \code{runtoxdrc} as it saves the \code{pre_average_dataset} to the growing list to track changes. If no \code{list_obj} provided it returns the edited \code{dataset}.

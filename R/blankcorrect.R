@@ -3,6 +3,7 @@
 #' @param dataset A dataframe.
 #' @param Conc Unquoted column name of 'dataset' that groups observations.
 #' @param blank_group Quoted name of the Blank group, e.g. ("Blank").
+#' @param quiet Logical. Whether results should be hidden. Default: FALSE.
 #' @param Response Unquoted column name of the response variable to be adjusted.
 #' @param list_obj Optional existing list object, used for integration with `runtoxdrc`.
 #'

@@ -16,6 +16,8 @@ flagCV(dataset, Conc, Response, max_val = 30, list_obj = NULL, quiet = FALSE)
 \item{max_val}{The maximum CV before a group is flagged.}
 
 \item{list_obj}{Optional existing list object, used for integration with \code{runtoxdrc}.}
+
+\item{quiet}{Logical. Whether results should be hidden. Default: FALSE.}
 }
 \value{
 Prints a summary dataframe is printed indicating the CV of each \code{Conc} supplied with a note if they are flagged. The flag is updated in \code{dataset}. If list_object is supplied, returns modified \code{dataset} and test results \code{CVresults} in this growing list object.

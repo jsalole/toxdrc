@@ -6,8 +6,10 @@
 #' @param Conc Unquoted column name of `dataset` that groups observations (e.g. Conc).
 #' @param reference_group Quoted name OR value of reference group to normalize response to (i.e. "ctl", 0)
 #' @param Response Unquoted column name of `dataset` with observations (e.g. RFU).
+#' @param quiet Logical. Whether EDx results should be printed. Default: FALSE.
 #' @param list_obj Optional existing list object, used for integration with `runtoxdrc`.
-#'
+#' @param quiet Logical. Whether results should be hidden. Default: FALSE.
+
 #' @returns A modified `dataset` with a `normalized_response` column. If `list_obj` provided, updates this within a list. This is primarly for integration wit `runtoxdrc` as it adds `normalize_response_summary` to the growing list to track changes. If no `list_obj` provided, prints the summary and returns the edited `dataset`.
 #' @export
 #'

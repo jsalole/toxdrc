@@ -6,6 +6,7 @@
 #' @param Conc Unquoted column name of `dataset` that groups observations to determine outliers (e.g. Conc).
 #' @param Response Unquoted column name of `dataset` with observations to determine outliers in (e.g. RFU).
 #' @param list_obj Optional existing list object, used for integration with `runtoxdrc`.
+#' @param quiet Logical. Whether results should be hidden. Default: FALSE.
 #'
 #' @returns A modified `dataset` with outliers removed. If `list_obj` provided, updates this within a list. This is primarly for integration wit `runtoxdrc` as it adds `removed_outliers` to the growing list to track changes. If no `list_obj` provided, prints the removed rows and returns the edited `dataset`.
 #' @importFrom drc LL.2 LL.4 LN.2 W1.4

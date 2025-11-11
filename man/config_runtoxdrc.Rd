@@ -25,15 +25,6 @@ they need without manually handling all arguments in \code{runtoxdrc()}.
 Each of these functions returns a \strong{named list of configuration parameters}
 suitable for passing directly to \code{\link[=runtoxdrc]{runtoxdrc()}}.
 }
-\examples{
-# Overview page example
-
-
-# Example: create a custom QC list and pass it to runtoxdrc()
-qc_config <- toxdrc_qc(outlier.test = TRUE, cvflag.lvl = 20)
-runtoxdrc(cellglow, qc = qc_config)
-
-}
 \seealso{
 \code{\link[=runtoxdrc]{runtoxdrc()}},
 \code{\link[=toxdrc_qc]{toxdrc_qc()}},

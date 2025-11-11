@@ -28,14 +28,7 @@
 #' [toxdrc_normalization()],
 #' [toxdrc_toxicity()],
 #' [toxdrc_modelling()]
-#'
-#' @examples
-#' # Overview page example
-#' ?config_runtoxdrc
-#'
-#' # Example: create a custom QC list and pass it to runtoxdrc()
-#' qc_config <- toxdrc_qc(outlier.test = TRUE, cvflag.lvl = 20)
-#' runtoxdrc(cellglow, qc = qc_config)
+#
 #'
 #' @name config_runtoxdrc
 config_runtoxdrc <- function() {}

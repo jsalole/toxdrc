@@ -6,7 +6,8 @@
 #' @param model_list Optional. A list of named model function names (i.e. `model_list <- list("LL.4" = LL.4)`).
 #' @param metric Dictates which model parameter is used to compare model fit.
 #' @param list_obj Optional existing list object, used for integration with `runtoxdrc`.
-#'
+#' @param quiet Logical. Whether results should be hidden. Default: FALSE.
+
 #' @importFrom drc LL.4 LN.4 W1.4 W2.4
 #'
 #' @returns A fitetd drm model selected from the . If list_obj is provided, stores this datafram in `list_obj$model_df`.

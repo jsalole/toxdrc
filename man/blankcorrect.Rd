@@ -23,6 +23,8 @@ blankcorrect(
 \item{Response}{Unquoted column name of the response variable to be adjusted.}
 
 \item{list_obj}{Optional existing list object, used for integration with \code{runtoxdrc}.}
+
+\item{quiet}{Logical. Whether results should be hidden. Default: FALSE.}
 }
 \value{
 A modified dataframe with an additional column, \code{c_response}.

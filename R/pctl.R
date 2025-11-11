@@ -9,7 +9,8 @@
 #' @param Response Unquoted column name of `dataset` with observations to compare (e.g. RFU).
 #' @param max_diff The maximum % difference between groups before they are flagged.
 #' @param list_obj Optional existing list object, used for integration with `runtoxdrc`.
-#'
+#' @param quiet Logical. Whether results should be hidden. Default: FALSE.
+
 #' @returns Prints a summary dataframe is printed indicating the percent difference of the control groups. The flag is updated in `dataset`. If list_object is supplied, returns modified `dataset` and test results `pctlresults` in this growing list object.
 #' @export
 #'
