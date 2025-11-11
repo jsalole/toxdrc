@@ -62,7 +62,10 @@ modelcomp <- function(
       ,
       drop = FALSE
     ]
-    print(model_df)
+
+    if (!quiet) {
+      print(model_df)
+    }
     best_model_name <- rownames(model_df)[1]
 
     #if this line is the problem, add brackets directly to list entries.

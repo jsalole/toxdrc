@@ -39,7 +39,8 @@ getECx <- function(
     }
   )
 
-  #estimate names need to generate automatically from legnth of EDx vector. For each entry, give ECx + std.error_(ECx). If interval in list, also have 95u_ecx and 95lECx.
+  #estimate names need to generate automatically from legnth of EDx vector.
+  #For each entry, give ECx + std.error_(ECx). If interval in list, also have 95u_ecx and 95lECx.
   #in vector form, gives all EC50s, then all std errs, etc.
 
   estimate_names <- c(
@@ -51,7 +52,10 @@ getECx <- function(
 
   names(EDvals) <- estimate_names
   EDvals <- as.data.frame(t(EDvals))
-  print(EDvals)
+
+  if (!quiet) {
+    print(EDvals)
+  }
 
   if (is.null(list_obj)) {
     return(EDvals)
