@@ -1,0 +1,70 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# toxdrc
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+The goal of toxdrc is to provide a simple, easy solution to model and estimate the dose response relationships in complex data sets. This package provides a suite of modular functions that can take raw data, perform quality checks, apply user-specified transformation/normalization steps, fit and select the best fitting dose-response model, and estimate specified effect measures across multiple experimental subsets.
+
+## Installation
+
+You can install the development version of toxdrc from [GitHub](https://github.com/jsalole/toxdrc) with:
+
+``` r
+# install.packages("pak")
+pak::pak("jsalole/toxdrc")
+```
+
+## Example
+
+This is a basic example which shows you how to solve a common problem:
+
+```{r example}
+library(toxdrc)
+print(cellglow)
+```
+
+At first glance this dataset seems manageable, but it consists of 45 subsets of data. 
+
+Current approaches would require us to fragment the dataset and analyze each one manually.
+
+`toxdrc` offers another way to do this, through `runtoxdrc()`, which analyzes all of them in one function.
+
+```{r}
+analyzed_data <- runtoxdrc(
+  dataset = cellglow,
+  Conc = Conc,
+  Response = RFU,
+  IDcols = c("Test_Number", "Dye", "Replicate", "Type"),
+  quiet = TRUE,
+  qc = toxdrc_qc(), # uses defualt arguments, which can be overwritten. This controls testing for solvent effects, outlier testing, and CV calculations. Use ?toxdrc_qc() for more info.
+  normalization = toxdrc_normalization(
+    # here we specify to blank correct and normalize, instead of using default values. Only have to specify the arguments that do not use the default value. Use ?toxdrc_normalization() for more info.
+    blank.correction = TRUE,
+    normalize.resp = TRUE
+  ),
+  toxicity = toxdrc_toxicity(), # uses defualt arguments, which can be overwritten. This controls how toxicity is determined. Use ?toxdrc_toxicity() for more info.
+  modelling = toxdrc_modelling(
+    # Use ?toxdrc_modelling() for more info.
+    quiet = TRUE
+  )
+)
+
+analyzed_data
+```
+
+Currently working on other functions to view the plots and combine the output into useable, readable formats.
