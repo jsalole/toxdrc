@@ -10,7 +10,7 @@ toxdrc_modelling(
   EDx = 0.5,
   interval = c("tfls", "fls", "delta", "none"),
   level = 0.95,
-  type = c("absolute", "relative"),
+  type = c("relative", "absolute"),
   quiet = FALSE,
   EDargs.supplement = list()
 )
