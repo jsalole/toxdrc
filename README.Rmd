@@ -60,11 +60,17 @@ analyzed_data <- runtoxdrc(
   toxicity = toxdrc_toxicity(), # uses defualt arguments, which can be overwritten. This controls how toxicity is determined. Use ?toxdrc_toxicity() for more info.
   modelling = toxdrc_modelling(
     # Use ?toxdrc_modelling() for more info.
-    quiet = TRUE
+    quiet = TRUE,
+    type = "rel"
   )
 )
-
-analyzed_data
 ```
+
+We can then inspect all of the data and intermediate steps through the list structure
+
+```{r}
+analyzed_data$`83167.aB.A.Spiked`
+```
+
 
 Currently working on other functions to view the plots and combine the output into useable, readable formats.

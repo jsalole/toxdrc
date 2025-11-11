@@ -198,21 +198,13 @@ toxdrc_modelling <- function(
   quiet = FALSE,
   EDargs.supplement = list()
 ) {
-  EDargs <- list(
+  list(
+    model.metric = match.arg(model.metric),
+    EDx = EDx,
     interval = match.arg(interval),
     level = level,
     type = match.arg(type),
-    display = !quiet
-  )
-
-  if (length(EDargs.supplement) > 0) {
-    EDargs <- utils::modifyList(EDargs, EDargs.supplement)
-  }
-
-  list(
-    model.list = model.list,
-    model.metric = match.arg(model.metric),
-    EDx = EDx,
-    EDargs = EDargs
+    quiet = quiet,
+    EDargs.supplement = EDargs.supplement
   )
 }

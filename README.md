@@ -67,190 +67,125 @@ analyzed_data <- runtoxdrc(
   toxicity = toxdrc_toxicity(), # uses defualt arguments, which can be overwritten. This controls how toxicity is determined. Use ?toxdrc_toxicity() for more info.
   modelling = toxdrc_modelling(
     # Use ?toxdrc_modelling() for more info.
-    quiet = TRUE
+    quiet = TRUE,
+    type = "rel"
   )
 )
+```
 
-analyzed_data
-#> $`83167.aB.A.Spiked`
-#>   EC50 Std. Error Lower95 Upper95
-#> 1   NA         NA      NA      NA
+We can then inspect all of the data and intermediate steps through the
+list structure
+
+``` r
+analyzed_data$`83167.aB.A.Spiked`
+#> $dataset
+#>     Conc mean_response Test_Number Dye Replicate   Type
+#> 1   0.00    1.00000000       83167  aB         A Spiked
+#> 2 100.00    0.03521757       83167  aB         A Spiked
+#> 3  13.17    0.89917251       83167  aB         A Spiked
+#> 4  19.75    0.85217208       83167  aB         A Spiked
+#> 5  29.63    0.66668850       83167  aB         A Spiked
+#> 6  44.44    0.44053623       83167  aB         A Spiked
+#> 7  66.67    0.35937352       83167  aB         A Spiked
 #> 
-#> $`83256.aB.A.Spiked`
-#>   EC50 Std. Error Lower95 Upper95
-#> 1   NA         NA      NA      NA
+#> $ID
+#> [1] "83167.aB.A.Spiked"
 #> 
-#> $`83344.aB.A.Spiked`
-#>   EC50 Std. Error Lower95 Upper95
-#> 1   NA         NA      NA      NA
+#> $blank_stats
+#>   blank_mean blank_sd  blank_cv
+#> 1     5271.5  41.7193 0.7914123
 #> 
-#> $`83475.aB.A.Spiked`
-#>   EC50 Std. Error Lower95 Upper95
-#> 1   NA         NA      NA      NA
+#> $normalize_response_summary
+#>   ref_mean   ref_sd   ref_cv
+#> 1  22900.5 855.5992 3.736159
 #> 
-#> $`83476.aB.A.Spiked`
-#>   EC50 Std. Error Lower95 Upper95
-#> 1   NA         NA      NA      NA
+#> $pre_average_dataset
+#>            TestID Test_Number    Conc   RFU Dye   Type Replicate CVflag
+#> 1  83167_Spiked_A       83167       0 28777  aB Spiked         A       
+#> 2  83167_Spiked_A       83167       0 27567  aB Spiked         A       
+#> 3  83167_Spiked_A       83167   13.17 25176  aB Spiked         A       
+#> 4  83167_Spiked_A       83167   13.17 25859  aB Spiked         A       
+#> 5  83167_Spiked_A       83167   13.17 26554  aB Spiked         A       
+#> 6  83167_Spiked_A       83167   19.75 24620  aB Spiked         A       
+#> 7  83167_Spiked_A       83167   19.75 24339  aB Spiked         A       
+#> 8  83167_Spiked_A       83167   19.75 25401  aB Spiked         A       
+#> 9  83167_Spiked_A       83167   29.63 20219  aB Spiked         A       
+#> 10 83167_Spiked_A       83167   29.63 19201  aB Spiked         A       
+#> 11 83167_Spiked_A       83167   29.63 22197  aB Spiked         A       
+#> 12 83167_Spiked_A       83167   44.44 15184  aB Spiked         A       
+#> 13 83167_Spiked_A       83167   44.44 16037  aB Spiked         A       
+#> 14 83167_Spiked_A       83167   44.44 14859  aB Spiked         A       
+#> 15 83167_Spiked_A       83167   66.67 14170  aB Spiked         A       
+#> 16 83167_Spiked_A       83167   66.67 12359  aB Spiked         A       
+#> 17 83167_Spiked_A       83167   66.67 13975  aB Spiked         A       
+#> 18 83167_Spiked_A       83167     100  6085  aB Spiked         A       
+#> 19 83167_Spiked_A       83167     100  6122  aB Spiked         A       
+#> 20 83167_Spiked_A       83167     100  6027  aB Spiked         A       
+#> 21 83167_Spiked_A       83167   Blank  5301  aB Spiked         A       
+#> 22 83167_Spiked_A       83167   Blank  5242  aB Spiked         A       
+#> 23 83167_Spiked_A       83167 Control 32861  aB Spiked         A       
+#> 24 83167_Spiked_A       83167 Control 28086  aB Spiked         A       
+#>    c_response normalized_response
+#> 1     23505.5         1.026418637
+#> 2     22295.5         0.973581363
+#> 3     19904.5         0.869173162
+#> 4     20587.5         0.898997838
+#> 5     21282.5         0.929346521
+#> 6     19348.5         0.844894216
+#> 7     19067.5         0.832623742
+#> 8     20129.5         0.878998275
+#> 9     14947.5         0.652715006
+#> 10    13929.5         0.608261828
+#> 11    16925.5         0.739088666
+#> 12     9912.5         0.432850811
+#> 13    10765.5         0.470098906
+#> 14     9587.5         0.418658981
+#> 15     8898.5         0.388572302
+#> 16     7087.5         0.309491059
+#> 17     8703.5         0.380057204
+#> 18      813.5         0.035523242
+#> 19      850.5         0.037138927
+#> 20      755.5         0.032990546
+#> 21       29.5         0.001288181
+#> 22      -29.5        -0.001288181
+#> 23    27589.5         1.204755355
+#> 24    22814.5         0.996244623
 #> 
-#> $`83167.CFDA.A.Spiked`
-#>   EC50 Std. Error Lower95 Upper95
-#> 1   NA         NA      NA      NA
+#> $effect
+#> [1] TRUE
 #> 
-#> $`83256.CFDA.A.Spiked`
-#>   EC50 Std. Error Lower95 Upper95
-#> 1   NA         NA      NA      NA
+#> $nonnumericgroups
+#> [1] "Blank"   "Control"
 #> 
-#> $`83344.CFDA.A.Spiked`
-#>   EC50 Std. Error Lower95 Upper95
-#> 1   NA         NA      NA      NA
+#> $model_df
+#>        logLik        IC Lack of fit     Res var
+#> LN.4 12.44718 -14.89436          NA 0.003899464
+#> LL.4 12.30991 -14.61982          NA 0.004055439
+#> LL.4 12.30991 -14.61982          NA 0.004055439
+#> W2.4 12.18833 -14.37666          NA 0.004198787
+#> W1.4 12.06492 -14.12984          NA 0.004349477
 #> 
-#> $`83475.CFDA.A.Spiked`
-#>   EC50 Std. Error Lower95 Upper95
-#> 1   NA         NA      NA      NA
+#> $best_model_name
+#> [1] "LN.4"
 #> 
-#> $`83476.CFDA.A.Spiked`
-#>   EC50 Std. Error Lower95 Upper95
-#> 1   NA         NA      NA      NA
+#> $model
 #> 
-#> $`83167.NR.A.Spiked`
-#>   EC50 Std. Error Lower95 Upper95
-#> 1   NA         NA      NA      NA
+#> A 'drc' model.
 #> 
-#> $`83256.NR.A.Spiked`
-#>   EC50 Std. Error Lower95 Upper95
-#> 1   NA         NA      NA      NA
+#> Call:
+#> drm(formula = Response ~ Conc, data = ds, fct = model_list[[best_model_name]])
 #> 
-#> $`83344.NR.A.Spiked`
-#>   EC50 Std. Error Lower95 Upper95
-#> 1   NA         NA      NA      NA
+#> Coefficients:
+#> b:(Intercept)  c:(Intercept)  d:(Intercept)  e:(Intercept)  
+#>       -0.9690        -0.3806         0.9999        63.0776  
 #> 
-#> $`83475.NR.A.Spiked`
-#>   EC50 Std. Error Lower95 Upper95
-#> 1   NA         NA      NA      NA
 #> 
-#> $`83476.NR.A.Spiked`
-#>   EC50 Std. Error Lower95 Upper95
-#> 1   NA         NA      NA      NA
-#> 
-#> $`83167.aB.B.Spiked`
-#>   EC50 Std. Error Lower95 Upper95
-#> 1   NA         NA      NA      NA
-#> 
-#> $`83256.aB.B.Spiked`
-#>   EC50 Std. Error Lower95 Upper95
-#> 1   NA         NA      NA      NA
-#> 
-#> $`83344.aB.B.Spiked`
-#>   EC50 Std. Error Lower95 Upper95
-#> 1   NA         NA      NA      NA
-#> 
-#> $`83475.aB.B.Spiked`
-#>   EC50 Std. Error Lower95 Upper95
-#> 1   NA         NA      NA      NA
-#> 
-#> $`83476.aB.B.Spiked`
-#>   EC50 Std. Error Lower95 Upper95
-#> 1   NA         NA      NA      NA
-#> 
-#> $`83167.CFDA.B.Spiked`
-#>   EC50 Std. Error Lower95 Upper95
-#> 1   NA         NA      NA      NA
-#> 
-#> $`83256.CFDA.B.Spiked`
-#>   EC50 Std. Error Lower95 Upper95
-#> 1   NA         NA      NA      NA
-#> 
-#> $`83344.CFDA.B.Spiked`
-#>   EC50 Std. Error Lower95 Upper95
-#> 1   NA         NA      NA      NA
-#> 
-#> $`83475.CFDA.B.Spiked`
-#>   EC50 Std. Error Lower95 Upper95
-#> 1   NA         NA      NA      NA
-#> 
-#> $`83476.CFDA.B.Spiked`
-#>   EC50 Std. Error Lower95 Upper95
-#> 1   NA         NA      NA      NA
-#> 
-#> $`83167.NR.B.Spiked`
-#>   EC50 Std. Error Lower95 Upper95
-#> 1   NA         NA      NA      NA
-#> 
-#> $`83256.NR.B.Spiked`
-#>   EC50 Std. Error Lower95 Upper95
-#> 1   NA         NA      NA      NA
-#> 
-#> $`83344.NR.B.Spiked`
-#>   EC50 Std. Error Lower95 Upper95
-#> 1   NA         NA      NA      NA
-#> 
-#> $`83475.NR.B.Spiked`
-#>   EC50 Std. Error Lower95 Upper95
-#> 1   NA         NA      NA      NA
-#> 
-#> $`83476.NR.B.Spiked`
-#>   EC50 Std. Error Lower95 Upper95
-#> 1   NA         NA      NA      NA
-#> 
-#> $`83167.aB.C.Spiked`
-#>   EC50 Std. Error Lower95 Upper95
-#> 1   NA         NA      NA      NA
-#> 
-#> $`83256.aB.C.Spiked`
-#>   EC50 Std. Error Lower95 Upper95
-#> 1   NA         NA      NA      NA
-#> 
-#> $`83344.aB.C.Spiked`
-#>   EC50 Std. Error Lower95 Upper95
-#> 1   NA         NA      NA      NA
-#> 
-#> $`83475.aB.C.Spiked`
-#>   EC50 Std. Error Lower95 Upper95
-#> 1   NA         NA      NA      NA
-#> 
-#> $`83476.aB.C.Spiked`
-#>   EC50 Std. Error Lower95 Upper95
-#> 1   NA         NA      NA      NA
-#> 
-#> $`83167.CFDA.C.Spiked`
-#>   EC50 Std. Error Lower95 Upper95
-#> 1   NA         NA      NA      NA
-#> 
-#> $`83256.CFDA.C.Spiked`
-#>   EC50 Std. Error Lower95 Upper95
-#> 1   NA         NA      NA      NA
-#> 
-#> $`83344.CFDA.C.Spiked`
-#>   EC50 Std. Error Lower95 Upper95
-#> 1   NA         NA      NA      NA
-#> 
-#> $`83475.CFDA.C.Spiked`
-#>   EC50 Std. Error Lower95 Upper95
-#> 1   NA         NA      NA      NA
-#> 
-#> $`83476.CFDA.C.Spiked`
-#>   EC50 Std. Error Lower95 Upper95
-#> 1   NA         NA      NA      NA
-#> 
-#> $`83167.NR.C.Spiked`
-#>   EC50 Std. Error Lower95 Upper95
-#> 1   NA         NA      NA      NA
-#> 
-#> $`83256.NR.C.Spiked`
-#>   EC50 Std. Error Lower95 Upper95
-#> 1   NA         NA      NA      NA
-#> 
-#> $`83344.NR.C.Spiked`
-#>   EC50 Std. Error Lower95 Upper95
-#> 1   NA         NA      NA      NA
-#> 
-#> $`83475.NR.C.Spiked`
-#>   EC50 Std. Error Lower95 Upper95
-#> 1   NA         NA      NA      NA
-#> 
-#> $`83476.NR.C.Spiked`
-#>   EC50 Std. Error Lower95 Upper95
-#> 1   NA         NA      NA      NA
+#> $results
+#>               e:1:0.5
+#> Estimate    4.4205652
+#> Std. Error  2.2945587
+#> Lower       0.8473618
+#> Upper      23.0614552
 ```
 
 Currently working on other functions to view the plots and combine the

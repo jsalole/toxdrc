@@ -153,11 +153,13 @@ runtoxdrc <- function(
       dataset = result$dataset,
       model = result$model,
       EDx = modelling$EDx,
-      interval = modelling$interval,
       level = modelling$level,
       type = modelling$type,
-      EDargs.supplement = modelling$EDargs.supplement,
-      quiet = quiet
+      quiet = quiet,
+      list_obj = result,
+      metadata = result$metadata,
+      interval = modelling$interval,
+      EDargs.supplement = modelling$EDargs.supplement
     )
 
     return(result)
