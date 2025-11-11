@@ -4,7 +4,7 @@
 \alias{getmetadata}
 \title{Collects identifying values of an expeirmental replicate.}
 \usage{
-getmetadata(dataset, IDcols, list_obj = NULL)
+getmetadata(dataset, IDcols, list_obj = NULL, quiet = FALSE)
 }
 \arguments{
 \item{dataset}{A dataframe.}

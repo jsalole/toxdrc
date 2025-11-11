@@ -9,7 +9,8 @@ normalizeresponse(
   Conc,
   reference_group = "0",
   Response,
-  list_obj = NULL
+  list_obj = NULL,
+  quiet = FALSE
 )
 }
 \arguments{

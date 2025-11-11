@@ -4,7 +4,7 @@
 \alias{flagCV}
 \title{Check for groups with high CV}
 \usage{
-flagCV(dataset, Conc, Response, max_val = 30, list_obj = NULL)
+flagCV(dataset, Conc, Response, max_val = 30, list_obj = NULL, quiet = FALSE)
 }
 \arguments{
 \item{dataset}{A dataframe.}

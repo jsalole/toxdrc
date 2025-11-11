@@ -4,7 +4,7 @@
 \alias{removeoutliers}
 \title{Remove outliers iteratively using Grubbs' test.}
 \usage{
-removeoutliers(dataset, Conc, Response, list_obj = NULL)
+removeoutliers(dataset, Conc, Response, list_obj = NULL, quiet = FALSE)
 }
 \arguments{
 \item{dataset}{A dataframe.}

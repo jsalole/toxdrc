@@ -11,6 +11,7 @@ toxdrc_modelling(
   interval = c("tfls", "fls", "delta", "none"),
   level = 0.95,
   type = c("absolute", "relative"),
+  quiet = FALSE,
   EDargs.supplement = list()
 )
 }
@@ -26,6 +27,8 @@ toxdrc_modelling(
 \item{level}{Numeric. Confidence level for the interval calculation. Default: 0.95.}
 
 \item{type}{Character. Whether EDx is calculated as \code{"absolute"} or \code{"relative"}. Default: "absolute".}
+
+\item{quiet}{Logical. Whether EDx results should be printed. Default: FALSE.}
 
 \item{EDargs.supplement}{List. Optional user-supplied list of additional or overriding ED arguments. Can include \code{interval}, \code{level}, \code{type}, or other arguments compatible with \code{drc::ED()}.}
 }

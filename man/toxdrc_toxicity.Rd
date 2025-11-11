@@ -17,7 +17,7 @@ toxdrc_toxicity(
 
 \item{toxic.type}{Character. Indicates if \code{toxic.lvl} is absolute ("abs") or relative ("rel") to some group. Default: "rel".}
 
-\item{toxic.direction}{Character. Indicates if toxicity is a higher ("above"), lower ("below"), or any change ("different"). Default: "below".}
+\item{toxic.direction}{Character. Indicates if toxicity is a higher ("above") or lower ("below"). Default: "below".}
 
 \item{comp.group}{Character/Numeric. Label used for the group values will be compared to if \code{toxic.type} is "rel". Default: 0.}
 

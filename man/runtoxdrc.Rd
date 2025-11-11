@@ -9,10 +9,11 @@ runtoxdrc(
   Conc,
   Response,
   IDcols = NULL,
-  qc = drc_qc(),
-  normalization = drc_normalization(),
-  toxicity = drc_toxicity(),
-  modelling = drc_modelling()
+  quiet = FALSE,
+  qc = toxdrc_qc(),
+  normalization = toxdrc_normalization(),
+  toxicity = toxdrc_toxicity(),
+  modelling = toxdrc_modelling()
 )
 }
 \arguments{
@@ -23,6 +24,8 @@ runtoxdrc(
 \item{Response}{Unquoted column name of \code{dataset} of dependant variable.}
 
 \item{IDcols}{Optional. Columns given as a vector \code{c("column1", "column2")} used in the identification of data or important metadata. These columns are preserved in the returned dataset with the first value (not NA, NULL, or blank) of these columns within each level of \code{Conc}. Examples of this are metric type (mortality, indicator name), test information (well plate size, test time, test ID). These values should be identical within a testing group.}
+
+\item{quiet}{Logical. Indicates if intermediate results are printed. Default: False.}
 
 \item{qc}{Quality control and filtering options. See \code{toxdrc_qc()} for defaults.}
 

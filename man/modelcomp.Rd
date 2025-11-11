@@ -10,7 +10,8 @@ modelcomp(
   Response,
   model_list = NULL,
   metric = c("IC", "Res var", "Lack of fit"),
-  list_obj = NULL
+  list_obj = NULL,
+  quiet = FALSE
 )
 }
 \arguments{

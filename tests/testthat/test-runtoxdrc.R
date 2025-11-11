@@ -9,7 +9,7 @@ test_that("toxdrc produces list", {
         blank.correction = TRUE,
         normalize.resp = FALSE
       ),
-      quiet = TRUE
+      quiet = FALSE
     ))
   )
 })

@@ -27,7 +27,7 @@ suitable for passing directly to \code{\link[=runtoxdrc]{runtoxdrc()}}.
 }
 \examples{
 # Overview page example
-?config_runtoxdrc
+
 
 # Example: create a custom QC list and pass it to runtoxdrc()
 qc_config <- toxdrc_qc(outlier.test = TRUE, cvflag.lvl = 20)

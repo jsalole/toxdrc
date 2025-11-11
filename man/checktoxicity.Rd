@@ -13,7 +13,8 @@ checktoxicity(
   direction = c("below", "above"),
   reference_group = "0",
   target_group = NULL,
-  list_obj = NULL
+  list_obj = NULL,
+  quiet = FALSE
 )
 }
 \arguments{

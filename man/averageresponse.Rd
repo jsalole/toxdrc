@@ -4,7 +4,14 @@
 \alias{averageresponse}
 \title{Average response variable}
 \usage{
-averageresponse(dataset, Conc, Response, IDcols = NULL, list_obj = NULL)
+averageresponse(
+  dataset,
+  Conc,
+  Response,
+  IDcols = NULL,
+  list_obj = NULL,
+  quiet = FALSE
+)
 }
 \arguments{
 \item{dataset}{A dataframe.}
@@ -28,7 +35,8 @@ averageresponse(
      toxresult,
      Conc = Conc,
      Response = RFU,
-     IDcols = c("TestID", "Test_Number", "Dye", "Type", "Replicate")
+     IDcols = c("TestID", "Test_Number", "Dye", "Type", "Replicate"),
+     quiet = FALSE
    )
 
 }

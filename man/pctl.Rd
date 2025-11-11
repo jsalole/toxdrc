@@ -11,7 +11,8 @@ pctl(
   positive_group = 0,
   Response,
   max_diff = 10,
-  list_obj = NULL
+  list_obj = NULL,
+  quiet = FALSE
 )
 }
 \arguments{

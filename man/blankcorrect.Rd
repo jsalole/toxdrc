@@ -4,7 +4,14 @@
 \alias{blankcorrect}
 \title{Blank correct a response variable.}
 \usage{
-blankcorrect(dataset, Conc, blank_group = "Blank", Response, list_obj = NULL)
+blankcorrect(
+  dataset,
+  Conc,
+  blank_group = "Blank",
+  Response,
+  list_obj = NULL,
+  quiet = FALSE
+)
 }
 \arguments{
 \item{dataset}{A dataframe.}

@@ -8,9 +8,13 @@ getECx(
   dataset,
   model,
   EDx = 0.5,
+  interval = c("tfls", "fls", "delta", "none"),
+  level = 0.95,
+  type = c("absolute", "relative"),
+  quiet = FALSE,
+  EDargs.supplement = list(),
   metadata = NULL,
-  list_obj = NULL,
-  EDargs = list()
+  list_obj = NULL
 )
 }
 \arguments{
