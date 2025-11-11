@@ -18,21 +18,44 @@
 #'      positive_group = 2, Response = y, max_diff = 10)
 #'
 
-pctl <- function(dataset, Conc, reference_group = "Control", positive_group = 0, Response, max_diff = 10, list_obj = NULL) {
-
+pctl <- function(
+  dataset,
+  Conc,
+  reference_group = "Control",
+  positive_group = 0,
+  Response,
+  max_diff = 10,
+  list_obj = NULL,
+  quiet = FALSE
+) {
   dataset <- dataset %>%
     dplyr::mutate(
       Validity = ""
     )
 
   # Check if both necessary groups exist
-  if (!(reference_group %in% dplyr::pull(dataset, {{Conc}})) || !(positive_group %in% dplyr::pull(dataset, {{Conc}}))) {
+  if (
+    !(reference_group %in% dplyr::pull(dataset, {{ Conc }})) ||
+      !(positive_group %in% dplyr::pull(dataset, {{ Conc }}))
+  ) {
     stop('Both reference and positive groups are required for check.')
   }
 
   # Calculate means
-  pctl_resp <- mean(dplyr::pull(dataset %>% dplyr::filter({{Conc}} == positive_group), {{Response}}), na.rm = TRUE)
-  ref_resp <- mean(dplyr::pull(dataset %>% dplyr::filter({{Conc}} == reference_group), {{Response}}), na.rm = TRUE)
+  pctl_resp <- mean(
+    dplyr::pull(
+      dataset %>% dplyr::filter({{ Conc }} == positive_group),
+      {{ Response }}
+    ),
+    na.rm = TRUE
+  )
+  ref_resp <- mean(
+    dplyr::pull(
+      dataset %>% dplyr::filter({{ Conc }} == reference_group),
+      {{ Response }}
+    ),
+    na.rm = TRUE
+  )
 
   percent_diff <- abs((ref_resp - pctl_resp) / ref_resp) * 100
 
@@ -43,7 +66,9 @@ pctl <- function(dataset, Conc, reference_group = "Control", positive_group = 0,
     percent_difference = c(percent_diff)
   )
 
-  print(summary_df)
+  if (!quiet) {
+    print(summary_df)
+  }
 
   # Flag if percent difference is too high
   if (percent_diff > max_diff) {
@@ -52,7 +77,9 @@ pctl <- function(dataset, Conc, reference_group = "Control", positive_group = 0,
 
   # Output logic
   if (!is.null(list_obj)) {
-    if (!is.list(list_obj)) stop("Provided list_obj must be a list.")
+    if (!is.list(list_obj)) {
+      stop("Provided list_obj must be a list.")
+    }
     list_obj$dataset <- dataset
     list_obj$pctlresults <- summary_df
     return(list_obj)

@@ -15,7 +15,14 @@
 #' @examples df <- data.frame(x = rep(1:2, each = 3), y = c(10, 11, 9, 20, 40, 60))
 #' flagCV(dataset = df, Conc = x, Response = y, max_val = 30)
 #'
-flagCV <- function(dataset, Conc, Response, max_val = 30, list_obj = NULL) {
+flagCV <- function(
+  dataset,
+  Conc,
+  Response,
+  max_val = 30,
+  list_obj = NULL,
+  quiet = FALSE
+) {
   updated_dataset <- dataset %>%
     dplyr::group_by({{ Conc }}) %>%
     dplyr::mutate(
@@ -46,7 +53,9 @@ flagCV <- function(dataset, Conc, Response, max_val = 30, list_obj = NULL) {
 
   summary_df <- as.data.frame(summary_df)
 
-  print(summary_df)
+  if (!quiet) {
+    print(summary_df)
+  }
 
   updated_dataset <- updated_dataset %>%
     dplyr::select(-c("CV"))

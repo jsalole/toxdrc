@@ -1,5 +1,6 @@
 toxresult <- toxresult[!toxresult$Conc %in% c("Blank", "Control"), ]
 mod1 <- drm(toxresult$Conc ~ toxresult$RFU, fct = LL.4())
+
 mod1_estimates <- ED(
   mod1,
   respLev = 0.5,
@@ -16,11 +17,8 @@ test_that("produces estimates ", {
     getECx(
       dataset = toxresult,
       model = mod1,
-      EDx = 0.5,
-      EDargs = list(
-        type = "rel",
-        interval = "tfls"
-      )
+      interval = "tfls",
+      type = "rel"
     ),
     mod1_estimates
   )

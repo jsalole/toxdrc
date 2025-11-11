@@ -7,12 +7,14 @@
 #' @returns A 1 row dataframe of the identifying parameters of an experimental replicate. If list_obj is provided, attaches this to list_obj$metadata.
 #' @export
 #'
-#' 
-getmetadata <- function (dataset, IDcols, list_obj = NULL) {
-   metadata <- dplyr::slice(dataset, 1) %>%
+#'
+getmetadata <- function(dataset, IDcols, list_obj = NULL, quiet = FALSE) {
+  metadata <- dplyr::slice(dataset, 1) %>%
     dplyr::select(all_of(IDcols))
 
-  print(metadata)
+  if (!quiet) {
+    print(metadata)
+  }
 
   if (!is.null(list_obj)) {
     if (!is.list(list_obj)) {

@@ -17,7 +17,13 @@
 #' df <- data.frame(x = rep(1:2, each = 3),y = c(3, 5, 7, 3, 4, 30))
 #' removeoutliers(dataset = df, Conc = x, Response = y)
 
-removeoutliers <- function(dataset, Conc, Response, list_obj = NULL) {
+removeoutliers <- function(
+  dataset,
+  Conc,
+  Response,
+  list_obj = NULL,
+  quiet = FALSE
+) {
   results <- dataset %>%
     dplyr::group_by({{ Conc }}) %>%
     dplyr::group_split() %>%
@@ -70,8 +76,10 @@ removeoutliers <- function(dataset, Conc, Response, list_obj = NULL) {
   removed_all <- as.data.frame(purrr::map_dfr(results, "removed"))
 
   if (is.null(list_obj)) {
-    print("Removed Rows")
-    print(removed_all)
+    if (!quiet) {
+      print("Removed Rows")
+      print(removed_all)
+    }
     dataset = cleaned_all
     return(dataset)
   } else {

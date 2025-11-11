@@ -4,6 +4,7 @@
 #' @param Conc Unquoted column name of `dataset` of independent variable.
 #' @param Response Unquoted column name of `dataset` of dependant variable.
 #' @param IDcols Optional. Columns given as a vector `c("column1", "column2")` used in the identification of data or important metadata. These columns are preserved in the returned dataset with the first value (not NA, NULL, or blank) of these columns within each level of `Conc`. Examples of this are metric type (mortality, indicator name), test information (well plate size, test time, test ID). These values should be identical within a testing group.
+#' @param quiet Logical. Indicates if intermediate results are printed. Default: False.
 #' @param qc Quality control and filtering options. See `toxdrc_qc()` for defaults.
 #' @param normalization Normalization options. See `toxdrc_normalization()`.
 #' @param toxicity Toxicity threshold and response-level options. See `toxdrc_toxicity()` for defaults
@@ -20,6 +21,7 @@ runtoxdrc <- function(
   Conc,
   Response,
   IDcols = NULL,
+  quiet = FALSE,
   qc = toxdrc_qc(),
   normalization = toxdrc_normalization(),
   toxicity = toxdrc_toxicity(),
@@ -37,7 +39,8 @@ runtoxdrc <- function(
         dataset = result$dataset,
         Conc = {{ Conc }},
         Response = {{ Response }},
-        list_obj = result
+        list_obj = result,
+        quiet = quiet
       )
     }
 
@@ -46,7 +49,8 @@ runtoxdrc <- function(
         dataset = result$dataset,
         Conc = {{ Conc }},
         Response = {{ Response }},
-        max_val = qc$cvflag.lvl
+        max_val = qc$cvflag.lvl,
+        quiet = quiet
       )
     }
 
@@ -58,7 +62,8 @@ runtoxdrc <- function(
         positive_group = qc$pctl.label,
         Response = {{ Response }},
         max_diff = qc$pctl.lvl,
-        list_obj = result
+        list_obj = result,
+        quiet = quiet
       )
     }
 
@@ -68,7 +73,8 @@ runtoxdrc <- function(
         Conc = {{ Conc }},
         blank_group = normalization$blank.label,
         Response = {{ Response }},
-        list_obj = result
+        list_obj = result,
+        quiet = quiet
       )
       Response <- rlang::sym("c_response")
     }
@@ -79,7 +85,8 @@ runtoxdrc <- function(
         Conc = {{ Conc }},
         reference_group = normalization$relative.label,
         Response = {{ Response }},
-        list_obj = result
+        list_obj = result,
+        quiet = quiet
       )
       Response <- rlang::sym("normalized_response")
     }
@@ -90,7 +97,8 @@ runtoxdrc <- function(
         Conc = {{ Conc }},
         Response = {{ Response }},
         IDcols = IDcols,
-        list_obj = result
+        list_obj = result,
+        quiet = quiet
       )
       Response <- rlang::sym("mean_response")
     }
@@ -104,14 +112,16 @@ runtoxdrc <- function(
       type = toxicity$type,
       direction = toxicity$toxic.direction,
       Response = {{ Response }},
-      list_obj = result
+      list_obj = result,
+      quiet = quiet
     )
 
     if (!result$effect) {
       result <- getmetadata(
         dataset = result$dataset,
         IDcols = IDcols,
-        list_obj = result
+        list_obj = result,
+        quiet = quiet
       )
       return(result)
     }
@@ -121,7 +131,9 @@ runtoxdrc <- function(
       pull({{ Conc }}) %>%
       unique()
 
-    print(result$nonnumericgroups)
+    if (!quiet) {
+      print(result$nonnumericgroups)
+    }
 
     result$dataset <- result$dataset %>%
       mutate({{ Conc }} := suppressWarnings(as.numeric({{ Conc }}))) %>%
@@ -133,7 +145,8 @@ runtoxdrc <- function(
       Response = {{ Response }},
       model_list = modelling$model.list,
       metric = modelling$model.metric,
-      list_obj = result
+      list_obj = result,
+      quiet = quiet
     )
 
     result <- getECx(
@@ -142,7 +155,8 @@ runtoxdrc <- function(
       EDx = modelling$EDx,
       metadata = result$metadata,
       list_obj = result,
-      EDargs = modelling$EDargs
+      EDargs = modelling$EDargs,
+      quiet = quiet
     )
 
     return(result)

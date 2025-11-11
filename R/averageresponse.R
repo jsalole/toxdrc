@@ -18,7 +18,8 @@
 #'      toxresult,
 #'      Conc = Conc,
 #'      Response = RFU,
-#'      IDcols = c("TestID", "Test_Number", "Dye", "Type", "Replicate")
+#'      IDcols = c("TestID", "Test_Number", "Dye", "Type", "Replicate"),
+#'      quiet = FALSE
 #'    )
 #'
 averageresponse <- function(
@@ -26,7 +27,8 @@ averageresponse <- function(
   Conc,
   Response,
   IDcols = NULL,
-  list_obj = NULL
+  list_obj = NULL,
+  quiet = FALSE
 ) {
   pre_average_dataset <- dataset
 
@@ -58,7 +60,9 @@ averageresponse <- function(
 
   averaged_dataset <- as.data.frame(averaged_dataset)
 
-  print(averaged_dataset)
+  if (!quiet) {
+    print(averaged_dataset)
+  }
 
   # Output as a list, either a new list, or attached to supplied list_obj
   if (is.null(list_obj)) {

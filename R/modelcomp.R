@@ -22,7 +22,8 @@ modelcomp <- function(
   Response,
   model_list = NULL,
   metric = c("IC", "Res var", "Lack of fit"),
-  list_obj = NULL
+  list_obj = NULL,
+  quiet = FALSE
 ) {
   # models needs a better arg name
   if (is.null(model_list)) {
@@ -70,7 +71,9 @@ modelcomp <- function(
       Response ~ Conc,
       fct = model_list[[best_model_name]]
     )
-    print(best_model)
+    if (!quiet) {
+      print(best_model)
+    }
   }
 
   if (!is.null(list_obj)) {
@@ -82,6 +85,10 @@ modelcomp <- function(
     list_obj$model <- best_model
     return(list_obj)
   }
-  print(best_model)
+
+  if (!quiet) {
+    print(best_model)
+    plot(best_model)
+  }
   return(best_model)
 }

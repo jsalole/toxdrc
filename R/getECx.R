@@ -15,17 +15,21 @@ getECx <- function(
   dataset,
   model,
   EDx = 0.5,
+  interval = c("tfls", "fls", "delta", "none"),
+  level = 0.95,
+  type = c("absolute", "relative"),
+  quiet = FALSE,
+  EDargs.supplement = list(),
   metadata = NULL,
-  list_obj = NULL,
-  EDargs = list()
+  list_obj = NULL
 ) {
-  EDargs <- c(
-    list(
-      object = model,
-      respLev = c(EDx),
-      display = FALSE
-    ),
-    EDargs
+  EDargs <- list(
+    respLev = EDx,
+    object = model,
+    interval = match.arg(interval),
+    level = level,
+    type = match.arg(type),
+    display = !quiet
   )
 
   EDvals <- tryCatch(

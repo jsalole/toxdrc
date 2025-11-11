@@ -15,21 +15,27 @@
 #' df <- data.frame(x = rep(1:2, each = 3), y = c(100, 110, 90, 40, 50, 60))
 #normalizeresponse(dataset = df, Conc = x, reference_group = 1, Response = y)
 #
-normalizeresponse <- function(dataset, Conc, reference_group = "0", Response, list_obj = NULL) {
-
+normalizeresponse <- function(
+  dataset,
+  Conc,
+  reference_group = "0",
+  Response,
+  list_obj = NULL,
+  quiet = FALSE
+) {
   dataset <- dataset %>%
     dplyr::mutate(
-      {{Response}} := as.numeric({{Response}})
+      {{ Response }} := as.numeric({{ Response }})
     )
 
-  ref_rows <- dataset %>% dplyr::filter({{Conc}} == reference_group)
+  ref_rows <- dataset %>% dplyr::filter({{ Conc }} == reference_group)
 
   if (nrow(ref_rows) == 0) {
     stop('No reference rows found for normalization.')
   }
 
-  ref_mean <- mean(dplyr::pull(ref_rows, {{Response}}), na.rm = TRUE)
-  ref_sd <- sd(dplyr::pull(ref_rows, {{Response}}), na.rm = TRUE)
+  ref_mean <- mean(dplyr::pull(ref_rows, {{ Response }}), na.rm = TRUE)
+  ref_sd <- sd(dplyr::pull(ref_rows, {{ Response }}), na.rm = TRUE)
 
   ref_cv <- if (!is.na(ref_mean) && !is.na(ref_sd) && ref_mean != 0) {
     (ref_sd / ref_mean) * 100
@@ -39,7 +45,7 @@ normalizeresponse <- function(dataset, Conc, reference_group = "0", Response, li
 
   dataset <- dataset %>%
     dplyr::mutate(
-      normalized_response = {{Response}} / ref_mean
+      normalized_response = {{ Response }} / ref_mean
     )
 
   summary_df <- data.frame(
@@ -48,12 +54,13 @@ normalizeresponse <- function(dataset, Conc, reference_group = "0", Response, li
     ref_cv = ref_cv
   )
 
-  print(summary_df)
-  print(dataset)
-
+  if (!quiet) {
+    print(summary_df)
+    print(dataset)
+  }
   if (is.null(list_obj)) {
     return(dataset)
-    } else {
+  } else {
     if (is.list(list_obj)) {
       list_obj$dataset <- dataset
       list_obj$normalize_response_summary <- summary_df

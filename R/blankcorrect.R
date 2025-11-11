@@ -22,7 +22,8 @@ blankcorrect <- function(
   Conc,
   blank_group = "Blank",
   Response,
-  list_obj = NULL
+  list_obj = NULL,
+  quiet = FALSE
 ) {
   dataset <- dataset %>%
     dplyr::mutate(
@@ -55,7 +56,9 @@ blankcorrect <- function(
     blank_cv = blank_cv
   )
 
-  print(summary_df)
+  if (!quiet) {
+    print(summary_df)
+  }
 
   if (is.null(list_obj)) {
     return(dataset)

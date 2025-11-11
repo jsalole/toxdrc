@@ -30,7 +30,8 @@ checktoxicity <- function(
   direction = c("below", "above"),
   reference_group = "0",
   target_group = NULL,
-  list_obj = NULL
+  list_obj = NULL,
+  quiet = FALSE
 ) {
   # need to add a above or below or relative
 
@@ -93,6 +94,10 @@ checktoxicity <- function(
       statment <- ("Test effect exceeds threshold")
       toxic_effect <- TRUE
     }
+  }
+
+  if (!quiet) {
+    print(statment)
   }
 
   # store results

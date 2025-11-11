@@ -179,6 +179,7 @@ toxdrc_toxicity <- function(
 #' @param interval Character. Method for calculating confidence intervals of EDx. Choices: `"tfls"`, `"fls"`, `"delta"`, `"none"`. Default: "tfls".
 #' @param level Numeric. Confidence level for the interval calculation. Default: 0.95.
 #' @param type Character. Whether EDx is calculated as `"absolute"` or `"relative"`. Default: "absolute".
+#' @param quiet Logical. Whether EDx results should be printed. Default: FALSE.
 #' @param EDargs.supplement List. Optional user-supplied list of additional or overriding ED arguments. Can include `interval`, `level`, `type`, or other arguments compatible with `drc::ED()`.
 #'
 #' @return A named list containing model fitting and selection settings for use in [runtoxdrc()].
@@ -201,12 +202,14 @@ toxdrc_modelling <- function(
   interval = c("tfls", "fls", "delta", "none"),
   level = 0.95,
   type = c("absolute", "relative"),
+  quiet = FALSE,
   EDargs.supplement = list()
 ) {
   EDargs <- list(
     interval = match.arg(interval),
     level = level,
-    type = match.arg(type)
+    type = match.arg(type),
+    display = !quiet
   )
 
   if (length(EDargs.supplement) > 0) {
