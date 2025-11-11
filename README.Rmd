@@ -35,10 +35,10 @@ This is a basic example which shows you how to solve a common problem:
 
 ```{r example}
 library(toxdrc)
-print(cellglow)
+head(cellglow)
 ```
 
-At first glance this dataset seems manageable, but it consists of 45 subsets of data. 
+At first glance this dataset seems manageable, but it consists of 45 unique experimental subests of data, all of which need to be considered independently. 
 
 Current approaches would require us to fragment the dataset and analyze each one manually.
 
