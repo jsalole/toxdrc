@@ -185,7 +185,7 @@ analyzed_data$`83167.aB.A.Spiked`
 #>       -0.9690        -0.3806         0.9999        63.0776  
 #> 
 #> 
-#> $results
+#> $effectmeasure
 #>   Effect Measure Estimate Std. Error     Lower    Upper
 #> 1           EC50 4.420565   2.294559 0.8473618 23.06146
 ```
@@ -206,7 +206,7 @@ analyzed_data <- runtoxdrc(
   ),
   modelling = toxdrc_modelling(EDx = c(0.2, 0.5, 0.7))
 )
-analyzed_data$`83167.aB.A.Spiked`$results
+analyzed_data$`83167.aB.A.Spiked`$effectmeasure
 #>   Effect Measure Estimate Std. Error     Lower    Upper
 #> 1           EC20 3.235809   2.003172 0.4511939 23.20612
 #> 2           EC50 4.420565   2.294559 0.8473618 23.06146
