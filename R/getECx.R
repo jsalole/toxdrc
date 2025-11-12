@@ -9,10 +9,8 @@
 #' @param level Numeric. Confidence level for the interval calculation. Default: 0.95.
 #' @param type Character. Whether EDx is calculated as `"absolute"` or `"relative"`. Default: "absolute".
 #' @param quiet Logical. Whether EDx results should be printed. Default: FALSE.
-#' @param EDargs.supplement List. Optional user-supplied list of additional or overriding ED arguments. Can include `interval`, `level`, `type`, or other arguments compatible with `drc::ED()`.
-
-#'
-#'
+#' @param EDargs.supplement List. Optional user-supplied list of additional or overriding ED arguments.
+#' Can include `interval`, `level`, `type`, or other arguments compatible with `drc::ED()`.
 #' @returns If list_obj is not provided, returns estimate. If list object is provided, list_obj$results stores a dataframe with the ECx estimates.
 #' @importFrom drc ED
 #' @export
@@ -29,55 +27,88 @@ getECx <- function(
   metadata = NULL,
   list_obj = NULL
 ) {
-  EDargs <- list(
-    respLev = EDx,
-    object = model,
-    interval = match.arg(interval),
-    level = level,
-    type = match.arg(type),
-    display = !quiet
+  interval <- match.arg(interval)
+  type <- match.arg(type)
+
+  # Build argument list for ED()
+  EDargs <- c(
+    list(
+      object = model,
+      respLev = EDx,
+      interval = interval,
+      level = level,
+      type = type,
+      display = !quiet
+    ),
+    EDargs.supplement
   )
 
+  # Safely run ED() and capture output
   EDvals <- tryCatch(
     suppressWarnings(do.call(ED, EDargs)),
-    error = function(e) {
-      return(rep(NA, 4))
-    }
+    error = function(e) return(NULL)
   )
 
-  #estimate names need to generate automatically from legnth of EDx vector.
-  #For each entry, give ECx + std.error_(ECx). If interval in list, also have 95u_ecx and 95lECx.
-  #in vector form, gives all EC50s, then all std errs, etc.
+  # Handle failed fit or NA result
+  if (is.null(EDvals)) {
+    n_ecx <- length(EDx)
+    return(
+      data.frame(
+        `Effect Measure` = paste0("EC", EDx * 100),
+        Estimate = rep(NA, n_ecx),
+        `Std. Error` = rep(NA, n_ecx),
+        Lower = rep(NA, n_ecx),
+        Upper = rep(NA, n_ecx)
+      )
+    )
+  }
 
-  estimate_names <- c(
-    paste0("EC", EDx * 100),
-    "Std. Error",
-    "Lower95",
-    "Upper95"
+  ## --- Clean and format output --- ##
+
+  # Convert to data frame, preserving numeric types
+  EDdf <- as.data.frame(EDvals, stringsAsFactors = FALSE)
+
+  # Add ECx labels from rownames
+  EDdf$`Effect Measure` <- paste0(
+    "EC",
+    gsub("\\.0+$", "", as.numeric(sub(".*:", "", rownames(EDdf))) * 100)
   )
 
-  names(EDvals) <- estimate_names
-  EDvals <- as.data.frame(t(EDvals))
+  # Reorder columns (Effect Measure first)
+  EDdf <- EDdf[, c(
+    "Effect Measure",
+    names(EDdf)[names(EDdf) != "Effect Measure"]
+  )]
 
+  # Ensure missing columns (Lower/Upper) exist if interval = "none"
+  expected_cols <- c("Estimate", "Std. Error", "Lower", "Upper")
+  missing_cols <- setdiff(expected_cols, names(EDdf))
+  if (length(missing_cols) > 0) {
+    EDdf[missing_cols] <- NA
+  }
+
+  rownames(EDdf) <- NULL
+
+  # Print if requested
   if (!quiet) {
-    print(EDvals)
+    print(EDdf)
   }
 
+  ## --- Combine or return --- ##
   if (is.null(list_obj)) {
-    return(EDvals)
-  }
-
-  if (!is.null(list_obj)) {
+    if (!is.null(metadata)) {
+      EDdf <- cbind(metadata, EDdf)
+    }
+    return(EDdf)
+  } else {
     if (!is.list(list_obj)) {
       stop("Provided list_obj must be a list.")
     }
-
-    if (is.null(metadata)) {
-      results <- EDvals
+    if (!is.null(metadata)) {
+      list_obj$results <- cbind(metadata, EDdf)
     } else {
-      results <- cbind(metadata, EDvals)
+      list_obj$results <- EDdf
     }
-    list_obj$results <- results
     return(list_obj)
   }
 }

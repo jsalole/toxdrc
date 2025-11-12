@@ -20,6 +20,8 @@ knitr::opts_chunk$set(
 
 The goal of toxdrc is to provide a simple, easy solution to model and estimate the dose response relationships in complex data sets. This package provides a suite of modular functions that can take raw data, perform quality checks, apply user-specified transformation/normalization steps, fit and select the best fitting dose-response model, and estimate specified effect measures across multiple experimental subsets.
 
+I would like to acknowledge that this package is built on the [drc](https://cran.r-project.org/web/packages/drc/drc.pdf) package.
+
 ## Installation
 
 You can install the development version of toxdrc from [GitHub](https://github.com/jsalole/toxdrc) with:
@@ -33,7 +35,7 @@ pak::pak("jsalole/toxdrc")
 
 This is a basic example which shows you how to solve a common problem:
 
-```{r example}
+```{r }
 library(toxdrc)
 head(cellglow)
 ```
@@ -66,11 +68,10 @@ analyzed_data <- runtoxdrc(
 )
 ```
 
-We can then inspect all of the data and intermediate steps through the list structure
+We can then inspect all of the data and intermediate steps through the list structure, or by calling single elements
 
 ```{r}
 analyzed_data$`83167.aB.A.Spiked`
 ```
 
-
-Currently working on other functions to view the plots and combine the output into useable, readable formats.
+Currently working on other functions to combine the resulting list into a more user-friendly interface.

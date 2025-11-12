@@ -15,6 +15,9 @@ transformation/normalization steps, fit and select the best fitting
 dose-response model, and estimate specified effect measures across
 multiple experimental subsets.
 
+I would like to acknowledge that this package is built on the
+[drc](https://cran.r-project.org/web/packages/drc/drc.pdf) package.
+
 ## Installation
 
 You can install the development version of toxdrc from
@@ -74,7 +77,7 @@ analyzed_data <- runtoxdrc(
 ```
 
 We can then inspect all of the data and intermediate steps through the
-list structure
+list structure, or by calling single elements
 
 ``` r
 analyzed_data$`83167.aB.A.Spiked`
@@ -181,12 +184,9 @@ analyzed_data$`83167.aB.A.Spiked`
 #> 
 #> 
 #> $results
-#>               e:1:0.5
-#> Estimate    4.4205652
-#> Std. Error  2.2945587
-#> Lower       0.8473618
-#> Upper      23.0614552
+#>   Effect Measure Estimate Std. Error     Lower    Upper
+#> 1           EC50 4.420565   2.294559 0.8473618 23.06146
 ```
 
-Currently working on other functions to view the plots and combine the
-output into useable, readable formats.
+Currently working on other functions to combine the resulting list into
+a more user-friendly interface.
