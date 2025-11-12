@@ -26,6 +26,8 @@ modelcomp <- function(
   list_obj = NULL,
   quiet = FALSE
 ) {
+  match.arg(metric)
+
   # models needs a better arg name
   if (is.null(model_list)) {
     model_list <- list(

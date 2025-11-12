@@ -15,8 +15,10 @@ transformation/normalization steps, fit and select the best fitting
 dose-response model, and estimate specified effect measures across
 multiple experimental subsets.
 
-I would like to acknowledge that this package is built on the
-[drc](https://cran.r-project.org/web/packages/drc/drc.pdf) package.
+I would like to acknowledge that this package is built using the
+[drc](https://cran.r-project.org/web/packages/drc/drc.pdf) package
+framework and relies extensively on the functions provided in that
+package.
 
 ## Installation
 
@@ -71,13 +73,12 @@ analyzed_data <- runtoxdrc(
   modelling = toxdrc_modelling(
     # Use ?toxdrc_modelling() for more info.
     quiet = TRUE,
-    type = "rel"
   )
 )
 ```
 
 We can then inspect all of the data and intermediate steps through the
-list structure, or by calling single elements
+list structure, or by calling single elements.
 
 ``` r
 analyzed_data$`83167.aB.A.Spiked`
@@ -186,6 +187,29 @@ analyzed_data$`83167.aB.A.Spiked`
 #> $results
 #>   Effect Measure Estimate Std. Error     Lower    Upper
 #> 1           EC50 4.420565   2.294559 0.8473618 23.06146
+```
+
+We can also estimate multiple effect measures from each dataset as the
+same time.
+
+``` r
+analyzed_data <- runtoxdrc(
+  dataset = cellglow,
+  Conc = Conc,
+  Response = RFU,
+  IDcols = c("Test_Number", "Dye", "Replicate", "Type"),
+  quiet = TRUE,
+  normalization = toxdrc_normalization(
+    blank.correction = TRUE,
+    normalize.resp = TRUE
+  ),
+  modelling = toxdrc_modelling(EDx = c(0.2, 0.5, 0.7))
+)
+analyzed_data$`83167.aB.A.Spiked`$results
+#>   Effect Measure Estimate Std. Error     Lower    Upper
+#> 1           EC20 3.235809   2.003172 0.4511939 23.20612
+#> 2           EC50 4.420565   2.294559 0.8473618 23.06146
+#> 3           EC70 4.995914   2.404170 1.0801938 23.10618
 ```
 
 Currently working on other functions to combine the resulting list into
