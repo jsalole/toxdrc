@@ -16,6 +16,7 @@ knitr::opts_chunk$set(
 # toxdrc
 
 <!-- badges: start -->
+[![R-CMD-check](https://github.com/jsalole/toxdrc/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/jsalole/toxdrc/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The goal of toxdrc is to provide a simple, easy solution to model and estimate the dose response relationships in complex data sets. This package provides a suite of modular functions that can take raw data, perform quality checks, apply user-specified transformation/normalization steps, fit and select the best fitting dose-response model, and estimate specified effect measures across multiple experimental subsets.
