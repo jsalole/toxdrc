@@ -42,7 +42,6 @@ modelcomp <- function(
   fitted_model <- NULL
   best_model_name <- NULL
   best_model <- NULL
-  model_df <- NULL
 
   ds <- dataset %>%
     dplyr::rename(
@@ -60,28 +59,26 @@ modelcomp <- function(
     }
   }
 
-  if (is.null(model_df)) {
-    if (!is.null(model_df) && nrow(model_df) > 0) {
-      model_df <- model_df[
-        !(rownames(model_df) %in% c("model")),
-        ,
-        drop = FALSE
-      ]
+  if (!is.null(model_df) && nrow(model_df) > 0) {
+    model_df <- model_df[
+      !(rownames(model_df) %in% c("model")),
+      ,
+      drop = FALSE
+    ]
 
-      if (!quiet) {
-        print(model_df)
-      }
-      best_model_name <- rownames(model_df)[1]
+    if (!quiet) {
+      print(model_df)
+    }
+    best_model_name <- rownames(model_df)[1]
 
-      #if this line is the problem, add brackets directly to list entries.
-      best_model <- drm(
-        data = ds,
-        Response ~ Conc,
-        fct = model_list[[best_model_name]]
-      )
-      if (!quiet) {
-        print(best_model)
-      }
+    #if this line is the problem, add brackets directly to list entries.
+    best_model <- drm(
+      data = ds,
+      Response ~ Conc,
+      fct = model_list[[best_model_name]]
+    )
+    if (!quiet) {
+      print(best_model)
     }
   }
 
