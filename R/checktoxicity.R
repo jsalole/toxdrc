@@ -69,7 +69,9 @@ checktoxicity <- function(
     summary_df <- dataset
   }
 
-  response_values <- dplyr::pull(summary_df, {{ Response }})
+  response_values <- summary_df %>%
+    dplyr::filter(!is.na({{ Response }})) %>%
+    dplyr::pull({{ Response }})
 
   #if below
 
