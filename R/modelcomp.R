@@ -42,6 +42,7 @@ modelcomp <- function(
   fitted_model <- NULL
   best_model_name <- NULL
   best_model <- NULL
+  model_df <- NULL
 
   ds <- dataset %>%
     dplyr::rename(
