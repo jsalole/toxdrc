@@ -109,12 +109,19 @@ runtoxdrc <- function(
       reference_group = toxicity$comp.group,
       target_group = toxicity$target.group,
       effect = toxicity$toxic.lvl,
-      type = toxicity$type,
+      type = toxicity$toxic.type,
       direction = toxicity$toxic.direction,
       Response = {{ Response }},
       list_obj = result,
       quiet = quiet
     )
+
+    toxic.direction = "above",
+    toxic.lvl = 50,
+    toxic.type = "abs"
+
+
+# this line causes problems in the code. Need to rework output to be true of getmetadata
 
     if (!result$effect) {
       result <- getmetadata(

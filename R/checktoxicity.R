@@ -86,7 +86,7 @@ checktoxicity <- function(
     }
   }
 
-  #if above
+  # this does not work, all would need to be above, if ANY are below.
 
   if (direction == "above") {
     all_below <- all(response_values < response_threshold)
