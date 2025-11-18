@@ -166,7 +166,6 @@ runtoxdrc <- function(
     return(result)
   })
 
-  #should test if this give the wanted result. It is just a way to avoid a red button call that will likley bottleneck the number of EDx that can be provided.
   names(results_list) <- names(split_list)
 
   return(results_list)
