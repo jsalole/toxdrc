@@ -116,12 +116,7 @@ runtoxdrc <- function(
       quiet = quiet
     )
 
-    toxic.direction = "above",
-    toxic.lvl = 50,
-    toxic.type = "abs"
-
-
-# this line causes problems in the code. Need to rework output to be true of getmetadata
+    # this line causes problems in the code. Need to rework output to be true of getmetadata
 
     if (!result$effect) {
       result <- getmetadata(
