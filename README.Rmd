@@ -112,4 +112,6 @@ analyzed_data <- runtoxdrc(
   ),
   output = toxdrc_output(condense = TRUE) # can also specify which sections are summarized. See ?toxdrc_output() for more information.
 )
+
+analyzed_data
 ```
