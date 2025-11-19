@@ -20,6 +20,7 @@ they need without manually handling all arguments in \code{runtoxdrc()}.
 \item \code{\link[=toxdrc_normalization]{toxdrc_normalization()}} — Blank correction and normalization
 \item \code{\link[=toxdrc_toxicity]{toxdrc_toxicity()}} — Toxicity threshold and response-level options
 \item \code{\link[=toxdrc_modelling]{toxdrc_modelling()}} — Model selection, fitting criteria, and EDx calculation
+\item \code{\link[=toxdrc_output]{toxdrc_output()}} — Output settings
 }
 
 Each of these functions returns a \strong{named list of configuration parameters}
@@ -30,5 +31,6 @@ suitable for passing directly to \code{\link[=runtoxdrc]{runtoxdrc()}}.
 \code{\link[=toxdrc_qc]{toxdrc_qc()}},
 \code{\link[=toxdrc_normalization]{toxdrc_normalization()}},
 \code{\link[=toxdrc_toxicity]{toxdrc_toxicity()}},
-\code{\link[=toxdrc_modelling]{toxdrc_modelling()}}
+\code{\link[=toxdrc_modelling]{toxdrc_modelling()}},
+\code{\link[=toxdrc_output]{toxdrc_output()}}
 }

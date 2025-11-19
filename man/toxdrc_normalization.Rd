@@ -10,6 +10,13 @@ toxdrc_normalization(
   normalize.resp = FALSE,
   relative.label = 0
 )
+
+toxdrc_normalization(
+  blank.correction = FALSE,
+  blank.label = "Blank",
+  normalize.resp = FALSE,
+  relative.label = 0
+)
 }
 \arguments{
 \item{blank.correction}{Logical. Indicates if the response variable should be blank corrected. Default: FALSE.}
@@ -22,15 +29,24 @@ toxdrc_normalization(
 }
 \value{
 A named list containing normalization configuration for use in \code{\link[=runtoxdrc]{runtoxdrc()}}.
+
+A named list containing normalization configuration for use in \code{\link[=runtoxdrc]{runtoxdrc()}}.
 }
 \description{
+Defines how normalization steps are applied to the response data before model fitting.
+
 Defines how normalization steps are applied to the response data before model fitting.
 }
 \examples{
 toxdrc_normalization()
 toxdrc_normalization(blank.correction = TRUE, relative.label = "Control")
 
+toxdrc_normalization()
+toxdrc_normalization(blank.correction = TRUE, relative.label = "Control")
+
 }
 \seealso{
+\link{config_runtoxdrc}, \code{\link[=runtoxdrc]{runtoxdrc()}}
+
 \link{config_runtoxdrc}, \code{\link[=runtoxdrc]{runtoxdrc()}}
 }

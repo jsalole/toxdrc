@@ -17,6 +17,8 @@
 #'   \item [`toxdrc_normalization()`] — Blank correction and normalization
 #'   \item [`toxdrc_toxicity()`] — Toxicity threshold and response-level options
 #'   \item [`toxdrc_modelling()`] — Model selection, fitting criteria, and EDx calculation
+#'   \item [`toxdrc_output()`] — Output settings
+
 #' }
 #'
 #' Each of these functions returns a **named list of configuration parameters**
@@ -27,8 +29,9 @@
 #' [toxdrc_qc()],
 #' [toxdrc_normalization()],
 #' [toxdrc_toxicity()],
-#' [toxdrc_modelling()]
-#
+#' [toxdrc_modelling()],
+#' [toxdrc_output()]
+#'
 #'
 #' @name config_runtoxdrc
 config_runtoxdrc <- function() {}
@@ -206,5 +209,70 @@ toxdrc_modelling <- function(
     type = match.arg(type),
     quiet = quiet,
     EDargs.supplement = EDargs.supplement
+  )
+}
+
+# ============================================================
+# Normalization configuration helper
+# ============================================================
+
+#' Normalization configuration for `runtoxdrc()`
+#'
+#' Defines how normalization steps are applied to the response data before model fitting.
+#'
+#' @param blank.correction Logical. Indicates if the response variable should be blank corrected. Default: FALSE.
+#' @param blank.label Character. Label used for the blank level. Default: "Blank".
+#' @param normalize.resp Logical. Indicates if response variable should be normalized to a given group. Default: FALSE.
+#' @param relative.label Character/Numeric. Label or value used for the group values will be normalized to. Default: 0.
+#'
+#' @return A named list containing normalization configuration for use in [runtoxdrc()].
+#'
+#' @examples
+#' toxdrc_normalization()
+#' toxdrc_normalization(blank.correction = TRUE, relative.label = "Control")
+#'
+#' @seealso [config_runtoxdrc], [runtoxdrc()]
+#' @export
+toxdrc_normalization <- function(
+  blank.correction = FALSE,
+  blank.label = "Blank",
+  normalize.resp = FALSE,
+  relative.label = 0
+) {
+  list(
+    blank.correction = blank.correction,
+    blank.label = blank.label,
+    normalize.resp = normalize.resp,
+    relative.label = relative.label
+  )
+}
+
+# ============================================================
+# Output configuration helper
+# ============================================================
+
+#' Output configuration for `runtoxdrc()`
+#'
+#' Defines how the output is returned.
+#'
+#' @param condense Logical.
+#' @param sections Character.
+#'
+#' @return A named list containing output configuration for use in [runtoxdrc()].
+#'
+#' @examples
+#' toxdrc_output()
+#' toxdrc_output(condense = TRUE)
+#'
+#' @seealso [config_runtoxdrc], [runtoxdrc()]
+#' @export
+
+toxdrc_output <- function(
+  condense = FALSE,
+  sections = c("ID", "effectmeasure", "best_model_name", "effect")
+) {
+  list(
+    condense = condense,
+    sections = sections
   )
 }

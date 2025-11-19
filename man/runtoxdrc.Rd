@@ -13,7 +13,8 @@ runtoxdrc(
   qc = toxdrc_qc(),
   normalization = toxdrc_normalization(),
   toxicity = toxdrc_toxicity(),
-  modelling = toxdrc_modelling()
+  modelling = toxdrc_modelling(),
+  output = toxdrc_output()
 )
 }
 \arguments{
@@ -34,6 +35,8 @@ runtoxdrc(
 \item{toxicity}{Toxicity threshold and response-level options. See \code{toxdrc_toxicity()} for defaults}
 
 \item{modelling}{Model selection, fitting criteria, and EDx calculation options. See \code{toxdrc_modelling()} for defaults.}
+
+\item{output}{Settings for output. See \code{toxdrc_output()} for defaults.}
 }
 \description{
 A pipeline for dose response curve modelling and analysis.

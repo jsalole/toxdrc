@@ -9,6 +9,7 @@
 #' @param normalization Normalization options. See `toxdrc_normalization()`.
 #' @param toxicity Toxicity threshold and response-level options. See `toxdrc_toxicity()` for defaults
 #' @param modelling Model selection, fitting criteria, and EDx calculation options. See `toxdrc_modelling()` for defaults.
+#' @param output Settings for output. See `toxdrc_output()` for defaults.
 #'
 #' @importFrom dplyr pull filter mutate
 #'
@@ -25,7 +26,8 @@ runtoxdrc <- function(
   qc = toxdrc_qc(),
   normalization = toxdrc_normalization(),
   toxicity = toxdrc_toxicity(),
-  modelling = toxdrc_modelling()
+  modelling = toxdrc_modelling(),
+  output = toxdrc_output()
 ) {
   split_list <- split(dataset, interaction(dataset[IDcols], drop = TRUE))
 
@@ -167,6 +169,13 @@ runtoxdrc <- function(
   })
 
   names(results_list) <- names(split_list)
+
+  if (output$condense) {
+    results_list <- condense_results(
+      results_list = results_list,
+      fields_of_interest = output$sections
+    )
+  }
 
   return(results_list)
 }
