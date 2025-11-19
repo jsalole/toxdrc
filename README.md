@@ -213,5 +213,25 @@ analyzed_data$`83167.aB.A.Spiked`$effectmeasure
 #> 3           EC70 4.995914   2.404170 1.0801938 23.10618
 ```
 
-Currently working on other functions to combine the resulting list into
-a more user-friendly interface.
+As the whole output can be unnecessary to displayed, it can be reduced
+via `toxdrc_output()`.
+
+``` r
+analyzed_data <- runtoxdrc(
+  dataset = cellglow,
+  Conc = Conc,
+  Response = RFU,
+  IDcols = c("Test_Number", "Dye", "Replicate", "Type"),
+  quiet = TRUE,
+  qc = toxdrc_qc(),
+  normalization = toxdrc_normalization(
+    blank.correction = TRUE,
+    normalize.resp = TRUE
+  ),
+  toxicity = toxdrc_toxicity(),
+  modelling = toxdrc_modelling(
+    quiet = TRUE,
+  ),
+  output = toxdrc_output(condense = TRUE) # can also specify which sections are summarized. See ?toxdrc_output() for more information.
+)
+```
