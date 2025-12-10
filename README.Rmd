@@ -51,11 +51,11 @@ This will get the package into your R session.
 This package comes built in with two example datasets. `toxresult` is a small dataset that looks at the results of a toxicity test within a single 24-well plate. `cellglow` is much larger with 1080 observations. These demonstrate when this package is useful.
 
 ```{r}
-head(toxresult)
-unique(interaction(toxresult$TestID, toxresult$Dye))
+length(unique(interaction(toxresult$TestID, toxresult$Dye)))
+```
 
-head(cellglow)
-unique(interaction(cellglow$TestID, cellglow$Dye))
+```{r}
+length(unique(interaction(cellglow$TestID, cellglow$Dye)))
 ```
 
 With one  set of data, existing options like the `drc` package can be quite manageable. These can also be assessed using **toxdrc** through the many modular functions that exist, like `blankcorrect()`, `normalizeresponse()`, `modelcomp()`, `getECx()`, among many others. This package is most useful is through the pipeline function, `runtoxdrc()`. This pipeline splits up the dataset into the subsets for analysis.
@@ -78,7 +78,9 @@ data_01 <- runtoxdrc(
   ),
   output = toxdrc_output()
 )
+```
 
+```{r}
 data_02 <- runtoxdrc(
   dataset = cellglow,
   Conc = Conc,
@@ -105,12 +107,13 @@ While the pipeline only requires a few functions, it can be tailored to meet the
 The `data_01` provides intermediate information on the pipeline for each subset, but `data_02` will return a simple dataframe summarizung the results.
 
 ```{r}
-str(data_01)
-str(data_02)
-
-head(data_02)
+length(data_01)
+str(data_01[1])
 ```
 
+```{r}
+data_02
+```
 
 This package is also capable of making multiple point-estimates for each subset:
 
