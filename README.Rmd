@@ -35,9 +35,12 @@ This makes **toxdrc** well-suited for handling complex or multi-factor experimen
 
 You can install the development version of **toxdrc** from [GitHub](https://github.com/jsalole/toxdrc) with:
 
-```{r}
+``` r
 # install.packages("pak")
 pak::pak("jsalole/toxdrc")
+```
+
+```{r}
 library("toxdrc")
 ```
 
