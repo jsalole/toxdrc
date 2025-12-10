@@ -1,5 +1,14 @@
-#'@importFrom drc modelFit mselect
-#'@importFrom stats AIC anova lm logLik update
+#' A modified mselect function from drc
+#'
+#' Insertion at 56-58 allows mselect to work within pipelines.
+#'
+#' @seealso [drc::mselect()]
+#'
+#'
+#' @importFrom drc modelFit mselect
+#' @importFrom stats AIC anova lm logLik update
+#'
+#' @noRd
 
 #'
 mselect2 <- function(

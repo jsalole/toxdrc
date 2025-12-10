@@ -1,53 +1,62 @@
-#' Check for toxic effect
+#' Check for an effect
 #'
-#' This test can be used to scan datasets to determine if toxicity has occured. Useful to filter out tests prior to modelling steps.
+#' @description
+#' `checktoxicity()` flags if the response variable exceeds a limit in
+#'  either direction as evidence of an effect.
 #'
-#' @param dataset A dataframe.
-#' @param Conc Unquoted column name of `dataset` that groups observations (e.g. Conc).
-#' @param Response Unquoted column name of `dataset` with observations (e.g. RFU).
-#' @param effect Numeric value dictating the point at which observations are flagged as toxic; can be relative or absolute (see `type`.)
-#' @param type Indicates if the effect argument is relative ("rel") to `reference group` or an absolute ("abs") value.
-#' @param direction Indicates if toxicity is a higher ("above"), lower ("below"), or any change ("different"). Default: "below".
-#' @param reference_group Quoted name OR value of reference group to compare response to (i.e. "ctl", 0)
-#' @param target_group Optional. Can be used to limit the compairison to certain groups (highest exposure concentration).
-#' @param list_obj Optional existing list object, used for integration with `runtoxdrc`.
-#' @param quiet Logical. Whether results should be hidden. Default: FALSE.
+#' @param dataset A dataframe, containing the columns `Conc` and `Response`.
+#' @param Conc Bare (unquoted) column name in `dataset` that groups the
+#'  `Response` variable.
+#' @param Response Bare (unquoted) column name in `dataset` containing
+#'  the response variable.
+#' @param effect Numeric. Dictates at the value beyond which observations
+#'  are flagged as toxic. This value can be further customized; see
+#'  see `type` and `direction`.
+#' @param type Character. Indicates if `effect` is `"relative"` to
+#'  `reference group` or an `"absolute"` value. Defaults to relative.
+#' @param direction Character. Indicates if an effect occurs `"below"` or
+#'  `"above"`. Defaults to below.
+#' @param reference_group Label used for reference group in `Conc` column.
+#'  Defaults to 0.
+#' @param target_group Optional. Limits the compairison to certain levels in
+#'  `Conc`.
+#' @param list_obj Optional. List object used for integration with
+#'  [runtoxdrc()].
+#' @param quiet Logical. Indicates if results should be hidden. Defaults
+#'  to FALSE.
 #'
-#' @returns The supplied dataset, unchanged, with and a printed message indicating if a test is or is not toxic. If list_obj is supplied, the results of the test  are saved under `effect`, where `effect = TRUE` indicates an effect that exceeds the threshold.
+#' @returns TRUE if the response variable exceeds a limit in either
+#'  direction and FALSE otherwise. If `list_obj` is provided, returns this
+#'  within a list as `list_obj$effect`.
+#'
 #' @export
 #'
 #' @examples
-#' df <- data.frame(x = rep(1:2, each = 3), y = c(100, 110, 90, 40, 50, 60))
-#' lt <- list(dataset = df, Group = "B")
-#' checktoxicity(dataset = lt$dataset, Conc = x, Response = y, effect = 85,
-#' type = "abs", list_obj = lt)
+#' checktoxicity(
+#'  dataset = toxresult,
+#'  Conc = Conc,
+#'  Response = RFU,
+#'  effect = 0.5
+#' )
 #'
 checktoxicity <- function(
   dataset,
   Conc,
   Response,
   effect,
-  type = c("rel", "abs"),
+  type = c("relative", "absolute"),
   direction = c("below", "above"),
   reference_group = "0",
   target_group = NULL,
   list_obj = NULL,
   quiet = FALSE
 ) {
-  # need to add a above or below or relative
-
   type <- match.arg(type)
   direction <- match.arg(direction)
 
-  if (direction == "different" && length(effect) != 2) {
-    stop(
-      "Must supply both lower and upper limits in `effect` when direction = 'different'."
-    )
-  }
-
   # establish threshold for both relative and absolute
 
-  if (type == "rel") {
+  if (type == "relative") {
     response_threshold <- dataset %>%
       dplyr::filter({{ Conc }} == reference_group) %>%
       dplyr::summarise(
@@ -110,7 +119,6 @@ checktoxicity <- function(
   }
 
   if (is.list(list_obj)) {
-    list_obj$dataset <- dataset
     list_obj$effect <- toxic_effect
     return(list_obj)
   } else {

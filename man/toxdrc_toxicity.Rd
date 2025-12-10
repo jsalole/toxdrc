@@ -2,38 +2,42 @@
 % Please edit documentation in R/config_runtoxdrc.R
 \name{toxdrc_toxicity}
 \alias{toxdrc_toxicity}
-\title{Toxicity configuration for \code{runtoxdrc()}}
+\title{Toxicity configuration for for the runtoxdrc pipeline.}
 \usage{
 toxdrc_toxicity(
   toxic.lvl = 0.7,
-  toxic.type = c("rel", "abs"),
-  toxic.direction = c("below", "above", "different"),
+  toxic.type = c("relative", "absolute"),
+  toxic.direction = c("below", "above"),
   comp.group = 0,
   target.group = NULL
 )
 }
 \arguments{
-\item{toxic.lvl}{Numeric. Cutoff point to determine if modelling occurs. Default: 0.7.}
+\item{toxic.lvl}{Numeric. Cutoff point to determine if modelling occurs.
+Defaults to 0.7.}
 
-\item{toxic.type}{Character. Indicates if \code{toxic.lvl} is absolute ("abs") or relative ("rel") to some group. Default: "rel".}
+\item{toxic.type}{Character. Indicates if \code{effect} is \code{"relative"} to
+\verb{reference group} or an \code{"absolute"} value. Defaults to relative.}
 
-\item{toxic.direction}{Character. Indicates if toxicity is a higher ("above") or lower ("below"). Default: "below".}
+\item{toxic.direction}{Character. Indicates if an effect occurs \code{"below"}
+or \code{"above"}. Defaults to below.}
 
-\item{comp.group}{Character/Numeric. Label used for the group values will be compared to if \code{toxic.type} is "rel". Default: 0.}
+\item{comp.group}{Label used for reference group.}
 
-\item{target.group}{Character/Numeric. Optional. Restrict comparisons to given group(s). Default: NULL.}
+\item{target.group}{Optional. Limits the compairison to certain
+exposure conditions.}
 }
 \value{
-A named list containing toxicity determination settings for use in \code{\link[=runtoxdrc]{runtoxdrc()}}.
+A named list containing toxicity determination settings for use
+in \code{\link[=runtoxdrc]{runtoxdrc()}}.
 }
 \description{
-Defines how toxicity is determined before and during model fitting.
+Defines how toxicity is determined for model fitting.
 }
 \examples{
-toxdrc_toxicity()
 toxdrc_toxicity(toxic.lvl = 0.5, toxic.direction = "above")
 
 }
 \seealso{
-\link{config_runtoxdrc}, \code{\link[=runtoxdrc]{runtoxdrc()}}
+\link{config_runtoxdrc}, \code{\link[=runtoxdrc]{runtoxdrc()}}, \code{\link[=checktoxicity]{checktoxicity()}}
 }

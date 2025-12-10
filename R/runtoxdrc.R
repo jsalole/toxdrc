@@ -1,21 +1,59 @@
-#' A pipeline for dose response curve modelling and analysis.
+#' Point estmation pipeline
 #'
-#' @param dataset A dataframe.
-#' @param Conc Unquoted column name of `dataset` of independent variable.
-#' @param Response Unquoted column name of `dataset` of dependant variable.
-#' @param IDcols Optional. Columns given as a vector `c("column1", "column2")` used in the identification of data or important metadata. These columns are preserved in the returned dataset with the first value (not NA, NULL, or blank) of these columns within each level of `Conc`. Examples of this are metric type (mortality, indicator name), test information (well plate size, test time, test ID). These values should be identical within a testing group.
-#' @param quiet Logical. Indicates if intermediate results are printed. Default: False.
-#' @param qc Quality control and filtering options. See `toxdrc_qc()` for defaults.
-#' @param normalization Normalization options. See `toxdrc_normalization()`.
-#' @param toxicity Toxicity threshold and response-level options. See `toxdrc_toxicity()` for defaults
-#' @param modelling Model selection, fitting criteria, and EDx calculation options. See `toxdrc_modelling()` for defaults.
-#' @param output Settings for output. See `toxdrc_output()` for defaults.
+#' @description
+#' `runtoxdrc()` is the pipeline for function in the toxdrc package. This
+#'  function allows the automated analysis of large datasets, while
+#'  maintaining a consistent process for each suset of data.
+#'
+#' @param dataset A dataframe, containing the columns `Conc` and `Response`.
+#' @param Conc Bare (unquoted) column name in `dataset` that groups the
+#'  `Response` variable.
+#' @param Response Bare (unquoted) column name in `dataset` containing
+#'  the response variable.
+#' @param IDcols Optional. Character. Columns given as a vector used in the
+#'  identification of data. These columns are preserved in the modified
+#'  `dataset` with the first non-blank value. These values should be
+#'  identical within observations grouped by `Conc`.
+#' @param quiet Logical. Indicates if results should be hidden. Defaults
+#'  to FALSE.
+#' @param qc Quality control and filtering options. See [toxdrc_qc()]
+#'  for more detail and defaults.
+#' @param normalization Normalization options. See [toxdrc_normalization()]
+#'  for more detail and defaults.
+#' @param toxicity Toxicity threshold and response-level options. See
+#'  [toxdrc_toxicity()] for more detail and defaults.
+#' @param modelling Model selection, fitting criteria, and EDx calculation
+#'  options. See [toxdrc_modelling()] for more detail and defaults.
+#' @param output Settings for output. See [toxdrc_output()] for more detail
+#'  and defaults.
 #'
 #' @importFrom dplyr pull filter mutate
 #'
+#' @returns By default, returns a list of lists with each subset of data having
+#'  its own entry. Each subset contains dataframes, models, and other objects
+#'  that track the pipeline process. If `output = list(condense = TRUE)`, the
+#'  results are summarized into a single dataframe containing the `IDcols` and
+#'  model information of each data subset.
+#'
+#' @examples
+#' \donttest{
+#'   analyzed_data <- runtoxdrc(
+#'  dataset = cellglow,
+#'  Conc = Conc,
+#'  Response = RFU,
+#'  IDcols = c("Test_Number", "Dye", "Replicate", "Type"),
+#'  quiet = TRUE,
+#'  normalization = toxdrc_normalization(
+#'    blank.correction = TRUE,
+#'    normalize.resp = TRUE
+#'  ),
+#'  modelling = toxdrc_modelling(EDx = c(0.2, 0.5, 0.7))
+#')
+#' }
+#'
 #' @export
 #'
-#' @seealso [config_runtoxdrc()]
+#' @seealso [config_runtoxdrc()] for configuration settings of the pipeline.
 #'
 runtoxdrc <- function(
   dataset,

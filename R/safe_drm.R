@@ -1,5 +1,8 @@
-#'@importFrom drc drm
-
+#' Wrapped drm in tryCatch.
+#'
+#' @noRd
+#'
+#' @importFrom drc drm
 #'
 safe_drm <- function(formula, data, fct) {
   tryCatch(

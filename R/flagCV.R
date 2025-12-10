@@ -1,20 +1,31 @@
 #' Check for groups with high CV
 #'
-#' This function calculates the coefficient of variation (CV) of each of the groups, and flags if 'max_val' is exceeded.
+#' @description
+#' This function calculates the coefficient of variation (CV) of each
+#'  of the exposure conditions, and flags them if they exceed a set value.
 #'
-#' @param dataset A dataframe.
-#' @param Conc Unquoted column name of 'dataset' that groups observations to calculate CV in (e.g. Conc).
-#' @param Response Unquoted column name of 'dataset' with observations to calculate CV in (e.g. RFU).
-#' @param max_val The maximum CV before a group is flagged.
-#' @param list_obj Optional existing list object, used for integration with `runtoxdrc`.
-#' @param quiet Logical. Whether results should be hidden. Default: FALSE.
-
+#' @param dataset dataset A dataframe, containing the columns `Conc` and `Response`.
+#' @param Conc Bare (unquoted) column name in `dataset` that groups the
+#'  `Response` variable.
+#' @param Response Bare (unquoted) column name in `dataset` containing
+#'  the response variable.
+#' @param max_val Numeric. The percent beyond which CV values are
+#'  flagged. Defaults to 30.
+#' @param list_obj Optional. List object used for integration with
+#'  [runtoxdrc()].
+#' @param quiet Logical. Indicates if results should be hidden. Defaults
+#'  to FALSE.
 #'
-#' @returns Prints a summary dataframe is printed indicating the CV of each `Conc` supplied with a note if they are flagged. The flag is updated in `dataset`. If list_object is supplied, returns modified `dataset` and test results `CVresults` in this growing list object.
+#' @returns A modified `dataset` with an additional column, `CVflag`. If
+#'  `list_obj` is provided, returns this within a list as
+#'  `list_obj$dataset`, along with a summary of the CV results as
+#'  `list_obj$CVresults`.
+#'
 #'
 #' @export
 #'
-#' @examples df <- data.frame(x = rep(1:2, each = 3), y = c(10, 11, 9, 20, 40, 60))
+#' @examples
+#' df <- data.frame(x = rep(1:2, each = 3), y = c(10, 11, 9, 20, 40, 60))
 #' flagCV(dataset = df, Conc = x, Response = y, max_val = 30)
 #'
 flagCV <- function(

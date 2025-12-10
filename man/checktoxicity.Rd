@@ -2,14 +2,14 @@
 % Please edit documentation in R/checktoxicity.R
 \name{checktoxicity}
 \alias{checktoxicity}
-\title{Check for toxic effect}
+\title{Check for an effect}
 \usage{
 checktoxicity(
   dataset,
   Conc,
   Response,
   effect,
-  type = c("rel", "abs"),
+  type = c("relative", "absolute"),
   direction = c("below", "above"),
   reference_group = "0",
   target_group = NULL,
@@ -18,36 +18,51 @@ checktoxicity(
 )
 }
 \arguments{
-\item{dataset}{A dataframe.}
+\item{dataset}{A dataframe, containing the columns \code{Conc} and \code{Response}.}
 
-\item{Conc}{Unquoted column name of \code{dataset} that groups observations (e.g. Conc).}
+\item{Conc}{Bare (unquoted) column name in \code{dataset} that groups the
+\code{Response} variable.}
 
-\item{Response}{Unquoted column name of \code{dataset} with observations (e.g. RFU).}
+\item{Response}{Bare (unquoted) column name in \code{dataset} containing
+the response variable.}
 
-\item{effect}{Numeric value dictating the point at which observations are flagged as toxic; can be relative or absolute (see \code{type}.)}
+\item{effect}{Numeric. Dictates at the value beyond which observations
+are flagged as toxic. This value can be further customized; see
+see \code{type} and \code{direction}.}
 
-\item{type}{Indicates if the effect argument is relative ("rel") to \verb{reference group} or an absolute ("abs") value.}
+\item{type}{Character. Indicates if \code{effect} is \code{"relative"} to
+\verb{reference group} or an \code{"absolute"} value. Defaults to relative.}
 
-\item{direction}{Indicates if toxicity is a higher ("above"), lower ("below"), or any change ("different"). Default: "below".}
+\item{direction}{Character. Indicates if an effect occurs \code{"below"} or
+\code{"above"}. Defaults to below.}
 
-\item{reference_group}{Quoted name OR value of reference group to compare response to (i.e. "ctl", 0)}
+\item{reference_group}{Label used for reference group in \code{Conc} column.
+Defaults to 0.}
 
-\item{target_group}{Optional. Can be used to limit the compairison to certain groups (highest exposure concentration).}
+\item{target_group}{Optional. Limits the compairison to certain levels in
+\code{Conc}.}
 
-\item{list_obj}{Optional existing list object, used for integration with \code{runtoxdrc}.}
+\item{list_obj}{Optional. List object used for integration with
+\code{\link[=runtoxdrc]{runtoxdrc()}}.}
 
-\item{quiet}{Logical. Whether results should be hidden. Default: FALSE.}
+\item{quiet}{Logical. Indicates if results should be hidden. Defaults
+to FALSE.}
 }
 \value{
-The supplied dataset, unchanged, with and a printed message indicating if a test is or is not toxic. If list_obj is supplied, the results of the test  are saved under \code{effect}, where \code{effect = TRUE} indicates an effect that exceeds the threshold.
+TRUE if the response variable exceeds a limit in either
+direction and FALSE otherwise. If \code{list_obj} is provided, returns this
+within a list as \code{list_obj$effect}.
 }
 \description{
-This test can be used to scan datasets to determine if toxicity has occured. Useful to filter out tests prior to modelling steps.
+\code{checktoxicity()} flags if the response variable exceeds a limit in
+either direction as evidence of an effect.
 }
 \examples{
-df <- data.frame(x = rep(1:2, each = 3), y = c(100, 110, 90, 40, 50, 60))
-lt <- list(dataset = df, Group = "B")
-checktoxicity(dataset = lt$dataset, Conc = x, Response = y, effect = 85,
-type = "abs", list_obj = lt)
+checktoxicity(
+ dataset = toxresult,
+ Conc = Conc,
+ Response = RFU,
+ effect = 0.5
+)
 
 }

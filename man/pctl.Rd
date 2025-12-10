@@ -2,7 +2,7 @@
 % Please edit documentation in R/pctl.R
 \name{pctl}
 \alias{pctl}
-\title{Procedure control check}
+\title{Check for positive control effect}
 \usage{
 pctl(
   dataset,
@@ -16,31 +16,47 @@ pctl(
 )
 }
 \arguments{
-\item{dataset}{A dataframe.}
+\item{dataset}{A dataframe, containing the columns \code{Conc} and \code{Response}.}
 
-\item{Conc}{Unquoted column name of \code{dataset} with groups to compare (e.g. reference/true control, solvent/positive control)}
+\item{Conc}{Bare (unquoted) column name in \code{dataset} that groups the
+\code{Response} variable.}
 
-\item{reference_group}{Quoted name OR value of reference group, or true control (i.e. "Control", 0)}
+\item{reference_group}{Label used for the true control level.
+Defaults to "Control".}
 
-\item{positive_group}{Quoted name OR value of procedural group, or positive control (i.e. "ctl+", 0)}
+\item{positive_group}{Label used for the positive control
+level. Defaults to 0.}
 
-\item{Response}{Unquoted column name of \code{dataset} with observations to compare (e.g. RFU).}
+\item{Response}{Bare (unquoted) column name in \code{dataset} containing
+the response variable.}
 
-\item{max_diff}{The maximum \% difference between groups before they are flagged.}
+\item{max_diff}{Numeric. Percent difference of the response in the
+\code{ref.label} and \code{pctl.label} groups beyond which tests are
+flagged. Defaults to 10.}
 
-\item{list_obj}{Optional existing list object, used for integration with \code{runtoxdrc}.}
+\item{list_obj}{Optional. List object used for integration with
+\code{\link[=runtoxdrc]{runtoxdrc()}}.}
 
-\item{quiet}{Logical. Whether results should be hidden. Default: FALSE.}
+\item{quiet}{Logical. Indicates if results should be hidden. Defaults
+to FALSE.}
 }
 \value{
-Prints a summary dataframe is printed indicating the percent difference of the control groups. The flag is updated in \code{dataset}. If list_object is supplied, returns modified \code{dataset} and test results \code{pctlresults} in this growing list object.
+A modified \code{dataset} with an additional column, \code{Validity}. If
+\code{list_obj} is provided, returns this within a list as
+\code{list_obj$dataset}, along with statistics of the positive and reference
+group as \code{list_obj$pctlresults}.
 }
 \description{
-This function evaluates the difference between two groups with the intention of evaluating validity criteria. This can be used for solvent controls, and similar control groups commonly used in toxicity testing, or even to compare more abstract concepts (order of testing, time of day, etc) to validate a method. Careful consideration should be given the max_diff value. The default is set to 10\% difference.
+This function evaluates the difference between a two groups to determine if
+the difference between them exceeds a set amount. Commonly used to determine
+if a solvent introduces effects.
 }
 \examples{
-df <- data.frame(x = rep(1:2, each = 3), y = c(10, 11, 9, 20, 40, 60))
-pctl(dataset = df, Conc = x, reference_group = 1,
-     positive_group = 2, Response = y, max_diff = 10)
-
+pctl(
+ dataset = toxresult,
+ Conc = Conc,
+ Response = RFU,
+ reference_group = "Control",
+ positive_group = "0"
+)
 }

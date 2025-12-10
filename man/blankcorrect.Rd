@@ -2,7 +2,7 @@
 % Please edit documentation in R/blankcorrect.R
 \name{blankcorrect}
 \alias{blankcorrect}
-\title{Blank correct a response variable.}
+\title{Blank correct response variable}
 \usage{
 blankcorrect(
   dataset,
@@ -14,27 +14,36 @@ blankcorrect(
 )
 }
 \arguments{
-\item{dataset}{A dataframe.}
+\item{dataset}{A dataframe, containing the columns \code{Conc} and \code{Response}.}
 
-\item{Conc}{Unquoted column name of 'dataset' that groups observations.}
+\item{Conc}{Bare (unquoted) column name in \code{dataset} that groups the
+\code{Response} variable.}
 
-\item{blank_group}{Quoted name of the Blank group, e.g. ("Blank").}
+\item{blank_group}{Character. Name of the \code{Conc} level to calculate the
+correction value from.}
 
-\item{Response}{Unquoted column name of the response variable to be adjusted.}
+\item{Response}{Bare (unquoted) column name in \code{dataset} containing
+the response variable.}
 
-\item{list_obj}{Optional existing list object, used for integration with \code{runtoxdrc}.}
+\item{list_obj}{Optional. List object used for integration with
+\code{\link[=runtoxdrc]{runtoxdrc()}}.}
 
-\item{quiet}{Logical. Whether results should be hidden. Default: FALSE.}
+\item{quiet}{Logical. Indicates if results should be hidden. Defaults
+to FALSE.}
 }
 \value{
-A modified dataframe with an additional column, \code{c_response}.
+A modified \code{dataset} with an additional column, \code{c_response}. If
+\code{list_obj} is provided, returns this within a list as
+\code{list_obj$dataset}, along with statistics of the correction value as
+\code{list_obj$blank_stats}.
 }
 \description{
-Blank correct a response variable.
+\code{blankcorrect()} subtracts a calculated correction value
+from all responses.
 }
 \examples{
 blankcorrect(
-     toxresult,
+     dataset = toxresult,
      Conc = Conc,
      blank_group = "Blank",
      Response = RFU

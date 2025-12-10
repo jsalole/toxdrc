@@ -1,16 +1,48 @@
-#' Comparing model fits
+#' Compare model fits and select best model
 #'
-#' @param dataset A dataframe.
-#' @param Conc Unquoted column name of `dataset` of independent variable.
-#' @param Response Unquoted column name of `dataset` of dependant variable.
-#' @param model_list Optional. A list of named model function names (i.e. `model_list <- list("LL.4" = LL.4)`).
-#' @param metric Dictates which model parameter is used to compare model fit.
-#' @param list_obj Optional existing list object, used for integration with `runtoxdrc`.
-#' @param quiet Logical. Whether results should be hidden. Default: FALSE.
+#' @description
+#' Data is fitted to provided models, typically from the drc package. Models
+#'  fitted successfully are compared using multiple goodness-of-fit scores,
+#'  and organized using the score given as the `metric` argument.
+#'  arguement.
+#'
+#' @param dataset A dataframe, containing the columns `Conc` and `Response`.
+#' @param Conc Bare (unquoted) column name in `dataset` that groups the
+#'  `Response` variable.
+#' @param Response Bare (unquoted) column name in `dataset` containing
+#'  the response variable.
+#' @param model_list List. Model functions to be tested. Defaults to
+#'  include `"LL.4"`, `"LN.4"`, `"W1.4"`, `"W2.4"`. Most models from the drc
+#'  package are compatible; use `drc::getMeanFunctions()` for a more options.
+#'  See details for formatting
+#' @param metric Character. Criterion used to select the best
+#'  model. Choices are `"IC"`, `"Res var"`, `"Lack of fit"`. Defaults
+#'  to "IC".
+#' @param list_obj Optional. List object used for integration with
+#'  [runtoxdrc()].
+#' @param quiet Logical. Indicates if results should be hidden. Defaults
+#'  to FALSE.
 
 #' @importFrom drc LL.4 LN.4 W1.4 W2.4
 #'
-#' @returns A fitetd drm model selected from the . If list_obj is provided, stores this datafram in `list_obj$model_df`.
+#' @returns A fitted drm model. If `list_obj` is provided, returns this within
+#' the list as `list_obj$best_model`, along with the model name
+#'  (`list_obj$best_model_name`), and the model compairison dataframe
+#'  (`list_obj$model_df`). If model fitting fails, returns NULL.
+#'
+#' @examples
+#' toxresult2 <- toxresult[!toxresult$Conc %in% c ("Control", "Blank"),]
+#' toxresult2$Conc <- as.numeric(toxresult2$Conc)
+#' modelcomp(toxresult2, Conc, RFU, metric = "IC")
+#'
+#' @seealso [drc::getMeanFunctions()] for compatabile models and their
+#'  shorthand for `model_list`.
+#'
+#' @details
+#' The `model_list` argument requires a specific style. The argument must be a
+#'  list; entries in the list are in the format where the shorthand is the name of
+#'  the model function. An example of this is `"LL.4" = LL.4()`.
+#'
 #'
 #' @export
 #'
@@ -26,8 +58,6 @@ modelcomp <- function(
   list_obj = NULL,
   quiet = FALSE
 ) {
-  match.arg(metric)
-
   # models needs a better arg name
   if (is.null(model_list)) {
     model_list <- list(

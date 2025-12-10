@@ -2,21 +2,26 @@
 #'
 #' This function removes statistical outliers from each testing group by iteratively applying Grubbs' test.
 #'
-#' @param dataset A dataframe.
-#' @param Conc Unquoted column name of `dataset` that groups observations to determine outliers (e.g. Conc).
-#' @param Response Unquoted column name of `dataset` with observations to determine outliers in (e.g. RFU).
-#' @param list_obj Optional existing list object, used for integration with `runtoxdrc`.
-#' @param quiet Logical. Whether results should be hidden. Default: FALSE.
+#' @param dataset A dataframe, containing the columns `Conc` and `Response`.
+#' @param Conc Bare (unquoted) column name in `dataset` that groups the
+#'  `Response` variable.
+#' @param Response Bare (unquoted) column name in `dataset` containing
+#'  the response variable.
+#' @param list_obj Optional. List object used for integration with
+#'  [runtoxdrc()].
+#' @param quiet Logical. Indicates if results should be hidden. Defaults
+#'  to FALSE.
 #'
-#' @returns A modified `dataset` with outliers removed. If `list_obj` provided, updates this within a list. This is primarly for integration wit `runtoxdrc` as it adds `removed_outliers` to the growing list to track changes. If no `list_obj` provided, prints the removed rows and returns the edited `dataset`.
-#' @importFrom drc LL.2 LL.4 LN.2 W1.4
-#'
-#' @export
+#' @returns A modified `dataset` with outliers removed. If
+#'  `list_obj` is provided, returns this within a list as
+#'  `list_obj$dataset`, along with dataframe of removed outliers as
+#'  `list_obj$removed_outliers`.
 #'
 #' @examples
-#'
 #' df <- data.frame(x = rep(1:2, each = 3),y = c(3, 5, 7, 3, 4, 30))
 #' removeoutliers(dataset = df, Conc = x, Response = y)
+#'
+#' @export
 
 removeoutliers <- function(
   dataset,

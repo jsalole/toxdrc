@@ -2,7 +2,7 @@
 % Please edit documentation in R/runtoxdrc.R
 \name{runtoxdrc}
 \alias{runtoxdrc}
-\title{A pipeline for dose response curve modelling and analysis.}
+\title{Point estmation pipeline}
 \usage{
 runtoxdrc(
   dataset,
@@ -18,29 +18,66 @@ runtoxdrc(
 )
 }
 \arguments{
-\item{dataset}{A dataframe.}
+\item{dataset}{A dataframe, containing the columns \code{Conc} and \code{Response}.}
 
-\item{Conc}{Unquoted column name of \code{dataset} of independent variable.}
+\item{Conc}{Bare (unquoted) column name in \code{dataset} that groups the
+\code{Response} variable.}
 
-\item{Response}{Unquoted column name of \code{dataset} of dependant variable.}
+\item{Response}{Bare (unquoted) column name in \code{dataset} containing
+the response variable.}
 
-\item{IDcols}{Optional. Columns given as a vector \code{c("column1", "column2")} used in the identification of data or important metadata. These columns are preserved in the returned dataset with the first value (not NA, NULL, or blank) of these columns within each level of \code{Conc}. Examples of this are metric type (mortality, indicator name), test information (well plate size, test time, test ID). These values should be identical within a testing group.}
+\item{IDcols}{Optional. Character. Columns given as a vector used in the
+identification of data. These columns are preserved in the modified
+\code{dataset} with the first non-blank value. These values should be
+identical within observations grouped by \code{Conc}.}
 
-\item{quiet}{Logical. Indicates if intermediate results are printed. Default: False.}
+\item{quiet}{Logical. Indicates if results should be hidden. Defaults
+to FALSE.}
 
-\item{qc}{Quality control and filtering options. See \code{toxdrc_qc()} for defaults.}
+\item{qc}{Quality control and filtering options. See \code{\link[=toxdrc_qc]{toxdrc_qc()}}
+for more detail and defaults.}
 
-\item{normalization}{Normalization options. See \code{toxdrc_normalization()}.}
+\item{normalization}{Normalization options. See \code{\link[=toxdrc_normalization]{toxdrc_normalization()}}
+for more detail and defaults.}
 
-\item{toxicity}{Toxicity threshold and response-level options. See \code{toxdrc_toxicity()} for defaults}
+\item{toxicity}{Toxicity threshold and response-level options. See
+\code{\link[=toxdrc_toxicity]{toxdrc_toxicity()}} for more detail and defaults.}
 
-\item{modelling}{Model selection, fitting criteria, and EDx calculation options. See \code{toxdrc_modelling()} for defaults.}
+\item{modelling}{Model selection, fitting criteria, and EDx calculation
+options. See \code{\link[=toxdrc_modelling]{toxdrc_modelling()}} for more detail and defaults.}
 
-\item{output}{Settings for output. See \code{toxdrc_output()} for defaults.}
+\item{output}{Settings for output. See \code{\link[=toxdrc_output]{toxdrc_output()}} for more detail
+and defaults.}
+}
+\value{
+By default, returns a list of lists with each subset of data having
+its own entry. Each subset contains dataframes, models, and other objects
+that track the pipeline process. If \code{output = list(condense = TRUE)}, the
+results are summarized into a single dataframe containing the \code{IDcols} and
+model information of each data subset.
 }
 \description{
-A pipeline for dose response curve modelling and analysis.
+\code{runtoxdrc()} is the pipeline for function in the toxdrc package. This
+function allows the automated analysis of large datasets, while
+maintaining a consistent process for each suset of data.
+}
+\examples{
+\donttest{
+  analyzed_data <- runtoxdrc(
+ dataset = cellglow,
+ Conc = Conc,
+ Response = RFU,
+ IDcols = c("Test_Number", "Dye", "Replicate", "Type"),
+ quiet = TRUE,
+ normalization = toxdrc_normalization(
+   blank.correction = TRUE,
+   normalize.resp = TRUE
+ ),
+ modelling = toxdrc_modelling(EDx = c(0.2, 0.5, 0.7))
+)
+}
+
 }
 \seealso{
-\code{\link[=config_runtoxdrc]{config_runtoxdrc()}}
+\code{\link[=config_runtoxdrc]{config_runtoxdrc()}} for configuration settings of the pipeline.
 }

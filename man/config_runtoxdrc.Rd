@@ -2,18 +2,17 @@
 % Please edit documentation in R/config_runtoxdrc.R
 \name{config_runtoxdrc}
 \alias{config_runtoxdrc}
-\title{Configuration helpers for \code{runtoxdrc()}}
-\usage{
-config_runtoxdrc()
-}
+\title{Configuration functions for the runtoxdrc pipeline}
 \description{
-A top-level overview of the modular configuration functions used by \code{\link[=runtoxdrc]{runtoxdrc()}}.
+An overview of the modular configuration functions used by
+\code{\link[=runtoxdrc]{runtoxdrc()}}. These configuration functions provide default
+lists of parameters for customizing different stages of the
+pipeline to reduce the number of arguments required in
+\code{\link[=runtoxdrc]{runtoxdrc()}}. Each function returns a named list of
+configuration parameters suitable for passing directly to
+\code{\link[=runtoxdrc]{runtoxdrc()}}.
 }
 \details{
-These helpers provide default lists of parameters for customizing different
-stages of the \code{runtoxdrc()} workflow. Users can modify only the parameters
-they need without manually handling all arguments in \code{runtoxdrc()}.
-
 \strong{Available configuration functions:}
 \itemize{
 \item \code{\link[=toxdrc_qc]{toxdrc_qc()}} — Quality control and filtering options
@@ -22,9 +21,6 @@ they need without manually handling all arguments in \code{runtoxdrc()}.
 \item \code{\link[=toxdrc_modelling]{toxdrc_modelling()}} — Model selection, fitting criteria, and EDx calculation
 \item \code{\link[=toxdrc_output]{toxdrc_output()}} — Output settings
 }
-
-Each of these functions returns a \strong{named list of configuration parameters}
-suitable for passing directly to \code{\link[=runtoxdrc]{runtoxdrc()}}.
 }
 \seealso{
 \code{\link[=runtoxdrc]{runtoxdrc()}},

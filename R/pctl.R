@@ -1,23 +1,42 @@
-#' Procedure control check
+#' Check for positive control effect
 #'
-#' This function evaluates the difference between two groups with the intention of evaluating validity criteria. This can be used for solvent controls, and similar control groups commonly used in toxicity testing, or even to compare more abstract concepts (order of testing, time of day, etc) to validate a method. Careful consideration should be given the max_diff value. The default is set to 10% difference.
+#' @description
+#' This function evaluates the difference between a two groups to determine if
+#'  the difference between them exceeds a set amount. Commonly used to determine
+#'  if a solvent introduces effects.
 #'
-#' @param dataset A dataframe.
-#' @param Conc Unquoted column name of `dataset` with groups to compare (e.g. reference/true control, solvent/positive control)
-#' @param reference_group Quoted name OR value of reference group, or true control (i.e. "Control", 0)
-#' @param positive_group Quoted name OR value of procedural group, or positive control (i.e. "ctl+", 0)
-#' @param Response Unquoted column name of `dataset` with observations to compare (e.g. RFU).
-#' @param max_diff The maximum % difference between groups before they are flagged.
-#' @param list_obj Optional existing list object, used for integration with `runtoxdrc`.
-#' @param quiet Logical. Whether results should be hidden. Default: FALSE.
+#' @param dataset A dataframe, containing the columns `Conc` and `Response`.
+#' @param Conc Bare (unquoted) column name in `dataset` that groups the
+#'  `Response` variable.
+#' @param reference_group Label used for the true control level.
+#'  Defaults to "Control".
+#' @param positive_group Label used for the positive control
+#'  level. Defaults to 0.
+#' @param Response Bare (unquoted) column name in `dataset` containing
+#'  the response variable.
+#' @param max_diff Numeric. Percent difference of the response in the
+#'  `ref.label` and `pctl.label` groups beyond which tests are
+#'  flagged. Defaults to 10.
+#' @param list_obj Optional. List object used for integration with
+#'  [runtoxdrc()].
+#' @param quiet Logical. Indicates if results should be hidden. Defaults
+#'  to FALSE.
 
-#' @returns Prints a summary dataframe is printed indicating the percent difference of the control groups. The flag is updated in `dataset`. If list_object is supplied, returns modified `dataset` and test results `pctlresults` in this growing list object.
+#' @returns A modified `dataset` with an additional column, `Validity`. If
+#'  `list_obj` is provided, returns this within a list as
+#'  `list_obj$dataset`, along with statistics of the positive and reference
+#'  group as `list_obj$pctlresults`.
+#'
 #' @export
 #'
-#' @examples df <- data.frame(x = rep(1:2, each = 3), y = c(10, 11, 9, 20, 40, 60))
-#' pctl(dataset = df, Conc = x, reference_group = 1,
-#'      positive_group = 2, Response = y, max_diff = 10)
-#'
+#' @examples
+#' pctl(
+#'  dataset = toxresult,
+#'  Conc = Conc,
+#'  Response = RFU,
+#'  reference_group = "Control",
+#'  positive_group = "0"
+#')
 
 pctl <- function(
   dataset,

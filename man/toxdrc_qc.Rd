@@ -2,7 +2,7 @@
 % Please edit documentation in R/config_runtoxdrc.R
 \name{toxdrc_qc}
 \alias{toxdrc_qc}
-\title{Quality control configuration for \code{runtoxdrc()}}
+\title{Set quality control options for the runtoxdrc pipeline.}
 \usage{
 toxdrc_qc(
   outlier.test = FALSE,
@@ -16,33 +16,44 @@ toxdrc_qc(
 )
 }
 \arguments{
-\item{outlier.test}{Logical. Indicates if outliers should be identified. Default: FALSE.}
+\item{outlier.test}{Logical. Indicates if outliers should be
+tested for and removed. Defaults to FALSE.}
 
-\item{cv.flag}{Logical. Flag CVs of the response variable. Default: TRUE.}
+\item{cv.flag}{Logical. Indicates if groups of the response
+variable should be flagged if the CV exceeds \code{cvflag.lvl}.
+Defaults to TRUE.}
 
-\item{cvflag.lvl}{Numeric. Percent at which CVs are considered high. Default: 30.}
+\item{cvflag.lvl}{Numeric. The percent beyond which CV values are
+flagged. Defaults to 30.}
 
-\item{pctl.test}{Logical. Indicates if positive control/solvent effects should be evaluated. Default: FALSE.}
+\item{pctl.test}{Logical. Indicates if positive control/solvent
+effects should be tested for. Defaults to FALSE.}
 
-\item{pctl.lvl}{Numeric. Percent difference in response \code{ref.label} and \code{pctl.label} at which tests are flagged. Default: 10.}
+\item{pctl.lvl}{Numeric. Percent difference of the response in the
+\code{ref.label} and \code{pctl.label} groups beyond which tests are
+flagged. Defaults to 10.}
 
-\item{ref.label}{Character. Label used for the true control level. Default: "Control".}
+\item{ref.label}{Label used for the true control level.
+Defaults to "Control".}
 
-\item{pctl.label}{Character. Label used for the positive control level. Default: 0.}
+\item{pctl.label}{Label used for the positive control
+level. Defaults to 0.}
 
-\item{avg.resp}{Logical. Indicates if responses should be averaged at each concentration. Default: TRUE.}
+\item{avg.resp}{Logical. Indicates if responses should be averaged
+within each group. Defaults to TRUE.}
 }
 \value{
-A named list containing the quality control configuration for use in \code{\link[=runtoxdrc]{runtoxdrc()}}.
+A named list containing the quality control configuration
+for use in \code{\link[=runtoxdrc]{runtoxdrc()}}.
 }
 \description{
-Defines how quality control is applied to the response data before model fitting.
+Control outlier detection, CV calculation, averaging of response
+variable, and testing for positive control effects.
 }
 \examples{
-toxdrc_qc()
 toxdrc_qc(outlier.test = TRUE, cvflag.lvl = 20)
 
 }
 \seealso{
-\link{config_runtoxdrc}, \code{\link[=runtoxdrc]{runtoxdrc()}}
+\link{config_runtoxdrc}, \code{\link[=runtoxdrc]{runtoxdrc()}}, \code{\link[=pctl]{pctl()}}, \code{\link[=removeoutliers]{removeoutliers()}}, \code{\link[=flagCV]{flagCV()}}
 }

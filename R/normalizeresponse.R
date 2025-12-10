@@ -1,21 +1,33 @@
-#' Normalize response variables
+#' Normalize response variable
 #'
-#' Score responses as a percentage of a reference group.
+#' @description
+#' Express a response variable relative to a reference group.
 #'
-#' @param dataset A dataframe.
-#' @param Conc Unquoted column name of `dataset` that groups observations (e.g. Conc).
-#' @param reference_group Quoted name OR value of reference group to normalize response to (i.e. "ctl", 0)
-#' @param Response Unquoted column name of `dataset` with observations (e.g. RFU).
-#' @param quiet Logical. Whether EDx results should be printed. Default: FALSE.
-#' @param list_obj Optional existing list object, used for integration with `runtoxdrc`.
-#' @param quiet Logical. Whether results should be hidden. Default: FALSE.
+#' @param dataset A dataframe, containing the columns `Conc` and `Response`.
+#' @param Conc Bare (unquoted) column name in `dataset` that groups the
+#'  `Response` variable.
+#' @param reference_group Label used for the group values will be
+#'  normalized to. Defaults to 0.
+#' @param Response Bare (unquoted) column name in `dataset` containing
+#'  the response variable.
+#' @param list_obj Optional. List object used for integration with
+#'  [runtoxdrc()].
+#' @param quiet Logical. Indicates if results should be hidden. Defaults
+#'  to FALSE.
 
-#' @returns A modified `dataset` with a `normalized_response` column. If `list_obj` provided, updates this within a list. This is primarly for integration wit `runtoxdrc` as it adds `normalize_response_summary` to the growing list to track changes. If no `list_obj` provided, prints the summary and returns the edited `dataset`.
+#' @returns A modified `dataset` with an additional column,
+#'  `normalized response`. If `list_obj` is provided, returns this within
+#'   a list as `list_obj$dataset`, along with summary statistics surrounding
+#'   the reference group as `list_obj$normalize_response_summary`.
+#'
 #' @export
 #'
 #' @examples
-#' df <- data.frame(x = rep(1:2, each = 3), y = c(100, 110, 90, 40, 50, 60))
-#normalizeresponse(dataset = df, Conc = x, reference_group = 1, Response = y)
+#' normalizeresponse(
+#'  dataset = toxresult,
+#'  Conc = Conc,
+#'  Response = RFU
+#' )
 #
 normalizeresponse <- function(
   dataset,

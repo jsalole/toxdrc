@@ -42,6 +42,7 @@ test_that("toxic check toxicity, abs", {
   )
 })
 
+# problem
 test_that("toxic check toxicity, rel", {
   expect_equal(
     checktoxicity(
@@ -49,7 +50,7 @@ test_that("toxic check toxicity, rel", {
       Conc = Conc,
       Response = RFU,
       effect = 0.5,
-      type = "rel"
+      type = "relative"
     ),
     TRUE
   )

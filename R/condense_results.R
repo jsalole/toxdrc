@@ -1,3 +1,14 @@
+#' Condense results
+#'
+#' Summarize toxdrc results.
+#'
+#' @param results_list A list containing dataframes.
+#' @param fields_of_interest Columns within the dataframes that will be
+#'  preserved.
+#'
+#' @noRd
+#'
+#'
 condense_results <- function(results_list, fields_of_interest) {
   condensed_results_list <- lapply(names(results_list), function(entry_ID) {
     entry <- results_list[[entry_ID]]

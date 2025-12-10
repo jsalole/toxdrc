@@ -2,15 +2,8 @@
 % Please edit documentation in R/config_runtoxdrc.R
 \name{toxdrc_normalization}
 \alias{toxdrc_normalization}
-\title{Normalization configuration for \code{runtoxdrc()}}
+\title{Set normalization configuration for the runtoxdrc pipeline.}
 \usage{
-toxdrc_normalization(
-  blank.correction = FALSE,
-  blank.label = "Blank",
-  normalize.resp = FALSE,
-  relative.label = 0
-)
-
 toxdrc_normalization(
   blank.correction = FALSE,
   blank.label = "Blank",
@@ -19,34 +12,29 @@ toxdrc_normalization(
 )
 }
 \arguments{
-\item{blank.correction}{Logical. Indicates if the response variable should be blank corrected. Default: FALSE.}
+\item{blank.correction}{Logical. Indicates if the response variable
+should be blank corrected. Defaults to FALSE.}
 
-\item{blank.label}{Character. Label used for the blank level. Default: "Blank".}
+\item{blank.label}{Character. Label used for the blank level.
+Defaults to "Blank".}
 
-\item{normalize.resp}{Logical. Indicates if response variable should be normalized to a given group. Default: FALSE.}
+\item{normalize.resp}{Logical. Indicates if response variable should
+be normalized to a given group. Defaults to FALSE.}
 
-\item{relative.label}{Character/Numeric. Label or value used for the group values will be normalized to. Default: 0.}
+\item{relative.label}{Label used for the group values will be
+normalized to. Defaults to 0.}
 }
 \value{
-A named list containing normalization configuration for use in \code{\link[=runtoxdrc]{runtoxdrc()}}.
-
-A named list containing normalization configuration for use in \code{\link[=runtoxdrc]{runtoxdrc()}}.
+A named list containing normalization configuration for use in
+\code{\link[=runtoxdrc]{runtoxdrc()}}.
 }
 \description{
-Defines how normalization steps are applied to the response data before model fitting.
-
-Defines how normalization steps are applied to the response data before model fitting.
+Control blank correction and normalization of the response variable.
 }
 \examples{
-toxdrc_normalization()
-toxdrc_normalization(blank.correction = TRUE, relative.label = "Control")
-
-toxdrc_normalization()
 toxdrc_normalization(blank.correction = TRUE, relative.label = "Control")
 
 }
 \seealso{
-\link{config_runtoxdrc}, \code{\link[=runtoxdrc]{runtoxdrc()}}
-
-\link{config_runtoxdrc}, \code{\link[=runtoxdrc]{runtoxdrc()}}
+\link{config_runtoxdrc}, \code{\link[=runtoxdrc]{runtoxdrc()}}, \code{\link[=blankcorrect]{blankcorrect()}}, \code{\link[=normalizeresponse]{normalizeresponse()}}
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/config_runtoxdrc.R
 \name{toxdrc_output}
 \alias{toxdrc_output}
-\title{Output configuration for \code{runtoxdrc()}}
+\title{#' Output configuration for for the runtoxdrc pipeline.}
 \usage{
 toxdrc_output(
   condense = FALSE,
@@ -10,15 +10,19 @@ toxdrc_output(
 )
 }
 \arguments{
-\item{condense}{Logical.}
+\item{condense}{Logical. Indicates if the results should be
+summarized into a single dataframe. Defaults to TRUE.}
 
-\item{sections}{Character.}
+\item{sections}{Character. Columns given as a vector that should be
+present in the summary. Defaults to
+\code{c("ID", "effectmeasure", "best_model_name", "effect")}.}
 }
 \value{
-A named list containing output configuration for use in \code{\link[=runtoxdrc]{runtoxdrc()}}.
+A named list containing output configuration for use
+in \code{\link[=runtoxdrc]{runtoxdrc()}}.
 }
 \description{
-Defines how the output is returned.
+Defines how \code{\link[=runtoxdrc]{runtoxdrc()}} output is returned.
 }
 \examples{
 toxdrc_output()

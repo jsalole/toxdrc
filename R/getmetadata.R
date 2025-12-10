@@ -1,11 +1,22 @@
-#' Collects identifying values of an expeirmental replicate.
+#' Generate metadata from a dataframe
+#'
+#' @description
+#' Collects identifying or important values from an expeirmental replicate.
 #'
 #' @param dataset A dataframe.
-#' @param IDcols Optional. Columns given as a vector `c("column1", "column2")` used in the identification of data or important metadata. These columns are preserved in the returned dataset with the first value (not NA, NULL, or blank) of these columns within each level of `Conc`. Examples of this are metric type (mortality, indicator name), test information (well plate size, test time, test ID). These values should be identical within a testing group.
-#' @param list_obj Optional existing list object, used for integration with `runtoxdrc`.
-#' @param quiet Logical. Whether results should be hidden. Default: FALSE.
+#' @param IDcols Optional. Character. Columns given as a vector used in the
+#'  identification of data. These columns are preserved in the modified
+#'  `dataset` with the first non-blank value. These values should be
+#'  identical within observations grouped by `Conc`.
+#' @param list_obj Optional. List object used for integration with
+#'  [runtoxdrc()].
+#' @param quiet Logical. Indicates if results should be hidden. Defaults
+#'  to FALSE.
 
-#' @returns A 1 row dataframe of the identifying parameters of an experimental replicate. If list_obj is provided, attaches this to list_obj$metadata.
+#' @returns A 1 row dataframe of the identifying parameters of an experimental
+#'  replicate. If `list_obj` is provided, returns this within a list as
+#'  `list_obj$metadata`.
+#'
 #' @export
 #'
 #'

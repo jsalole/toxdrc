@@ -2,7 +2,7 @@
 % Please edit documentation in R/modelcomp.R
 \name{modelcomp}
 \alias{modelcomp}
-\title{Comparing model fits}
+\title{Compare model fits and select best model}
 \usage{
 modelcomp(
   dataset,
@@ -15,23 +15,53 @@ modelcomp(
 )
 }
 \arguments{
-\item{dataset}{A dataframe.}
+\item{dataset}{A dataframe, containing the columns \code{Conc} and \code{Response}.}
 
-\item{Conc}{Unquoted column name of \code{dataset} of independent variable.}
+\item{Conc}{Bare (unquoted) column name in \code{dataset} that groups the
+\code{Response} variable.}
 
-\item{Response}{Unquoted column name of \code{dataset} of dependant variable.}
+\item{Response}{Bare (unquoted) column name in \code{dataset} containing
+the response variable.}
 
-\item{model_list}{Optional. A list of named model function names (i.e. \code{model_list <- list("LL.4" = LL.4)}).}
+\item{model_list}{List. Model functions to be tested. Defaults to
+include \code{"LL.4"}, \code{"LN.4"}, \code{"W1.4"}, \code{"W2.4"}. Most models from the drc
+package are compatible; use \code{drc::getMeanFunctions()} for a more options.
+See details for formatting}
 
-\item{metric}{Dictates which model parameter is used to compare model fit.}
+\item{metric}{Character. Criterion used to select the best
+model. Choices are \code{"IC"}, \code{"Res var"}, \code{"Lack of fit"}. Defaults
+to "IC".}
 
-\item{list_obj}{Optional existing list object, used for integration with \code{runtoxdrc}.}
+\item{list_obj}{Optional. List object used for integration with
+\code{\link[=runtoxdrc]{runtoxdrc()}}.}
 
-\item{quiet}{Logical. Whether results should be hidden. Default: FALSE.}
+\item{quiet}{Logical. Indicates if results should be hidden. Defaults
+to FALSE.}
 }
 \value{
-A fitetd drm model selected from the . If list_obj is provided, stores this datafram in \code{list_obj$model_df}.
+A fitted drm model. If \code{list_obj} is provided, returns this within
+the list as \code{list_obj$best_model}, along with the model name
+(\code{list_obj$best_model_name}), and the model compairison dataframe
+(\code{list_obj$model_df}). If model fitting fails, returns NULL.
 }
 \description{
-Comparing model fits
+Data is fitted to provided models, typically from the drc package. Models
+fitted successfully are compared using multiple goodness-of-fit scores,
+and organized using the score given as the \code{metric} argument.
+arguement.
+}
+\details{
+The \code{model_list} argument requires a specific style. The argument must be a
+list; entries in the list are in the format where the shorthand is the name of
+the model function. An example of this is \code{"LL.4" = LL.4()}.
+}
+\examples{
+toxresult2 <- toxresult[!toxresult$Conc \%in\% c ("Control", "Blank"),]
+toxresult2$Conc <- as.numeric(toxresult2$Conc)
+modelcomp(toxresult2, Conc, RFU, metric = "IC")
+
+}
+\seealso{
+\code{\link[drc:getMeanFunctions]{drc::getMeanFunctions()}} for compatabile models and their
+shorthand for \code{model_list}.
 }

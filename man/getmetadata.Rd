@@ -2,22 +2,29 @@
 % Please edit documentation in R/getmetadata.R
 \name{getmetadata}
 \alias{getmetadata}
-\title{Collects identifying values of an expeirmental replicate.}
+\title{Generate metadata from a dataframe}
 \usage{
 getmetadata(dataset, IDcols, list_obj = NULL, quiet = FALSE)
 }
 \arguments{
 \item{dataset}{A dataframe.}
 
-\item{IDcols}{Optional. Columns given as a vector \code{c("column1", "column2")} used in the identification of data or important metadata. These columns are preserved in the returned dataset with the first value (not NA, NULL, or blank) of these columns within each level of \code{Conc}. Examples of this are metric type (mortality, indicator name), test information (well plate size, test time, test ID). These values should be identical within a testing group.}
+\item{IDcols}{Optional. Character. Columns given as a vector used in the
+identification of data. These columns are preserved in the modified
+\code{dataset} with the first non-blank value. These values should be
+identical within observations grouped by \code{Conc}.}
 
-\item{list_obj}{Optional existing list object, used for integration with \code{runtoxdrc}.}
+\item{list_obj}{Optional. List object used for integration with
+\code{\link[=runtoxdrc]{runtoxdrc()}}.}
 
-\item{quiet}{Logical. Whether results should be hidden. Default: FALSE.}
+\item{quiet}{Logical. Indicates if results should be hidden. Defaults
+to FALSE.}
 }
 \value{
-A 1 row dataframe of the identifying parameters of an experimental replicate. If list_obj is provided, attaches this to list_obj$metadata.
+A 1 row dataframe of the identifying parameters of an experimental
+replicate. If \code{list_obj} is provided, returns this within a list as
+\code{list_obj$metadata}.
 }
 \description{
-Collects identifying values of an expeirmental replicate.
+Collects identifying or important values from an expeirmental replicate.
 }

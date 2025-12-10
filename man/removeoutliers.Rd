@@ -7,24 +7,31 @@
 removeoutliers(dataset, Conc, Response, list_obj = NULL, quiet = FALSE)
 }
 \arguments{
-\item{dataset}{A dataframe.}
+\item{dataset}{A dataframe, containing the columns \code{Conc} and \code{Response}.}
 
-\item{Conc}{Unquoted column name of \code{dataset} that groups observations to determine outliers (e.g. Conc).}
+\item{Conc}{Bare (unquoted) column name in \code{dataset} that groups the
+\code{Response} variable.}
 
-\item{Response}{Unquoted column name of \code{dataset} with observations to determine outliers in (e.g. RFU).}
+\item{Response}{Bare (unquoted) column name in \code{dataset} containing
+the response variable.}
 
-\item{list_obj}{Optional existing list object, used for integration with \code{runtoxdrc}.}
+\item{list_obj}{Optional. List object used for integration with
+\code{\link[=runtoxdrc]{runtoxdrc()}}.}
 
-\item{quiet}{Logical. Whether results should be hidden. Default: FALSE.}
+\item{quiet}{Logical. Indicates if results should be hidden. Defaults
+to FALSE.}
 }
 \value{
-A modified \code{dataset} with outliers removed. If \code{list_obj} provided, updates this within a list. This is primarly for integration wit \code{runtoxdrc} as it adds \code{removed_outliers} to the growing list to track changes. If no \code{list_obj} provided, prints the removed rows and returns the edited \code{dataset}.
+A modified \code{dataset} with outliers removed. If
+\code{list_obj} is provided, returns this within a list as
+\code{list_obj$dataset}, along with dataframe of removed outliers as
+\code{list_obj$removed_outliers}.
 }
 \description{
 This function removes statistical outliers from each testing group by iteratively applying Grubbs' test.
 }
 \examples{
-
 df <- data.frame(x = rep(1:2, each = 3),y = c(3, 5, 7, 3, 4, 30))
 removeoutliers(dataset = df, Conc = x, Response = y)
+
 }

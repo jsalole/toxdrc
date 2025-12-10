@@ -1,18 +1,31 @@
-#' Blank correct a response variable.
+#' Blank correct response variable
 #'
-#' @param dataset A dataframe.
-#' @param Conc Unquoted column name of 'dataset' that groups observations.
-#' @param blank_group Quoted name of the Blank group, e.g. ("Blank").
-#' @param quiet Logical. Whether results should be hidden. Default: FALSE.
-#' @param Response Unquoted column name of the response variable to be adjusted.
-#' @param list_obj Optional existing list object, used for integration with `runtoxdrc`.
+#' @description
+#' `blankcorrect()` subtracts a calculated correction value
+#'   from all responses.
 #'
-#' @returns A modified dataframe with an additional column, `c_response`.
+#' @param dataset A dataframe, containing the columns `Conc` and `Response`.
+#' @param Conc Bare (unquoted) column name in `dataset` that groups the
+#'  `Response` variable.
+#' @param blank_group Character. Name of the `Conc` level to calculate the
+#'  correction value from.
+#' @param Response Bare (unquoted) column name in `dataset` containing
+#'  the response variable.
+#' @param list_obj Optional. List object used for integration with
+#'  [runtoxdrc()].
+#' @param quiet Logical. Indicates if results should be hidden. Defaults
+#'  to FALSE.
+#'
+#' @returns A modified `dataset` with an additional column, `c_response`. If
+#'  `list_obj` is provided, returns this within a list as
+#'  `list_obj$dataset`, along with statistics of the correction value as
+#'  `list_obj$blank_stats`.
+#'
 #' @export
 #'
 #' @examples
 #' blankcorrect(
-#'      toxresult,
+#'      dataset = toxresult,
 #'      Conc = Conc,
 #'      blank_group = "Blank",
 #'      Response = RFU

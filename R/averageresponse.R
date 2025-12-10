@@ -1,26 +1,38 @@
 #' Average response variable
 #'
-#'  Average the response variable by group or exposure condition.
-#' @param dataset A dataframe.
-#' @param Conc Unquoted column name of `dataset` that groups observations (e.g. Conc).
-#' @param Response Unquoted column name of `dataset` with observations (e.g. RFU).
-#' @param quiet Logical. Whether results should be hidden. Default: FALSE.
-#' @param IDcols Optional. Columns given as a vector `c("column1", "column2")` used in the identification of data or important metadata. These columns are preserved in the returned dataset with the first value (not NA, NULL, or blank) of these columns within each level of `Conc`. Examples of this are metric type (mortality, indicator name), test information (well plate size, test time, test ID). These values should be identical within a testing group.
-#' @param list_obj Optional existing list object, used for integration with `runtoxdrc`.
+#' @description
+#' `averageresponse()` averages a given response variable by the
+#'  experimental group, such as concentration or exposure length.
 #'
-#' @returns A modified dataset with one row for each level of `Conc`. The averaged response is given for each level, in addition to the value. If `list_obj` provided, returns this within a list. This is primarly for integration wit `runtoxdrc` as it saves the `pre_average_dataset` to the growing list to track changes. If no `list_obj` provided it returns the edited `dataset`.
+#' @param dataset A dataframe, containing the columns `Conc` and `Response`.
+#' @param Conc Bare (unquoted) column name in `dataset` that groups the
+#'  `Response` variable.
+#' @param Response Bare (unquoted) column name in `dataset` containing
+#'  the response variable.
+#' @param IDcols Character. Columns given as a vector used in the
+#'  identification of data. These columns are preserved in the modified
+#'  `dataset` with the first non-blank value. These values should be
+#'  identical within observations grouped by `Conc`.
+#' @param list_obj Optional. List object used for integration with
+#'  [runtoxdrc()].
+#' @param quiet Logical. Indicates if results should be hidden. Defaults
+#'  to FALSE.
 #'
+#' @returns A collapsed `dataset` with one row for each level of `Conc`.
+#'  If `list_obj` is provided, returns this within a list as
+#'  `list_obj$dataset`, along with an unmodified copy as
+#'  `list_obj$pre_average_dataset`.
 #'
 #'@importFrom dplyr all_of
+#'
 #' @export
 #'
 #' @examples
 #' averageresponse(
-#'      toxresult,
+#'      dataset = toxresult,
 #'      Conc = Conc,
 #'      Response = RFU,
 #'      IDcols = c("TestID", "Test_Number", "Dye", "Type", "Replicate"),
-#'      quiet = FALSE
 #'    )
 #'
 averageresponse <- function(

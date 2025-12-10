@@ -14,31 +14,41 @@ averageresponse(
 )
 }
 \arguments{
-\item{dataset}{A dataframe.}
+\item{dataset}{A dataframe, containing the columns \code{Conc} and \code{Response}.}
 
-\item{Conc}{Unquoted column name of \code{dataset} that groups observations (e.g. Conc).}
+\item{Conc}{Bare (unquoted) column name in \code{dataset} that groups the
+\code{Response} variable.}
 
-\item{Response}{Unquoted column name of \code{dataset} with observations (e.g. RFU).}
+\item{Response}{Bare (unquoted) column name in \code{dataset} containing
+the response variable.}
 
-\item{IDcols}{Optional. Columns given as a vector \code{c("column1", "column2")} used in the identification of data or important metadata. These columns are preserved in the returned dataset with the first value (not NA, NULL, or blank) of these columns within each level of \code{Conc}. Examples of this are metric type (mortality, indicator name), test information (well plate size, test time, test ID). These values should be identical within a testing group.}
+\item{IDcols}{Character. Columns given as a vector used in the
+identification of data. These columns are preserved in the modified
+\code{dataset} with the first non-blank value. These values should be
+identical within observations grouped by \code{Conc}.}
 
-\item{list_obj}{Optional existing list object, used for integration with \code{runtoxdrc}.}
+\item{list_obj}{Optional. List object used for integration with
+\code{\link[=runtoxdrc]{runtoxdrc()}}.}
 
-\item{quiet}{Logical. Whether results should be hidden. Default: FALSE.}
+\item{quiet}{Logical. Indicates if results should be hidden. Defaults
+to FALSE.}
 }
 \value{
-A modified dataset with one row for each level of \code{Conc}. The averaged response is given for each level, in addition to the value. If \code{list_obj} provided, returns this within a list. This is primarly for integration wit \code{runtoxdrc} as it saves the \code{pre_average_dataset} to the growing list to track changes. If no \code{list_obj} provided it returns the edited \code{dataset}.
+A collapsed \code{dataset} with one row for each level of \code{Conc}.
+If \code{list_obj} is provided, returns this within a list as
+\code{list_obj$dataset}, along with an unmodified copy as
+\code{list_obj$pre_average_dataset}.
 }
 \description{
-Average the response variable by group or exposure condition.
+\code{averageresponse()} averages a given response variable by the
+experimental group, such as concentration or exposure length.
 }
 \examples{
 averageresponse(
-     toxresult,
+     dataset = toxresult,
      Conc = Conc,
      Response = RFU,
      IDcols = c("TestID", "Test_Number", "Dye", "Type", "Replicate"),
-     quiet = FALSE
    )
 
 }
