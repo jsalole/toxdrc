@@ -107,12 +107,11 @@ While the pipeline only requires a few functions, it can be tailored to meet the
 The `data_01` provides intermediate information on the pipeline for each subset, but `data_02` will return a simple dataframe summarizung the results.
 
 ```{r}
-length(data_01)
-str(data_01[1])
+summary(data_01)
 ```
 
 ```{r}
-data_02
+head(data_02)
 ```
 
 This package is also capable of making multiple point-estimates for each subset:
