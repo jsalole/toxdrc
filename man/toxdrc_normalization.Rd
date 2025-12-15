@@ -26,7 +26,7 @@ normalized to. Defaults to 0.}
 }
 \value{
 A named list containing normalization configuration for use in
-\code{\link[=runtoxdrc]{runtoxdrc()}}.
+ [runtoxdrc()].
 }
 \description{
 Control blank correction and normalization of the response variable.
@@ -36,5 +36,5 @@ toxdrc_normalization(blank.correction = TRUE, relative.label = "Control")
 
 }
 \seealso{
-\link{config_runtoxdrc}, \code{\link[=runtoxdrc]{runtoxdrc()}}, \code{\link[=blankcorrect]{blankcorrect()}}, \code{\link[=normalizeresponse]{normalizeresponse()}}
+[config_runtoxdrc], [runtoxdrc()], [blankcorrect()], [normalizeresponse()]
 }

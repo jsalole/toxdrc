@@ -14,32 +14,32 @@ blankcorrect(
 )
 }
 \arguments{
-\item{dataset}{A dataframe, containing the columns \code{Conc} and \code{Response}.}
+\item{dataset}{A dataframe, containing the columns `Conc` and `Response`.}
 
-\item{Conc}{Bare (unquoted) column name in \code{dataset} that groups the
-\code{Response} variable.}
+\item{Conc}{Bare (unquoted) column name in `dataset` that groups the
+`Response` variable.}
 
-\item{blank_group}{Character. Name of the \code{Conc} level to calculate the
+\item{blank_group}{Character. Name of the `Conc` level to calculate the
 correction value from.}
 
-\item{Response}{Bare (unquoted) column name in \code{dataset} containing
+\item{Response}{Bare (unquoted) column name in `dataset` containing
 the response variable.}
 
 \item{list_obj}{Optional. List object used for integration with
-\code{\link[=runtoxdrc]{runtoxdrc()}}.}
+[runtoxdrc()].}
 
 \item{quiet}{Logical. Indicates if results should be hidden. Defaults
 to FALSE.}
 }
 \value{
-A modified \code{dataset} with an additional column, \code{c_response}. If
-\code{list_obj} is provided, returns this within a list as
-\code{list_obj$dataset}, along with statistics of the correction value as
-\code{list_obj$blank_stats}.
+A modified `dataset` with an additional column, `c_response`. If
+ `list_obj` is provided, returns this within a list as
+ `list_obj$dataset`, along with statistics of the correction value as
+ `list_obj$blank_stats`.
 }
 \description{
-\code{blankcorrect()} subtracts a calculated correction value
-from all responses.
+`blankcorrect()` subtracts a calculated correction value
+  from all responses.
 }
 \examples{
 blankcorrect(

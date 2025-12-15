@@ -14,34 +14,34 @@ averageresponse(
 )
 }
 \arguments{
-\item{dataset}{A dataframe, containing the columns \code{Conc} and \code{Response}.}
+\item{dataset}{A dataframe, containing the columns `Conc` and `Response`.}
 
-\item{Conc}{Bare (unquoted) column name in \code{dataset} that groups the
-\code{Response} variable.}
+\item{Conc}{Bare (unquoted) column name in `dataset` that groups the
+`Response` variable.}
 
-\item{Response}{Bare (unquoted) column name in \code{dataset} containing
+\item{Response}{Bare (unquoted) column name in `dataset` containing
 the response variable.}
 
 \item{IDcols}{Character. Columns given as a vector used in the
 identification of data. These columns are preserved in the modified
-\code{dataset} with the first non-blank value. These values should be
-identical within observations grouped by \code{Conc}.}
+`dataset` with the first non-blank value. These values should be
+identical within observations grouped by `Conc`.}
 
 \item{list_obj}{Optional. List object used for integration with
-\code{\link[=runtoxdrc]{runtoxdrc()}}.}
+[runtoxdrc()].}
 
 \item{quiet}{Logical. Indicates if results should be hidden. Defaults
 to FALSE.}
 }
 \value{
-A collapsed \code{dataset} with one row for each level of \code{Conc}.
-If \code{list_obj} is provided, returns this within a list as
-\code{list_obj$dataset}, along with an unmodified copy as
-\code{list_obj$pre_average_dataset}.
+A collapsed `dataset` with one row for each level of `Conc`.
+ If `list_obj` is provided, returns this within a list as
+ `list_obj$dataset`, along with an unmodified copy as
+ `list_obj$pre_average_dataset`.
 }
 \description{
-\code{averageresponse()} averages a given response variable by the
-experimental group, such as concentration or exposure length.
+`averageresponse()` averages a given response variable by the
+ experimental group, such as concentration or exposure length.
 }
 \examples{
 averageresponse(

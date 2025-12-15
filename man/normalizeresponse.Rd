@@ -14,28 +14,28 @@ normalizeresponse(
 )
 }
 \arguments{
-\item{dataset}{A dataframe, containing the columns \code{Conc} and \code{Response}.}
+\item{dataset}{A dataframe, containing the columns `Conc` and `Response`.}
 
-\item{Conc}{Bare (unquoted) column name in \code{dataset} that groups the
-\code{Response} variable.}
+\item{Conc}{Bare (unquoted) column name in `dataset` that groups the
+`Response` variable.}
 
 \item{reference_group}{Label used for the group values will be
 normalized to. Defaults to 0.}
 
-\item{Response}{Bare (unquoted) column name in \code{dataset} containing
+\item{Response}{Bare (unquoted) column name in `dataset` containing
 the response variable.}
 
 \item{list_obj}{Optional. List object used for integration with
-\code{\link[=runtoxdrc]{runtoxdrc()}}.}
+[runtoxdrc()].}
 
 \item{quiet}{Logical. Indicates if results should be hidden. Defaults
 to FALSE.}
 }
 \value{
-A modified \code{dataset} with an additional column,
-\verb{normalized response}. If \code{list_obj} is provided, returns this within
-a list as \code{list_obj$dataset}, along with summary statistics surrounding
-the reference group as \code{list_obj$normalize_response_summary}.
+A modified `dataset` with an additional column,
+ `normalized response`. If `list_obj` is provided, returns this within
+  a list as `list_obj$dataset`, along with summary statistics surrounding
+  the reference group as `list_obj$normalize_response_summary`.
 }
 \description{
 Express a response variable relative to a reference group.

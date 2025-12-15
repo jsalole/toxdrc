@@ -5,28 +5,28 @@
 \title{Configuration functions for the runtoxdrc pipeline}
 \description{
 An overview of the modular configuration functions used by
-\code{\link[=runtoxdrc]{runtoxdrc()}}. These configuration functions provide default
-lists of parameters for customizing different stages of the
-pipeline to reduce the number of arguments required in
-\code{\link[=runtoxdrc]{runtoxdrc()}}. Each function returns a named list of
-configuration parameters suitable for passing directly to
-\code{\link[=runtoxdrc]{runtoxdrc()}}.
+ [runtoxdrc()]. These configuration functions provide default
+ lists of parameters for customizing different stages of the
+ pipeline to reduce the number of arguments required in
+[runtoxdrc()]. Each function returns a named list of
+ configuration parameters suitable for passing directly to
+ [runtoxdrc()].
 }
 \details{
-\strong{Available configuration functions:}
+**Available configuration functions:**
 \itemize{
-\item \code{\link[=toxdrc_qc]{toxdrc_qc()}} — Quality control and filtering options
-\item \code{\link[=toxdrc_normalization]{toxdrc_normalization()}} — Blank correction and normalization
-\item \code{\link[=toxdrc_toxicity]{toxdrc_toxicity()}} — Toxicity threshold and response-level options
-\item \code{\link[=toxdrc_modelling]{toxdrc_modelling()}} — Model selection, fitting criteria, and EDx calculation
-\item \code{\link[=toxdrc_output]{toxdrc_output()}} — Output settings
+  \item [toxdrc_qc()] — Quality control and filtering options
+  \item [toxdrc_normalization()] — Blank correction and normalization
+  \item [toxdrc_toxicity()] — Toxicity threshold and response-level options
+  \item [toxdrc_modelling()] — Model selection, fitting criteria, and EDx calculation
+  \item [toxdrc_output()] — Output settings
 }
 }
 \seealso{
-\code{\link[=runtoxdrc]{runtoxdrc()}},
-\code{\link[=toxdrc_qc]{toxdrc_qc()}},
-\code{\link[=toxdrc_normalization]{toxdrc_normalization()}},
-\code{\link[=toxdrc_toxicity]{toxdrc_toxicity()}},
-\code{\link[=toxdrc_modelling]{toxdrc_modelling()}},
-\code{\link[=toxdrc_output]{toxdrc_output()}}
+[runtoxdrc()],
+[toxdrc_qc()],
+[toxdrc_normalization()],
+[toxdrc_toxicity()],
+[toxdrc_modelling()],
+[toxdrc_output()]
 }

@@ -16,10 +16,10 @@ pctl(
 )
 }
 \arguments{
-\item{dataset}{A dataframe, containing the columns \code{Conc} and \code{Response}.}
+\item{dataset}{A dataframe, containing the columns `Conc` and `Response`.}
 
-\item{Conc}{Bare (unquoted) column name in \code{dataset} that groups the
-\code{Response} variable.}
+\item{Conc}{Bare (unquoted) column name in `dataset` that groups the
+`Response` variable.}
 
 \item{reference_group}{Label used for the true control level.
 Defaults to "Control".}
@@ -27,29 +27,29 @@ Defaults to "Control".}
 \item{positive_group}{Label used for the positive control
 level. Defaults to 0.}
 
-\item{Response}{Bare (unquoted) column name in \code{dataset} containing
+\item{Response}{Bare (unquoted) column name in `dataset` containing
 the response variable.}
 
 \item{max_diff}{Numeric. Percent difference of the response in the
-\code{ref.label} and \code{pctl.label} groups beyond which tests are
+`ref.label` and `pctl.label` groups beyond which tests are
 flagged. Defaults to 10.}
 
 \item{list_obj}{Optional. List object used for integration with
-\code{\link[=runtoxdrc]{runtoxdrc()}}.}
+[runtoxdrc()].}
 
 \item{quiet}{Logical. Indicates if results should be hidden. Defaults
 to FALSE.}
 }
 \value{
-A modified \code{dataset} with an additional column, \code{Validity}. If
-\code{list_obj} is provided, returns this within a list as
-\code{list_obj$dataset}, along with statistics of the positive and reference
-group as \code{list_obj$pctlresults}.
+A modified `dataset` with an additional column, `Validity`. If
+ `list_obj` is provided, returns this within a list as
+ `list_obj$dataset`, along with statistics of the positive and reference
+ group as `list_obj$pctlresults`.
 }
 \description{
 This function evaluates the difference between a two groups to determine if
-the difference between them exceeds a set amount. Commonly used to determine
-if a solvent introduces effects.
+ the difference between them exceeds a set amount. Commonly used to determine
+ if a solvent introduces effects.
 }
 \examples{
 pctl(

@@ -20,7 +20,7 @@ toxdrc_qc(
 tested for and removed. Defaults to FALSE.}
 
 \item{cv.flag}{Logical. Indicates if groups of the response
-variable should be flagged if the CV exceeds \code{cvflag.lvl}.
+variable should be flagged if the CV exceeds `cvflag.lvl`.
 Defaults to TRUE.}
 
 \item{cvflag.lvl}{Numeric. The percent beyond which CV values are
@@ -30,7 +30,7 @@ flagged. Defaults to 30.}
 effects should be tested for. Defaults to FALSE.}
 
 \item{pctl.lvl}{Numeric. Percent difference of the response in the
-\code{ref.label} and \code{pctl.label} groups beyond which tests are
+`ref.label` and `pctl.label` groups beyond which tests are
 flagged. Defaults to 10.}
 
 \item{ref.label}{Label used for the true control level.
@@ -44,16 +44,16 @@ within each group. Defaults to TRUE.}
 }
 \value{
 A named list containing the quality control configuration
-for use in \code{\link[=runtoxdrc]{runtoxdrc()}}.
+ for use in [runtoxdrc()].
 }
 \description{
 Control outlier detection, CV calculation, averaging of response
-variable, and testing for positive control effects.
+  variable, and testing for positive control effects.
 }
 \examples{
 toxdrc_qc(outlier.test = TRUE, cvflag.lvl = 20)
 
 }
 \seealso{
-\link{config_runtoxdrc}, \code{\link[=runtoxdrc]{runtoxdrc()}}, \code{\link[=pctl]{pctl()}}, \code{\link[=removeoutliers]{removeoutliers()}}, \code{\link[=flagCV]{flagCV()}}
+[config_runtoxdrc], [runtoxdrc()], [pctl()], [removeoutliers()], [flagCV()]
 }

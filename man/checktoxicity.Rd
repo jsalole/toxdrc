@@ -18,44 +18,44 @@ checktoxicity(
 )
 }
 \arguments{
-\item{dataset}{A dataframe, containing the columns \code{Conc} and \code{Response}.}
+\item{dataset}{A dataframe, containing the columns `Conc` and `Response`.}
 
-\item{Conc}{Bare (unquoted) column name in \code{dataset} that groups the
-\code{Response} variable.}
+\item{Conc}{Bare (unquoted) column name in `dataset` that groups the
+`Response` variable.}
 
-\item{Response}{Bare (unquoted) column name in \code{dataset} containing
+\item{Response}{Bare (unquoted) column name in `dataset` containing
 the response variable.}
 
 \item{effect}{Numeric. Dictates at the value beyond which observations
 are flagged as toxic. This value can be further customized; see
-see \code{type} and \code{direction}.}
+see `type` and `direction`.}
 
-\item{type}{Character. Indicates if \code{effect} is \code{"relative"} to
-\verb{reference group} or an \code{"absolute"} value. Defaults to relative.}
+\item{type}{Character. Indicates if `effect` is `"relative"` to
+`reference group` or an `"absolute"` value. Defaults to relative.}
 
-\item{direction}{Character. Indicates if an effect occurs \code{"below"} or
-\code{"above"}. Defaults to below.}
+\item{direction}{Character. Indicates if an effect occurs `"below"` or
+`"above"`. Defaults to below.}
 
-\item{reference_group}{Label used for reference group in \code{Conc} column.
+\item{reference_group}{Label used for reference group in `Conc` column.
 Defaults to 0.}
 
 \item{target_group}{Optional. Limits the compairison to certain levels in
-\code{Conc}.}
+`Conc`.}
 
 \item{list_obj}{Optional. List object used for integration with
-\code{\link[=runtoxdrc]{runtoxdrc()}}.}
+[runtoxdrc()].}
 
 \item{quiet}{Logical. Indicates if results should be hidden. Defaults
 to FALSE.}
 }
 \value{
 TRUE if the response variable exceeds a limit in either
-direction and FALSE otherwise. If \code{list_obj} is provided, returns this
-within a list as \code{list_obj$effect}.
+ direction and FALSE otherwise. If `list_obj` is provided, returns this
+ within a list as `list_obj$effect`.
 }
 \description{
-\code{checktoxicity()} flags if the response variable exceeds a limit in
-either direction as evidence of an effect.
+`checktoxicity()` flags if the response variable exceeds a limit in
+ either direction as evidence of an effect.
 }
 \examples{
 checktoxicity(

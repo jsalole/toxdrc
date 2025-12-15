@@ -4,9 +4,9 @@
 \name{toxdrc-package}
 \alias{toxdrc}
 \alias{toxdrc-package}
-\title{toxdrc: toxdrc}
+\title{toxdrc: Pipeline for Dose-Response Curve Analysis}
 \description{
-toxdrc provides a variety of tools for assessing dose response curves, with an emphasis on toxicity test data. The main feature of this package are modular functions which can be combined through the namesake pipeline, runtoxdrc, to automate the analysis for large and complex datasets. This includes optional data preprocessing steps, like outlier detection, solvent effects, blank correction, averaging technical replicates, and much more. Additionally, this pipeline is adaptable to any long form dataset, and does not require specific column or group naming to work.
+Provides a variety of tools for assessing dose response curves, with an emphasis on toxicity test data. The main feature of this package are modular functions which can be combined through the namesake pipeline, runtoxdrc, to automate the analysis for large and complex datasets. This includes optional data preprocessing steps, like outlier detection, solvent effects, blank correction, averaging technical replicates, and much more. Additionally, this pipeline is adaptable to any long form dataset, and does not require specific column or group naming to work.
 }
 \seealso{
 Useful links:

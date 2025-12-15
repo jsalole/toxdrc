@@ -18,48 +18,48 @@ runtoxdrc(
 )
 }
 \arguments{
-\item{dataset}{A dataframe, containing the columns \code{Conc} and \code{Response}.}
+\item{dataset}{A dataframe, containing the columns `Conc` and `Response`.}
 
-\item{Conc}{Bare (unquoted) column name in \code{dataset} that groups the
-\code{Response} variable.}
+\item{Conc}{Bare (unquoted) column name in `dataset` that groups the
+`Response` variable.}
 
-\item{Response}{Bare (unquoted) column name in \code{dataset} containing
+\item{Response}{Bare (unquoted) column name in `dataset` containing
 the response variable.}
 
 \item{IDcols}{Optional. Character. Columns given as a vector used in the
 identification of data. These columns are preserved in the modified
-\code{dataset} with the first non-blank value. These values should be
-identical within observations grouped by \code{Conc}.}
+`dataset` with the first non-blank value. These values should be
+identical within observations grouped by `Conc`.}
 
 \item{quiet}{Logical. Indicates if results should be hidden. Defaults
 to FALSE.}
 
-\item{qc}{Quality control and filtering options. See \code{\link[=toxdrc_qc]{toxdrc_qc()}}
+\item{qc}{Quality control and filtering options. See [toxdrc_qc()]
 for more detail and defaults.}
 
-\item{normalization}{Normalization options. See \code{\link[=toxdrc_normalization]{toxdrc_normalization()}}
+\item{normalization}{Normalization options. See [toxdrc_normalization()]
 for more detail and defaults.}
 
 \item{toxicity}{Toxicity threshold and response-level options. See
-\code{\link[=toxdrc_toxicity]{toxdrc_toxicity()}} for more detail and defaults.}
+[toxdrc_toxicity()] for more detail and defaults.}
 
 \item{modelling}{Model selection, fitting criteria, and EDx calculation
-options. See \code{\link[=toxdrc_modelling]{toxdrc_modelling()}} for more detail and defaults.}
+options. See [toxdrc_modelling()] for more detail and defaults.}
 
-\item{output}{Settings for output. See \code{\link[=toxdrc_output]{toxdrc_output()}} for more detail
+\item{output}{Settings for output. See [toxdrc_output()] for more detail
 and defaults.}
 }
 \value{
 By default, returns a list of lists with each subset of data having
-its own entry. Each subset contains dataframes, models, and other objects
-that track the pipeline process. If \code{output = list(condense = TRUE)}, the
-results are summarized into a single dataframe containing the \code{IDcols} and
-model information of each data subset.
+ its own entry. Each subset contains dataframes, models, and other objects
+ that track the pipeline process. If `output = list(condense = TRUE)`, the
+ results are summarized into a single dataframe containing the `IDcols` and
+ model information of each data subset.
 }
 \description{
-\code{runtoxdrc()} is the pipeline for function in the toxdrc package. This
-function allows the automated analysis of large datasets, while
-maintaining a consistent process for each suset of data.
+`runtoxdrc()` is the pipeline for function in the toxdrc package. This
+ function allows the automated analysis of large datasets, while
+ maintaining a consistent process for each suset of data.
 }
 \examples{
 \donttest{
@@ -79,5 +79,5 @@ maintaining a consistent process for each suset of data.
 
 }
 \seealso{
-\code{\link[=config_runtoxdrc]{config_runtoxdrc()}} for configuration settings of the pipeline.
+[config_runtoxdrc()] for configuration settings of the pipeline.
 }

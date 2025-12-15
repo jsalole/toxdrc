@@ -11,19 +11,19 @@ getmetadata(dataset, IDcols, list_obj = NULL, quiet = FALSE)
 
 \item{IDcols}{Optional. Character. Columns given as a vector used in the
 identification of data. These columns are preserved in the modified
-\code{dataset} with the first non-blank value. These values should be
-identical within observations grouped by \code{Conc}.}
+`dataset` with the first non-blank value. These values should be
+identical within observations grouped by `Conc`.}
 
 \item{list_obj}{Optional. List object used for integration with
-\code{\link[=runtoxdrc]{runtoxdrc()}}.}
+[runtoxdrc()].}
 
 \item{quiet}{Logical. Indicates if results should be hidden. Defaults
 to FALSE.}
 }
 \value{
 A 1 row dataframe of the identifying parameters of an experimental
-replicate. If \code{list_obj} is provided, returns this within a list as
-\code{list_obj$metadata}.
+ replicate. If `list_obj` is provided, returns this within a list as
+ `list_obj$metadata`.
 }
 \description{
 Collects identifying or important values from an expeirmental replicate.

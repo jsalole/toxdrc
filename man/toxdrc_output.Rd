@@ -15,14 +15,14 @@ summarized into a single dataframe. Defaults to TRUE.}
 
 \item{sections}{Character. Columns given as a vector that should be
 present in the summary. Defaults to
-\code{c("ID", "effectmeasure", "best_model_name", "effect")}.}
+`c("ID", "effectmeasure", "best_model_name", "effect")`.}
 }
 \value{
 A named list containing output configuration for use
-in \code{\link[=runtoxdrc]{runtoxdrc()}}.
+ in [runtoxdrc()].
 }
 \description{
-Defines how \code{\link[=runtoxdrc]{runtoxdrc()}} output is returned.
+Defines how [runtoxdrc()] output is returned.
 }
 \examples{
 toxdrc_output()
@@ -30,5 +30,5 @@ toxdrc_output(condense = TRUE)
 
 }
 \seealso{
-\link{config_runtoxdrc}, \code{\link[=runtoxdrc]{runtoxdrc()}}
+[config_runtoxdrc], [runtoxdrc()]
 }

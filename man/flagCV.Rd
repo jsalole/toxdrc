@@ -7,32 +7,32 @@
 flagCV(dataset, Conc, Response, max_val = 30, list_obj = NULL, quiet = FALSE)
 }
 \arguments{
-\item{dataset}{dataset A dataframe, containing the columns \code{Conc} and \code{Response}.}
+\item{dataset}{dataset A dataframe, containing the columns `Conc` and `Response`.}
 
-\item{Conc}{Bare (unquoted) column name in \code{dataset} that groups the
-\code{Response} variable.}
+\item{Conc}{Bare (unquoted) column name in `dataset` that groups the
+`Response` variable.}
 
-\item{Response}{Bare (unquoted) column name in \code{dataset} containing
+\item{Response}{Bare (unquoted) column name in `dataset` containing
 the response variable.}
 
 \item{max_val}{Numeric. The percent beyond which CV values are
 flagged. Defaults to 30.}
 
 \item{list_obj}{Optional. List object used for integration with
-\code{\link[=runtoxdrc]{runtoxdrc()}}.}
+[runtoxdrc()].}
 
 \item{quiet}{Logical. Indicates if results should be hidden. Defaults
 to FALSE.}
 }
 \value{
-A modified \code{dataset} with an additional column, \code{CVflag}. If
-\code{list_obj} is provided, returns this within a list as
-\code{list_obj$dataset}, along with a summary of the CV results as
-\code{list_obj$CVresults}.
+A modified `dataset` with an additional column, `CVflag`. If
+ `list_obj` is provided, returns this within a list as
+ `list_obj$dataset`, along with a summary of the CV results as
+ `list_obj$CVresults`.
 }
 \description{
 This function calculates the coefficient of variation (CV) of each
-of the exposure conditions, and flags them if they exceed a set value.
+ of the exposure conditions, and flags them if they exceed a set value.
 }
 \examples{
 df <- data.frame(x = rep(1:2, each = 3), y = c(10, 11, 9, 20, 40, 60))

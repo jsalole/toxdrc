@@ -5,20 +5,18 @@
 \alias{cellglow}
 \title{Example toxicity test data with multiple experimental groups.}
 \format{
-\subsection{\code{cellglow}}{
-
+## `cellglow`
 A data frame with 1,080 rows and 7 columns:
 \describe{
-\item{TestID}{Combination of Test_Number, Dye, Type, and Replicate}
-\item{Test_Number}{Identifying number of each effluent sample}
-\item{Conc}{Concentration of reference toxicant (3,4 dichloranaline). 0 is solvent control, "control" is a lab control}
-\item{RFU}{Fluoresence produced as determined by a plate reader}
-\item{Dye}{Three cell viability indicators; aB = alamarBlue, CFDA = 5-CFDA-AM, NR = Neutral Red}
-\item{Type}{Only spiked exists in this dataset; indicates a reference toxicant was added to the effluent.}
-\item{Replicate}{The experimental replicate; replication occured at a well-plate level.}
+  \item{TestID}{Combination of Test_Number, Dye, Type, and Replicate}
+  \item{Test_Number}{Identifying number of each effluent sample}
+  \item{Conc}{Concentration of reference toxicant (3,4 dichloranaline). 0 is solvent control, "control" is a lab control}
+  \item{RFU}{Fluoresence produced as determined by a plate reader}
+  \item{Dye}{Three cell viability indicators; aB = alamarBlue, CFDA = 5-CFDA-AM, NR = Neutral Red}
+  \item{Type}{Only spiked exists in this dataset; indicates a reference toxicant was added to the effluent.}
+  \item{Replicate}{The experimental replicate; replication occured at a well-plate level.}
 /item
-...
-}
+  ...
 }
 }
 \source{

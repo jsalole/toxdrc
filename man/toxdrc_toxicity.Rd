@@ -16,11 +16,11 @@ toxdrc_toxicity(
 \item{toxic.lvl}{Numeric. Cutoff point to determine if modelling occurs.
 Defaults to 0.7.}
 
-\item{toxic.type}{Character. Indicates if \code{effect} is \code{"relative"} to
-\verb{reference group} or an \code{"absolute"} value. Defaults to relative.}
+\item{toxic.type}{Character. Indicates if `effect` is `"relative"` to
+`reference group` or an `"absolute"` value. Defaults to relative.}
 
-\item{toxic.direction}{Character. Indicates if an effect occurs \code{"below"}
-or \code{"above"}. Defaults to below.}
+\item{toxic.direction}{Character. Indicates if an effect occurs `"below"`
+or `"above"`. Defaults to below.}
 
 \item{comp.group}{Label used for reference group.}
 
@@ -29,7 +29,7 @@ exposure conditions.}
 }
 \value{
 A named list containing toxicity determination settings for use
-in \code{\link[=runtoxdrc]{runtoxdrc()}}.
+ in [runtoxdrc()].
 }
 \description{
 Defines how toxicity is determined for model fitting.
@@ -39,5 +39,5 @@ toxdrc_toxicity(toxic.lvl = 0.5, toxic.direction = "above")
 
 }
 \seealso{
-\link{config_runtoxdrc}, \code{\link[=runtoxdrc]{runtoxdrc()}}, \code{\link[=checktoxicity]{checktoxicity()}}
+[config_runtoxdrc], [runtoxdrc()], [checktoxicity()]
 }

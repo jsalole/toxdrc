@@ -7,25 +7,25 @@
 removeoutliers(dataset, Conc, Response, list_obj = NULL, quiet = FALSE)
 }
 \arguments{
-\item{dataset}{A dataframe, containing the columns \code{Conc} and \code{Response}.}
+\item{dataset}{A dataframe, containing the columns `Conc` and `Response`.}
 
-\item{Conc}{Bare (unquoted) column name in \code{dataset} that groups the
-\code{Response} variable.}
+\item{Conc}{Bare (unquoted) column name in `dataset` that groups the
+`Response` variable.}
 
-\item{Response}{Bare (unquoted) column name in \code{dataset} containing
+\item{Response}{Bare (unquoted) column name in `dataset` containing
 the response variable.}
 
 \item{list_obj}{Optional. List object used for integration with
-\code{\link[=runtoxdrc]{runtoxdrc()}}.}
+[runtoxdrc()].}
 
 \item{quiet}{Logical. Indicates if results should be hidden. Defaults
 to FALSE.}
 }
 \value{
-A modified \code{dataset} with outliers removed. If
-\code{list_obj} is provided, returns this within a list as
-\code{list_obj$dataset}, along with dataframe of removed outliers as
-\code{list_obj$removed_outliers}.
+A modified `dataset` with outliers removed. If
+ `list_obj` is provided, returns this within a list as
+ `list_obj$dataset`, along with dataframe of removed outliers as
+ `list_obj$removed_outliers`.
 }
 \description{
 This function removes statistical outliers from each testing group by iteratively applying Grubbs' test.

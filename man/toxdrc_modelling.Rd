@@ -17,45 +17,45 @@ toxdrc_modelling(
 }
 \arguments{
 \item{model.list}{List. Model functions to be tested. Defaults to
-include \code{"LL.4"}, \code{"LN.4"}, \code{"W1.4"}, \code{"W2.4"}. Most models from the drc
-package are compatible; use \code{drc::getMeanFunctions()} for a more options. See
-\code{\link[=modelcomp]{modelcomp()}} for more information around formatting.}
+ include `"LL.4"`, `"LN.4"`, `"W1.4"`, `"W2.4"`. Most models from the drc
+ package are compatible; use `drc::getMeanFunctions()` for a more options. See
+[modelcomp()] for more information around formatting.}
 
 \item{model.metric}{Character. Criterion used to select the best
-model. Choices are \code{"IC"}, \code{"Res var"}, \code{"Lack of fit"}. Defaults
+model. Choices are `"IC"`, `"Res var"`, `"Lack of fit"`. Defaults
 to "IC".}
 
 \item{EDx}{Numeric. The effective dose level to estimate. Defaults
 to 0.5.}
 
 \item{interval}{Character. Method for calculating confidence intervals
-of EDx. Choices: \code{"tfls"}, \code{"fls"}, \code{"delta"}, \code{"none"}. Defaults
-to "tfls". See \code{drc::ED()} for more information.}
+of EDx. Choices: `"tfls"`, `"fls"`, `"delta"`, `"none"`. Defaults
+to "tfls". See `drc::ED()` for more information.}
 
 \item{level}{Numeric. Confidence level for the interval calculation.
 Defaults to 0.95.}
 
-\item{type}{Character. Indicates if EDx is \code{"absolute"} or
-\code{"relative"} to the curve. Defaults to absolute.}
+\item{type}{Character. Indicates if EDx is `"absolute"` or
+`"relative"` to the curve. Defaults to absolute.}
 
 \item{quiet}{Logical. Indicates if results should be hidden. Defaults
 to FALSE.}
 
 \item{EDargs.supplement}{List. Optional user-supplied list of additional arguments
-compatible with \code{drc::ED()}.}
+compatible with `drc::ED()`.}
 }
 \value{
 A named list containing model fitting and selection settings
-for use in \code{\link[=runtoxdrc]{runtoxdrc()}}.
+ for use in [runtoxdrc()].
 }
 \description{
 Defines how dose-response models are fitted, selected, and how point
-estimates (EDx) are calculated.
+ estimates (EDx) are calculated.
 }
 \examples{
 toxdrc_modelling(EDargs.supplement = list(interval = "delta", level = 0.9))
 
 }
 \seealso{
-\link{config_runtoxdrc}, \code{\link[=runtoxdrc]{runtoxdrc()}}, \code{\link[drc:ED.drc]{drc::ED()}}, \code{\link[drc:getMeanFunctions]{drc::getMeanFunctions()}}, \code{\link[=modelcomp]{modelcomp()}}
+[config_runtoxdrc], [runtoxdrc()], [drc::ED()], [getMeanFunctions()], [modelcomp()]
 }
