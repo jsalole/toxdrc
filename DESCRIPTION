@@ -6,7 +6,6 @@ Description: Provides a variety of tools for assessing dose response curves, wit
 Maintainer: Jack Salole <salolej@mcmaster.ca>
 License: MIT + file LICENSE
 Encoding: UTF-8
-Roxygen: list(markdown = FALSE)
 RoxygenNote: 7.3.3
 URL: https://github.com/jsalole/toxdrc
 BugReports: https://github.com/jsalole/toxdrc/issues
