@@ -228,8 +228,8 @@ head(data_03)
 
 ## Acknowledgments
 
-- This package is an extenision of the [drc
-  package](https://cran.r-project.org/web/packages/drc/drc.pdf).
+- This package is an extenision for the
+  [drc](https://CRAN.R-project.org/package=drc) package.
 - This package uses code suggested by [Nel on stack
   overflow](https://stackoverflow.com/users/7133643/nel) for mselect2,
   which updates mselect to work within a function.
