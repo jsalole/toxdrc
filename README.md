@@ -27,11 +27,13 @@ consistently.
 ## Getting Started
 
 You can install the development version of **toxdrc** from
-[GitHub](https://github.com/jsalole/toxdrc) with:
+[GitHub](https://github.com/jsalole/toxdrc) with `pak()`, or in base R
+with `install.packages()`.
 
 ``` r
 # install.packages("pak")
 pak::pak("jsalole/toxdrc")
+install.packages("toxdrc")
 ```
 
 ``` r
