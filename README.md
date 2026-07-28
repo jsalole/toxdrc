@@ -37,8 +37,9 @@ arguments. It is also possible to tailor the function to specific
 experiments. The presets supply a sensible configuration for a kind of
 study, to limit the number of arguments to be entered.
 
-`cellglow` is fluorescence in arbitrary units with a blank and a solvent
-control, which is what the `"normalized"` preset is for.
+The `cellglow` dataset has a response in arbitrary units (fluorescence)
+that requires blank correction and normalization to a solvent control,
+which is what the `"normalized"` preset is for.
 
 ``` r
 results <- runtoxdrc(
