@@ -7,3 +7,4 @@
 ^.*\.Rhistory$
 \.fuse_hidden.*$
 ^\.DS_Store$
+^cran-comments\.md$
