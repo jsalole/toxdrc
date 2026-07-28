@@ -15,8 +15,6 @@ A data frame with 1,080 rows and 7 columns:
   \item{Dye}{Three cell viability indicators; aB = alamarBlue, CFDA = 5-CFDA-AM, NR = Neutral Red}
   \item{Type}{Only spiked exists in this dataset; indicates a reference toxicant was added to the effluent.}
   \item{Replicate}{The experimental replicate; replication occured at a well-plate level.}
-/item
-  ...
 }
 }
 \source{

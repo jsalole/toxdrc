@@ -14,7 +14,7 @@
 #'  [runtoxdrc()].
 #' @param quiet Logical. Indicates if results should be hidden. Defaults
 #'  to FALSE.
-
+#'
 #' @returns A modified `dataset` with an additional column,
 #'  `normalized response`. If `list_obj` is provided, returns this within
 #'   a list as `list_obj$dataset`, along with summary statistics surrounding
@@ -28,7 +28,6 @@
 #'  Conc = Conc,
 #'  Response = RFU
 #' )
-#
 normalizeresponse <- function(
   dataset,
   Conc,
@@ -37,16 +36,19 @@ normalizeresponse <- function(
   list_obj = NULL,
   quiet = FALSE
 ) {
+  check_dataset(dataset)
+  check_column(dataset, rlang::enquo(Conc), "Conc")
+  check_column(dataset, rlang::enquo(Response), "Response")
+  check_flag(quiet, "quiet")
+  check_list_obj(list_obj)
+  check_group(dataset, rlang::enquo(Conc), reference_group, "reference_group")
+
   dataset <- dataset %>%
     dplyr::mutate(
       {{ Response }} := as.numeric({{ Response }})
     )
 
   ref_rows <- dataset %>% dplyr::filter({{ Conc }} == reference_group)
-
-  if (nrow(ref_rows) == 0) {
-    stop('No reference rows found for normalization.')
-  }
 
   ref_mean <- mean(dplyr::pull(ref_rows, {{ Response }}), na.rm = TRUE)
   ref_sd <- sd(dplyr::pull(ref_rows, {{ Response }}), na.rm = TRUE)
@@ -74,13 +76,9 @@ normalizeresponse <- function(
   }
   if (is.null(list_obj)) {
     return(dataset)
-  } else {
-    if (is.list(list_obj)) {
-      list_obj$dataset <- dataset
-      list_obj$normalize_response_summary <- summary_df
-      return(list_obj)
-    } else {
-      stop("Provided list_obj must be a list.")
-    }
   }
+
+  list_obj$dataset <- dataset
+  list_obj$normalize_response_summary <- summary_df
+  list_obj
 }

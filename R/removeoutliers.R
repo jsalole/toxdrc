@@ -1,6 +1,10 @@
-#' Remove outliers iteratively using Grubbs' test.
+#' Remove outliers iteratively using Grubbs' test
 #'
-#' This function removes statistical outliers from each testing group by iteratively applying Grubbs' test.
+#' @description
+#' Removes statistical outliers from each group of `Conc` by applying Grubbs'
+#'  test repeatedly, dropping the most extreme value each time the test is
+#'  significant at p < 0.05. Groups of two or fewer observations are left
+#'  untouched, since Grubbs' test needs at least three.
 #'
 #' @param dataset A dataframe, containing the columns `Conc` and `Response`.
 #' @param Conc Bare (unquoted) column name in `dataset` that groups the
@@ -30,6 +34,12 @@ removeoutliers <- function(
   list_obj = NULL,
   quiet = FALSE
 ) {
+  check_dataset(dataset)
+  check_column(dataset, rlang::enquo(Conc), "Conc")
+  check_column(dataset, rlang::enquo(Response), "Response")
+  check_flag(quiet, "quiet")
+  check_list_obj(list_obj)
+
   results <- dataset %>%
     dplyr::group_by({{ Conc }}) %>%
     dplyr::group_split() %>%
@@ -86,15 +96,10 @@ removeoutliers <- function(
       print("Removed Rows")
       print(removed_all)
     }
-    dataset = cleaned_all
-    return(dataset)
-  } else {
-    if (is.list(list_obj)) {
-      list_obj$dataset <- cleaned_all
-      list_obj$removed_outliers <- removed_all
-      return(list_obj)
-    } else {
-      stop("Provided list_obj must be a list.")
-    }
+    return(cleaned_all)
   }
+
+  list_obj$dataset <- cleaned_all
+  list_obj$removed_outliers <- removed_all
+  list_obj
 }

@@ -8,8 +8,10 @@ modelcomp(
   dataset,
   Conc,
   Response,
+  N = NULL,
   model_list = NULL,
   metric = c("IC", "Res var", "Lack of fit"),
+  type = c("continuous", "binomial"),
   list_obj = NULL,
   quiet = FALSE
 )
@@ -21,16 +23,29 @@ modelcomp(
 `Response` variable.}
 
 \item{Response}{Bare (unquoted) column name in `dataset` containing
-the response variable.}
+the response variable. For a quantal endpoint this is the affected
+fraction, between 0 and 1.}
 
-\item{model_list}{List. Model functions to be tested. Defaults to
-include `"LL.4"`, `"LN.4"`, `"W1.4"`, `"W2.4"`. Most models from the drc
-package are compatible; use `drc::getMeanFunctions()` for a more options.
-See details for formatting}
+\item{N}{Bare (unquoted) column name in `dataset` giving the number of
+organisms in each group. Required when `type = "binomial"` and ignored
+otherwise.}
+
+\item{model_list}{Named list, or NULL. Model functions to be tested. NULL,
+the default, selects a list appropriate to `type`: `LL.4` for a continuous
+response, and `LL.2` together with `LL.3u` for a quantal one. Supply your
+own list to override, e.g. `list("LL.4" = LL.4(), "W1.4" = W1.4())`. Most
+models from the drc package are compatible; use `drc::getMeanFunctions()`
+for more options. Each entry must be named for the model function it
+holds. See details for formatting.}
 
 \item{metric}{Character. Criterion used to select the best
 model. Choices are `"IC"`, `"Res var"`, `"Lack of fit"`. Defaults
-to "IC".}
+to "IC". See details for how each is ordered. `"Res var"` is not
+available when `type = "binomial"`.}
+
+\item{type}{Character. `"continuous"` for a measured response, or
+`"binomial"` for a quantal endpoint, which is fitted with
+`drc::drm(type = "binomial")` and weighted by `N`.}
 
 \item{list_obj}{Optional. List object used for integration with
 [runtoxdrc()].}
@@ -41,19 +56,38 @@ to FALSE.}
 \value{
 A fitted drm model. If `list_obj` is provided, returns this within
 the list as `list_obj$best_model`, along with the model name
- (`list_obj$best_model_name`), and the model compairison dataframe
+ (`list_obj$best_model_name`), and the model comparison dataframe
  (`list_obj$model_df`). If model fitting fails, returns NULL.
 }
 \description{
 Data is fitted to provided models, typically from the drc package. Models
  fitted successfully are compared using multiple goodness-of-fit scores,
  and organized using the score given as the `metric` argument.
- arguement.
+
+For a continuous response the default `model_list` holds a single model, so
+ by default this fits `LL.4` rather than choosing between candidates.
+ Supply more than one entry to make `metric` meaningful. For a quantal
+ endpoint the default holds two, `LL.2` and `LL.3u`, which differ in
+ whether background response in the controls is estimated.
 }
 \details{
 The `model_list` argument requires a specific style. The argument must be a
- list; entries in the list are in the format where the shorthand is the name of
- the model function. An example of this is `"LL.4" = LL.4()`.
+ named list, where each name is the shorthand of the model function held in
+ that entry, and each entry is the *result* of calling that function. An
+ example of this is `list("LL.4" = LL.4(), "W1.4" = W1.4())`.
+
+The names are not cosmetic: they are used to label the comparison table and
+ to retrieve the winning model, so a name that disagrees with the function it
+ holds is rejected rather than silently ignored.
+
+Models that fail to converge are retained in the comparison table as `NA`
+ rows and are never selected as the best model.
+
+**Ordering of `metric`.** `"IC"` and `"Res var"` are ordered ascending,
+ since a smaller value indicates the better model. `"Lack of fit"` is
+ ordered descending, because it is a goodness-of-fit p-value where a larger
+ value means less evidence against the model. Note that this differs from
+ [drc::mselect()], which sorts every criterion ascending.
 }
 \examples{
 toxresult2 <- toxresult[!toxresult$Conc \%in\% c ("Control", "Blank"),]
@@ -62,6 +96,6 @@ modelcomp(toxresult2, Conc, RFU, metric = "IC")
 
 }
 \seealso{
-[drc::getMeanFunctions()] for compatabile models and their
+[drc::getMeanFunctions()] for compatible models and their
  shorthand for `model_list`.
 }

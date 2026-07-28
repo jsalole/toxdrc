@@ -3,3 +3,7 @@
 ^LICENSE\.md$
 ^\.github$
 ^README\.Rmd$
+^data-raw$
+^.*\.Rhistory$
+\.fuse_hidden.*$
+^\.DS_Store$

@@ -39,16 +39,19 @@ blankcorrect <- function(
   list_obj = NULL,
   quiet = FALSE
 ) {
+  check_dataset(dataset)
+  check_column(dataset, rlang::enquo(Conc), "Conc")
+  check_column(dataset, rlang::enquo(Response), "Response")
+  check_flag(quiet, "quiet")
+  check_list_obj(list_obj)
+  check_group(dataset, rlang::enquo(Conc), blank_group, "blank_group")
+
   dataset <- dataset %>%
     dplyr::mutate(
       {{ Response }} := as.numeric({{ Response }})
     )
 
   blank_rows <- dataset %>% dplyr::filter({{ Conc }} == blank_group)
-
-  if (nrow(blank_rows) == 0) {
-    stop('No blank_group rows found for background correction.')
-  }
 
   blank_mean <- mean(dplyr::pull(blank_rows, {{ Response }}), na.rm = TRUE)
   blank_sd <- sd(dplyr::pull(blank_rows, {{ Response }}), na.rm = TRUE)
@@ -76,13 +79,9 @@ blankcorrect <- function(
 
   if (is.null(list_obj)) {
     return(dataset)
-  } else {
-    if (is.list(list_obj)) {
-      list_obj$dataset <- dataset
-      list_obj$blank_stats <- summary_df
-      return(list_obj)
-    } else {
-      stop("Provided list_obj must be a list.")
-    }
   }
+
+  list_obj$dataset <- dataset
+  list_obj$blank_stats <- summary_df
+  list_obj
 }

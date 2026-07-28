@@ -2,7 +2,7 @@
 % Please edit documentation in R/config_runtoxdrc.R
 \name{toxdrc_output}
 \alias{toxdrc_output}
-\title{#' Output configuration for for the runtoxdrc pipeline.}
+\title{Output configuration for the runtoxdrc pipeline.}
 \usage{
 toxdrc_output(
   condense = FALSE,

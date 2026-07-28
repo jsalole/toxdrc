@@ -21,7 +21,7 @@
 #'  [runtoxdrc()].
 #' @param quiet Logical. Indicates if results should be hidden. Defaults
 #'  to FALSE.
-
+#'
 #' @returns A modified `dataset` with an additional column, `Validity`. If
 #'  `list_obj` is provided, returns this within a list as
 #'  `list_obj$dataset`, along with statistics of the positive and reference
@@ -48,18 +48,19 @@ pctl <- function(
   list_obj = NULL,
   quiet = FALSE
 ) {
+  check_dataset(dataset)
+  check_column(dataset, rlang::enquo(Conc), "Conc")
+  check_column(dataset, rlang::enquo(Response), "Response")
+  check_number(max_diff, "max_diff", min = 0)
+  check_flag(quiet, "quiet")
+  check_list_obj(list_obj)
+  check_group(dataset, rlang::enquo(Conc), reference_group, "reference_group")
+  check_group(dataset, rlang::enquo(Conc), positive_group, "positive_group")
+
   dataset <- dataset %>%
     dplyr::mutate(
       Validity = ""
     )
-
-  # Check if both necessary groups exist
-  if (
-    !(reference_group %in% dplyr::pull(dataset, {{ Conc }})) ||
-      !(positive_group %in% dplyr::pull(dataset, {{ Conc }}))
-  ) {
-    stop('Both reference and positive groups are required for check.')
-  }
 
   # Calculate means
   pctl_resp <- mean(
@@ -97,9 +98,6 @@ pctl <- function(
 
   # Output logic
   if (!is.null(list_obj)) {
-    if (!is.list(list_obj)) {
-      stop("Provided list_obj must be a list.")
-    }
     list_obj$dataset <- dataset
     list_obj$pctlresults <- summary_df
     return(list_obj)

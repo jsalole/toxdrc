@@ -2,19 +2,22 @@
 % Please edit documentation in R/runtoxdrc.R
 \name{runtoxdrc}
 \alias{runtoxdrc}
-\title{Point estmation pipeline}
+\title{Point estimation pipeline}
 \usage{
 runtoxdrc(
   dataset,
   Conc,
   Response,
+  N = NULL,
   IDcols = NULL,
   quiet = FALSE,
-  qc = toxdrc_qc(),
-  normalization = toxdrc_normalization(),
-  toxicity = toxdrc_toxicity(),
-  modelling = toxdrc_modelling(),
-  output = toxdrc_output()
+  preset = NULL,
+  endpoint = NULL,
+  qc = NULL,
+  normalization = NULL,
+  toxicity = NULL,
+  modelling = NULL,
+  output = NULL
 )
 }
 \arguments{
@@ -24,7 +27,13 @@ runtoxdrc(
 `Response` variable.}
 
 \item{Response}{Bare (unquoted) column name in `dataset` containing
-the response variable.}
+the response variable. For a quantal endpoint this is the affected
+fraction, or the number affected if
+`endpoint = toxdrc_endpoint(response.type = "count")`.}
+
+\item{N}{Bare (unquoted) column name in `dataset` giving the number of
+organisms in each group. Required for a quantal endpoint and ignored
+otherwise.}
 
 \item{IDcols}{Optional. Character. Columns given as a vector used in the
 identification of data. These columns are preserved in the modified
@@ -34,20 +43,30 @@ identical within observations grouped by `Conc`.}
 \item{quiet}{Logical. Indicates if results should be hidden. Defaults
 to FALSE.}
 
-\item{qc}{Quality control and filtering options. See [toxdrc_qc()]
-for more detail and defaults.}
+\item{preset}{A configuration set from [toxdrc_preset()], or the name of
+one such as `"quantal"`. Supplies defaults for every configuration block
+left unset below. Defaults to `"continuous"`, which is where this
+function's own defaults come from.}
 
-\item{normalization}{Normalization options. See [toxdrc_normalization()]
-for more detail and defaults.}
+\item{endpoint}{Endpoint options, declaring whether the response is
+continuous or quantal, overriding the preset. See [toxdrc_endpoint()] for
+more detail and defaults.}
 
-\item{toxicity}{Toxicity threshold and response-level options. See
-[toxdrc_toxicity()] for more detail and defaults.}
+\item{qc}{Quality control and filtering options, overriding the preset.
+See [toxdrc_qc()] for more detail and defaults.}
+
+\item{normalization}{Normalization options, overriding the preset. See
+[toxdrc_normalization()] for more detail and defaults.}
+
+\item{toxicity}{Toxicity threshold and response-level options, overriding
+the preset. See [toxdrc_toxicity()] for more detail and defaults.}
 
 \item{modelling}{Model selection, fitting criteria, and EDx calculation
-options. See [toxdrc_modelling()] for more detail and defaults.}
-
-\item{output}{Settings for output. See [toxdrc_output()] for more detail
+options, overriding the preset. See [toxdrc_modelling()] for more detail
 and defaults.}
+
+\item{output}{Settings for output, overriding the preset. See
+[toxdrc_output()] for more detail and defaults.}
 }
 \value{
 By default, returns a list of lists with each subset of data having
@@ -59,8 +78,29 @@ By default, returns a list of lists with each subset of data having
 \description{
 `runtoxdrc()` is the pipeline for function in the toxdrc package. This
  function allows the automated analysis of large datasets, while
- maintaining a consistent process for each suset of data.
+ maintaining a consistent process for each subset of data.
 }
+\section{Quantal endpoints}{
+
+Setting `endpoint = toxdrc_endpoint(type = "binomial")` fits models with
+ `drc::drm(type = "binomial")`, weighted by `N`, and defaults to comparing
+ `LL.2` against `LL.3u`. Replicates are pooled by group size rather than
+ averaged.
+
+Three preprocessing steps are refused for quantal data, because they assume
+ a continuous response on an unbounded scale: `blank.correction`,
+ `normalize.resp`, and `outlier.test`. Each raises an error naming the
+ alternative. `"Res var"` is likewise unavailable as `model.metric`, since a
+ binomial fit has no residual variance.
+
+Setting `modelling = toxdrc_modelling(interpolate = TRUE)` handles the
+ degenerate case where no concentration produced a partial effect. There the
+ slope is unidentifiable, so no model can be fitted at all, and the estimate
+ comes from log-linear interpolation between the bracketing concentrations
+ instead. Such entries are marked with `best_model_name = "interpolated"`
+ and carry no confidence interval. See [interpolateECx()].
+}
+
 \examples{
 \donttest{
   analyzed_data <- runtoxdrc(
@@ -79,5 +119,6 @@ By default, returns a list of lists with each subset of data having
 
 }
 \seealso{
-[config_runtoxdrc()] for configuration settings of the pipeline.
+[toxdrc_preset()] for ready-made configurations, and
+ [config_runtoxdrc()] for the individual settings they are built from.
 }

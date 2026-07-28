@@ -39,7 +39,7 @@ see `type` and `direction`.}
 \item{reference_group}{Label used for reference group in `Conc` column.
 Defaults to 0.}
 
-\item{target_group}{Optional. Limits the compairison to certain levels in
+\item{target_group}{Optional. Limits the comparison to certain levels in
 `Conc`.}
 
 \item{list_obj}{Optional. List object used for integration with

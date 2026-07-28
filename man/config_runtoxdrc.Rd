@@ -15,6 +15,7 @@ An overview of the modular configuration functions used by
 \details{
 **Available configuration functions:**
 \itemize{
+  \item [toxdrc_endpoint()] — Continuous or quantal response, and how it is supplied
   \item [toxdrc_qc()] — Quality control and filtering options
   \item [toxdrc_normalization()] — Blank correction and normalization
   \item [toxdrc_toxicity()] — Toxicity threshold and response-level options
@@ -24,6 +25,7 @@ An overview of the modular configuration functions used by
 }
 \seealso{
 [runtoxdrc()],
+[toxdrc_endpoint()],
 [toxdrc_qc()],
 [toxdrc_normalization()],
 [toxdrc_toxicity()],

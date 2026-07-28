@@ -8,7 +8,9 @@ averageresponse(
   dataset,
   Conc,
   Response,
+  N = NULL,
   IDcols = NULL,
+  type = c("continuous", "binomial"),
   list_obj = NULL,
   quiet = FALSE
 )
@@ -20,12 +22,22 @@ averageresponse(
 `Response` variable.}
 
 \item{Response}{Bare (unquoted) column name in `dataset` containing
-the response variable.}
+the response variable. For a quantal endpoint this is the affected
+fraction, between 0 and 1.}
 
-\item{IDcols}{Character. Columns given as a vector used in the
-identification of data. These columns are preserved in the modified
-`dataset` with the first non-blank value. These values should be
-identical within observations grouped by `Conc`.}
+\item{N}{Bare (unquoted) column name in `dataset` giving the number of
+organisms in each group. Required when `type = "binomial"` and ignored
+otherwise.}
+
+\item{IDcols}{Optional. Character vector of columns used to identify the
+data. These columns are preserved in the collapsed `dataset`, taking the
+first non-blank value in each group, so their values should be constant
+within a `Conc` group. Naming a column that does not exist is an error.}
+
+\item{type}{Character. `"continuous"` averages the response within each
+group. `"binomial"` pools it instead, weighting each replicate by `N` and
+returning the combined group size, so that a proportion from 30 of 60
+counts for more than one from 1 of 4.}
 
 \item{list_obj}{Optional. List object used for integration with
 [runtoxdrc()].}
@@ -45,10 +57,10 @@ A collapsed `dataset` with one row for each level of `Conc`.
 }
 \examples{
 averageresponse(
-     dataset = toxresult,
-     Conc = Conc,
-     Response = RFU,
-     IDcols = c("TestID", "Test_Number", "Dye", "Type", "Replicate"),
-   )
+  dataset = toxresult,
+  Conc = Conc,
+  Response = RFU,
+  IDcols = c("TestID", "Test_Number", "Dye", "Type", "Replicate")
+)
 
 }

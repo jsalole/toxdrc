@@ -1,0 +1,83 @@
+#' Simulated acute lethality test data with a quantal endpoint
+#'
+#' @description
+#' A simulated acute lethality study, for demonstrating and testing the
+#'  quantal path through [runtoxdrc()]. Organisms are scored affected or
+#'  unaffected at each concentration, so the response is a count out of a
+#'  known group size rather than a measurement.
+#'
+#' @details
+#' **These data are simulated, not measured.** Counts are computed
+#'  deterministically from known log-logistic curves rather than sampled at
+#'  random, so the dataset is identical across R versions and the generating
+#'  values can be recovered exactly. Replicate variation is a fixed offset of
+#'  0, +1 and -1 affected organisms. The generating script is in
+#'  `data-raw/acutetox.R`.
+#'
+#' Three substances are included, each exercising a different path through the
+#'  `"quantal"` preset:
+#'
+#' \describe{
+#'   \item{`Graded` (Test_Number 101)}{A clean concentration-response with no
+#'     control mortality, generated with an ED50 of 10 and a slope of 0.9.
+#'     Pooled response runs 0, 0.10, 0.25, 0.50, 0.75, 0.90, so three
+#'     concentrations sit inside the partial-effect band and a model fits
+#'     normally. LC50 is 10 by construction.}
+#'   \item{`Steep` (Test_Number 102)}{No partial responses anywhere: nothing
+#'     affected at or below 10, everything affected at 32 and above. The slope
+#'     is unidentifiable, so no dose-response model can be fitted and
+#'     [interpolateECx()] applies instead. The expected estimate is the
+#'     geometric mean of the bracketing concentrations,
+#'     \eqn{\sqrt{10 \times 32} = 17.889}.}
+#'   \item{`Background` (Test_Number 103)}{As `Graded`, but with 10 percent
+#'     control mortality, so the lower limit is not 0 and `LL.3u` has a reason
+#'     to be preferred over `LL.2`. The absolute 50 percent point is 7.804
+#'     rather than 10, because the ED50 parameter marks the midpoint between
+#'     the curve's limits, which is no longer the midpoint between 0 and 1
+#'     once the lower limit is raised.}
+#' }
+#'
+#' @format ## `acutetox`
+#' A data frame with 54 rows and 8 columns:
+#' \describe{
+#'   \item{TestID}{Combination of Test_Number, Substance and Replicate}
+#'   \item{Test_Number}{Identifying number of each test substance}
+#'   \item{Substance}{Substance label, named for the response pattern it shows}
+#'   \item{Replicate}{Experimental replicate, A to C}
+#'   \item{Conc}{Concentration in arbitrary units; 0 is the control}
+#'   \item{Affected}{Number of organisms affected in the group}
+#'   \item{Total}{Number of organisms exposed in the group, 20 throughout}
+#'   \item{Prop}{Affected fraction, `Affected / Total`}
+#' }
+#'
+#' @source Simulated for this package. See `data-raw/acutetox.R`.
+#'
+#' @seealso [cellglow] and [toxresult] for continuous endpoints,
+#'  [toxdrc_preset()] for the matching configuration.
+#'
+#' @examples
+#' \donttest{
+#' # The proportion column with a group size, which is the default path.
+#' runtoxdrc(
+#'   dataset  = acutetox,
+#'   Conc     = Conc,
+#'   Response = Prop,
+#'   N        = Total,
+#'   IDcols   = c("Test_Number", "Substance"),
+#'   preset   = "quantal",
+#'   quiet    = TRUE
+#' )
+#'
+#' # The same data supplied as counts instead.
+#' runtoxdrc(
+#'   dataset  = acutetox,
+#'   Conc     = Conc,
+#'   Response = Affected,
+#'   N        = Total,
+#'   IDcols   = c("Test_Number", "Substance"),
+#'   preset   = "quantal",
+#'   endpoint = toxdrc_endpoint(type = "binomial", response.type = "count"),
+#'   quiet    = TRUE
+#' )
+#' }
+"acutetox"

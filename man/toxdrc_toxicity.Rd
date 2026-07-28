@@ -2,7 +2,7 @@
 % Please edit documentation in R/config_runtoxdrc.R
 \name{toxdrc_toxicity}
 \alias{toxdrc_toxicity}
-\title{Toxicity configuration for for the runtoxdrc pipeline.}
+\title{Toxicity configuration for the runtoxdrc pipeline.}
 \usage{
 toxdrc_toxicity(
   toxic.lvl = 0.7,
@@ -24,7 +24,7 @@ or `"above"`. Defaults to below.}
 
 \item{comp.group}{Label used for reference group.}
 
-\item{target.group}{Optional. Limits the compairison to certain
+\item{target.group}{Optional. Limits the comparison to certain
 exposure conditions.}
 }
 \value{

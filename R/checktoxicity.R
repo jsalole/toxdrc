@@ -18,7 +18,7 @@
 #'  `"above"`. Defaults to below.
 #' @param reference_group Label used for reference group in `Conc` column.
 #'  Defaults to 0.
-#' @param target_group Optional. Limits the compairison to certain levels in
+#' @param target_group Optional. Limits the comparison to certain levels in
 #'  `Conc`.
 #' @param list_obj Optional. List object used for integration with
 #'  [runtoxdrc()].
@@ -54,6 +54,32 @@ checktoxicity <- function(
   type <- match.arg(type)
   direction <- match.arg(direction)
 
+  check_dataset(dataset)
+  check_column(dataset, rlang::enquo(Conc), "Conc")
+  check_column(dataset, rlang::enquo(Response), "Response")
+  check_number(effect, "effect")
+  check_flag(quiet, "quiet")
+  check_list_obj(list_obj)
+
+  if (!is.null(target_group)) {
+    check_group(dataset, rlang::enquo(Conc), target_group, "target_group")
+  }
+
+  # Only the relative threshold depends on the reference group, so an absent
+  # label is only an error in that case.
+  if (type == "relative") {
+    check_group(
+      dataset,
+      rlang::enquo(Conc),
+      reference_group,
+      "reference_group"
+    )
+  }
+
+  # Declared here only to satisfy R CMD check; .data is an rlang pronoun
+  # resolved inside the dplyr pipeline below.
+  .data <- NULL
+
   # establish threshold for both relative and absolute
 
   if (type == "relative") {
@@ -67,13 +93,10 @@ checktoxicity <- function(
     response_threshold <- effect
   }
 
-  .data <- NULL # to avoid error from NSE in pull
-
   #filter dataset if needed
   if (!is.null(target_group)) {
     summary_df <- dataset %>%
-      dplyr::filter({{ Conc }}) ==
-      target_group
+      dplyr::filter({{ Conc }} %in% target_group)
   } else {
     summary_df <- dataset
   }
@@ -82,34 +105,64 @@ checktoxicity <- function(
     dplyr::filter(!is.na({{ Response }})) %>%
     dplyr::pull({{ Response }})
 
+  if (length(response_values) == 0) {
+    toxdrc_abort(
+      c(
+        "No non-missing response values are available to test.",
+        "i" = if (is.null(target_group)) {
+          "Every value in the response column is NA."
+        } else {
+          "Check whether `target_group` selected any rows."
+        }
+      ),
+      class = "no_response_values"
+    )
+  }
+
+  if (is.na(response_threshold)) {
+    toxdrc_abort(
+      c(
+        "The toxicity threshold could not be calculated.",
+        "x" = if (type == "relative") {
+          paste0(
+            "The mean response of reference group \"", reference_group,
+            "\" is NA."
+          )
+        } else {
+          "`effect` is NA."
+        },
+        "i" = "Check that the reference group has non-missing responses."
+      ),
+      class = "undefined_threshold"
+    )
+  }
+
   #if below
 
   if (direction == "below") {
     all_above <- all(response_values > response_threshold)
     if (all_above == TRUE) {
-      statment <- ("Test effect does not exceed threshold")
+      statement <- ("Test effect does not exceed threshold")
       toxic_effect <- FALSE
     } else {
-      statment <- ("Test effect exceeds threshold")
+      statement <- ("Test effect exceeds threshold")
       toxic_effect <- TRUE
     }
   }
 
-  # this does not work, all would need to be above, if ANY are below.
-
   if (direction == "above") {
     all_below <- all(response_values < response_threshold)
     if (all_below == TRUE) {
-      statment <- ("Test effect does not exceed threshold")
+      statement <- ("Test effect does not exceed threshold")
       toxic_effect <- FALSE
     } else {
-      statment <- ("Test effect exceeds threshold")
+      statement <- ("Test effect exceeds threshold")
       toxic_effect <- TRUE
     }
   }
 
   if (!quiet) {
-    print(statment)
+    print(statement)
   }
 
   # store results
@@ -118,10 +171,6 @@ checktoxicity <- function(
     return(toxic_effect)
   }
 
-  if (is.list(list_obj)) {
-    list_obj$effect <- toxic_effect
-    return(list_obj)
-  } else {
-    stop("Provided list_obj must be a list.")
-  }
+  list_obj$effect <- toxic_effect
+  list_obj
 }

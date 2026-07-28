@@ -4,7 +4,7 @@
 #' This function calculates the coefficient of variation (CV) of each
 #'  of the exposure conditions, and flags them if they exceed a set value.
 #'
-#' @param dataset dataset A dataframe, containing the columns `Conc` and `Response`.
+#' @param dataset A dataframe, containing the columns `Conc` and `Response`.
 #' @param Conc Bare (unquoted) column name in `dataset` that groups the
 #'  `Response` variable.
 #' @param Response Bare (unquoted) column name in `dataset` containing
@@ -36,6 +36,18 @@ flagCV <- function(
   list_obj = NULL,
   quiet = FALSE
 ) {
+  check_dataset(dataset)
+  check_column(dataset, rlang::enquo(Conc), "Conc")
+  check_column(dataset, rlang::enquo(Response), "Response")
+  check_number(max_val, "max_val", min = 0)
+  check_flag(quiet, "quiet")
+  check_list_obj(list_obj)
+
+  # Declared here only to satisfy R CMD check, which cannot see that CV and
+  # CVflag are columns created inside the dplyr pipeline below.
+  CV <- NULL
+  CVflag <- NULL
+
   updated_dataset <- dataset %>%
     dplyr::group_by({{ Conc }}) %>%
     dplyr::mutate(
@@ -47,14 +59,6 @@ flagCV <- function(
     dplyr::ungroup()
 
   updated_dataset <- as.data.frame(updated_dataset)
-
-  # CVflag + CV set to null to avoid following error : flagCV: no visible binding for global variable ‘CV’
-  #flagCV: no visible binding for global variable ‘CVflag’
-  #Undefined global functions or variables:
-  # CV CVflag
-
-  CV <- NULL
-  CVflag <- NULL
 
   summary_df <- updated_dataset %>%
     dplyr::group_by({{ Conc }}) %>%
@@ -74,9 +78,6 @@ flagCV <- function(
     dplyr::select(-c("CV"))
 
   if (!is.null(list_obj)) {
-    if (!is.list(list_obj)) {
-      stop("Provided list_obj must be a list.")
-    }
     list_obj$dataset <- updated_dataset
     list_obj$CVresults <- summary_df
     return(list_obj)

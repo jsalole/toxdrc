@@ -8,230 +8,227 @@
 [![R-CMD-check](https://github.com/jsalole/toxdrc/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/jsalole/toxdrc/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-**toxdrc** provides a streamlined workflow for analyzing dose-response
-data.  
-The package includes a set of modular functions that collectively:
+**toxdrc** analyses dose-response data across many experimental subsets
+at once, applying the same preprocessing, model selection and
+effect-concentration estimation to each.
 
-- import and clean raw experimental data
-- run quality checks
-- apply optional user-defined transformations or normalizations
-- fit multiple dose–response models
-- automatically select the best-fitting model
-- estimate specified effect measures across experimental groups or
-  conditions
+Fitting a single curve is already well served by
+[drc](https://CRAN.R-project.org/package=drc). **toxdrc** instead
+focuses on the application [drc](https://CRAN.R-project.org/package=drc)
+to analyzing datasets containing several curves that all need to be
+processed independantly, but identically.
 
-This makes **toxdrc** well-suited for handling complex or multi-factor
-experiments where dose–response relationships must be modelled
-consistently.
-
-## Getting Started
-
-You can install the development version of **toxdrc** from
-[GitHub](https://github.com/jsalole/toxdrc) with `pak()`, or in base R
-with `install.packages()`.
+## Installation
 
 ``` r
 # install.packages("pak")
-pak::pak("jsalole/toxdrc")
-install.packages("toxdrc")
+pak::pak("jsalole/toxdrc") # for GitHub version
+install.packages("toxdrc") # for CRAN version
 ```
 
 ``` r
-library("toxdrc")
+library(toxdrc)
 ```
 
-This will get the package into your R session.
+## Getting started
 
-## Examples
+**toxdrc** has a preset arguments that can be used to set advanced
+arguments. It is also possible to tailor the function to specific
+experiments. The presets supply a sensible configuration for a kind of
+study, to limit the number of arguments to be entered.
 
-This package comes built in with two example datasets. `toxresult` is a
-small dataset that looks at the results of a toxicity test within a
-single 24-well plate. `cellglow` is much larger with 1080 observations.
-These demonstrate when this package is useful.
-
-``` r
-length(unique(interaction(toxresult$TestID, toxresult$Dye)))
-#> [1] 1
-```
+`cellglow` is fluorescence in arbitrary units with a blank and a solvent
+control, which is what the `"normalized"` preset is for.
 
 ``` r
-length(unique(interaction(cellglow$TestID, cellglow$Dye)))
-#> [1] 45
-```
-
-With one set of data, existing options like the `drc` package can be
-quite manageable. These can also be assessed using **toxdrc** through
-the many modular functions that exist, like `blankcorrect()`,
-`normalizeresponse()`, `modelcomp()`, `getECx()`, among many others.
-This package is most useful is through the pipeline function,
-`runtoxdrc()`. This pipeline splits up the dataset into the subsets for
-analysis.
-
-``` r
-data_01 <- runtoxdrc(
+results <- runtoxdrc(
   dataset = cellglow,
   Conc = Conc,
   Response = RFU,
   IDcols = c("Test_Number", "Dye", "Replicate", "Type"),
+  preset = "normalized",
   quiet = TRUE,
-  qc = toxdrc_qc(),
-  normalization = toxdrc_normalization(
-    blank.correction = TRUE,
-    normalize.resp = TRUE
-  ),
-  toxicity = toxdrc_toxicity(),
-  modelling = toxdrc_modelling(
-    quiet = TRUE,
-  ),
-  output = toxdrc_output()
-)
-```
-
-``` r
-data_02 <- runtoxdrc(
-  dataset = cellglow,
-  Conc = Conc,
-  Response = RFU,
-  IDcols = c("Test_Number", "Dye", "Replicate", "Type"),
-  quiet = TRUE,
-  qc = toxdrc_qc(),
-  normalization = toxdrc_normalization(
-    blank.correction = TRUE,
-    normalize.resp = TRUE
-  ),
-  toxicity = toxdrc_toxicity(),
-  modelling = toxdrc_modelling(
-    quiet = TRUE,
-  ),
-  output = toxdrc_output(
-    condense = TRUE
-  )
-)
-```
-
-While the pipeline only requires a few functions, it can be tailored to
-meet the needs of most assays. The `toxdrc_config()` help file indicates
-how these arguments can be used.
-
-The `data_01` provides intermediate information on the pipeline for each
-subset, but `data_02` will return a simple dataframe summarizung the
-results.
-
-``` r
-summary(data_01)
-#>                     Length Class  Mode
-#> 83167.aB.A.Spiked   11     -none- list
-#> 83256.aB.A.Spiked   11     -none- list
-#> 83344.aB.A.Spiked   11     -none- list
-#> 83475.aB.A.Spiked   11     -none- list
-#> 83476.aB.A.Spiked   11     -none- list
-#> 83167.CFDA.A.Spiked 11     -none- list
-#> 83256.CFDA.A.Spiked 11     -none- list
-#> 83344.CFDA.A.Spiked 11     -none- list
-#> 83475.CFDA.A.Spiked 11     -none- list
-#> 83476.CFDA.A.Spiked 11     -none- list
-#> 83167.NR.A.Spiked   11     -none- list
-#> 83256.NR.A.Spiked   11     -none- list
-#> 83344.NR.A.Spiked   11     -none- list
-#> 83475.NR.A.Spiked   11     -none- list
-#> 83476.NR.A.Spiked   11     -none- list
-#> 83167.aB.B.Spiked   11     -none- list
-#> 83256.aB.B.Spiked   11     -none- list
-#> 83344.aB.B.Spiked   11     -none- list
-#> 83475.aB.B.Spiked   11     -none- list
-#> 83476.aB.B.Spiked   11     -none- list
-#> 83167.CFDA.B.Spiked 11     -none- list
-#> 83256.CFDA.B.Spiked 11     -none- list
-#> 83344.CFDA.B.Spiked 11     -none- list
-#> 83475.CFDA.B.Spiked 11     -none- list
-#> 83476.CFDA.B.Spiked 11     -none- list
-#> 83167.NR.B.Spiked   11     -none- list
-#> 83256.NR.B.Spiked   11     -none- list
-#> 83344.NR.B.Spiked   11     -none- list
-#> 83475.NR.B.Spiked   11     -none- list
-#> 83476.NR.B.Spiked   11     -none- list
-#> 83167.aB.C.Spiked   11     -none- list
-#> 83256.aB.C.Spiked   11     -none- list
-#> 83344.aB.C.Spiked   11     -none- list
-#> 83475.aB.C.Spiked   11     -none- list
-#> 83476.aB.C.Spiked   11     -none- list
-#> 83167.CFDA.C.Spiked 11     -none- list
-#> 83256.CFDA.C.Spiked 11     -none- list
-#> 83344.CFDA.C.Spiked 11     -none- list
-#> 83475.CFDA.C.Spiked 11     -none- list
-#> 83476.CFDA.C.Spiked 11     -none- list
-#> 83167.NR.C.Spiked   11     -none- list
-#> 83256.NR.C.Spiked   11     -none- list
-#> 83344.NR.C.Spiked   11     -none- list
-#> 83475.NR.C.Spiked   11     -none- list
-#> 83476.NR.C.Spiked   11     -none- list
-```
-
-``` r
-head(data_02)
-#>                    ID Effect Measure   Estimate Std. Error      Lower     Upper
-#> 1   83167.aB.A.Spiked           EC50  4.4205652  2.2945587  0.8473618 23.061455
-#> 2   83256.aB.A.Spiked           EC50 16.2647147  2.4803215 10.0109977 26.425033
-#> 3   83344.aB.A.Spiked           EC50  5.9924242  1.6964279  2.4340586 14.752787
-#> 4   83475.aB.A.Spiked           EC50  0.8838429  0.5481938  0.1227810  6.362371
-#> 5   83476.aB.A.Spiked           EC50 28.8840432  2.7741255 21.2771968 39.210426
-#> 6 83167.CFDA.A.Spiked           EC50 41.4848324 10.7602489 18.1718124 94.706641
-#>   best_model_name effect
-#> 1            LN.4   TRUE
-#> 2            W2.4   TRUE
-#> 3            W1.4   TRUE
-#> 4            LL.4   TRUE
-#> 5            W2.4   TRUE
-#> 6            LN.4   TRUE
-```
-
-This package is also capable of making multiple point-estimates for each
-subset:
-
-``` r
-data_03 <- runtoxdrc(
-  dataset = cellglow,
-  Conc = Conc,
-  Response = RFU,
-  IDcols = c("Test_Number", "Dye", "Replicate", "Type"),
-  quiet = TRUE,
-  normalization = toxdrc_normalization(
-    blank.correction = TRUE,
-    normalize.resp = TRUE
-  ),
-  modelling = toxdrc_modelling(
-    EDx = c(0.2, 0.5, 0.7),
-    quiet = TRUE
-  ),
   output = toxdrc_output(condense = TRUE)
 )
 
-head(data_03)
-#>                  ID Effect Measure  Estimate Std. Error      Lower    Upper
-#> 1 83167.aB.A.Spiked           EC20  3.235809   2.003172  0.4511939 23.20612
-#> 2 83167.aB.A.Spiked           EC50  4.420565   2.294559  0.8473618 23.06146
-#> 3 83167.aB.A.Spiked           EC70  4.995914   2.404170  1.0801938 23.10618
-#> 4 83256.aB.A.Spiked           EC20 15.189664   2.536946  8.9270818 25.84561
-#> 5 83256.aB.A.Spiked           EC50 16.264715   2.480321 10.0109977 26.42503
-#> 6 83256.aB.A.Spiked           EC70 16.728695   2.453028 10.4904421 26.67659
-#>   best_model_name effect
-#> 1            LN.4   TRUE
-#> 2            LN.4   TRUE
-#> 3            LN.4   TRUE
-#> 4            W2.4   TRUE
-#> 5            W2.4   TRUE
-#> 6            W2.4   TRUE
+head(results[, c("ID", "best_model_name", "Effect Measure", "Estimate")])
+#>                                      ID best_model_name Effect Measure Estimate
+#> 83167.aB.A.Spiked     83167.aB.A.Spiked            LL.2           EC50 41.65928
+#> 83256.aB.A.Spiked     83256.aB.A.Spiked            LL.2           EC50 40.37425
+#> 83344.aB.A.Spiked     83344.aB.A.Spiked            LL.3           EC50 38.78646
+#> 83475.aB.A.Spiked     83475.aB.A.Spiked            LL.2           EC50 32.03180
+#> 83476.aB.A.Spiked     83476.aB.A.Spiked            LL.2           EC50 45.89727
+#> 83167.CFDA.A.Spiked 83167.CFDA.A.Spiked            LL.3           EC50 67.99410
 ```
 
-## Authours
+`IDcols` is what makes this work: the dataset is split on those columns,
+each subset is carried through the pipeline independently, and the
+results are recombined. Nothing about the column naming is fixed, so any
+long-format dataset fits.
 
-- **Jack Salole** - *Intial Work* -
-  [jsalole](https://github.com/jsalole)
+Leaving `condense = FALSE` returns the full working of each subset
+instead, which includes the intermediate datasets, quality-control
+summaries, the fitted model object, and the point estimates.
+
+## What the pipeline does
+
+Each stage is optional and configurable, and each is also an exported
+function you can use on its own:
+
+| Stage | Function | Purpose |
+|----|----|----|
+| Outlier removal | `removeoutliers()` | Iterative Grubbs’ test within each group |
+| Variability check | `flagCV()` | Flag groups whose CV exceeds a threshold |
+| Solvent check | `pctl()` | Compare a solvent control against a true control |
+| Blank correction | `blankcorrect()` | Subtract a measured blank |
+| Normalization | `normalizeresponse()` | Express the response relative to a control |
+| Averaging | `averageresponse()` | Collapse replicates within a concentration |
+| Effect screening | `checktoxicity()` | Decide whether a curve is worth fitting |
+| Model fitting | `modelcomp()` | Fit candidate models and select between them |
+| Estimation | `getECx()` | Effect concentrations with confidence intervals |
+
+## Continuous and quantal endpoints
+
+Continuous responses — fluorescence, growth, biomass — are the default.
+
+Binary endpoints such as mortality are supported by declaring the
+endpoint and supplying the number of organisms per group. Models are
+then fitted as binomial data weighted by group size, so a response of
+0.1 from 1 of 10 organisms is not treated as equally certain as the same
+value from 10 of 100.
+
+``` r
+runtoxdrc(
+  dataset = acutetox,
+  Conc = Conc,
+  Response = Prop,
+  N = Total,
+  IDcols = "Substance",
+  preset = "quantal",
+  quiet = TRUE,
+  output = toxdrc_output(condense = TRUE)
+)[, c("ID", "best_model_name", "Estimate")]
+#>                    ID best_model_name Estimate
+#> Background Background           LL.3u 10.02813
+#> Graded         Graded            LL.2 10.05541
+#> Steep           Steep    interpolated 17.88854
+```
+
+### Tests with no partial effects
+
+A quantal test where nothing is affected at one concentration and
+everything is affected at the next contains no information about the
+slope, so no model can be fitted at all. This is common with small
+groups and widely spaced concentrations.
+
+Setting `interpolate = TRUE` estimates the EC50 by log-linear
+interpolation between the two bracketing concentrations, which is their
+geometric mean. Those estimates are marked
+`best_model_name = "interpolated"` and carry no confidence interval,
+since there is no model to derive one from.
+
+The `Steep` substance in `acutetox` is exactly this case, and appears as
+`interpolated` in the output above. `interpolateECx()` can also be
+called directly on any dataset.
+
+## Configuration
+
+Presets are ordinary lists, so you can see what one sets:
+
+``` r
+toxdrc_preset("quantal")
+#> <toxdrc preset: quantal>
+#> 
+#> $endpoint
+#>   type           binomial
+#>   response.type  proportion
+#> 
+#> $qc
+#>   outlier.test  FALSE
+#>   cv.flag       FALSE
+#>   cvflag.lvl    30
+#>   pctl.test     FALSE
+#>   pctl.lvl      10
+#>   ref.label     Control
+#>   pctl.label    0
+#>   avg.resp      TRUE
+#> 
+#> $normalization
+#>   blank.correction  FALSE
+#>   blank.label       Blank
+#>   normalize.resp    FALSE
+#>   relative.label    0
+#> 
+#> $toxicity
+#>   toxic.lvl        0.2
+#>   toxic.type       absolute
+#>   toxic.direction  above
+#>   comp.group       0
+#>   target.group     NULL
+#> 
+#> $modelling
+#>   model.list         NULL
+#>   model.metric       IC
+#>   EDx                0.5
+#>   interval           tfls
+#>   level              0.95
+#>   type               relative
+#>   quiet              FALSE
+#>   EDargs.supplement  <>
+#>   interpolate        TRUE
+#>   partial.tol        0.2
+#> 
+#> $output
+#>   condense  FALSE
+#>   sections  ID             , effectmeasure  , best_model_name, effect
+```
+
+Anything passed explicitly overrides the preset, so it is a starting
+point rather than a fixed recipe:
+
+``` r
+multi <- runtoxdrc(
+  dataset = cellglow,
+  Conc = Conc,
+  Response = RFU,
+  IDcols = c("Test_Number", "Dye", "Replicate", "Type"),
+  preset = "normalized",
+  quiet = TRUE,
+  modelling = toxdrc_modelling(EDx = c(0.1, 0.5, 0.9)),
+  output = toxdrc_output(condense = TRUE)
+)
+
+head(multi[, c("ID", "Effect Measure", "Estimate")])
+#>                                    ID Effect Measure  Estimate
+#> 83167.aB.A.Spiked.1 83167.aB.A.Spiked           EC10  16.36186
+#> 83167.aB.A.Spiked.2 83167.aB.A.Spiked           EC50  73.24048
+#> 83167.aB.A.Spiked.3 83167.aB.A.Spiked           EC90 327.84583
+#> 83256.aB.A.Spiked.1 83256.aB.A.Spiked           EC10  20.48914
+#> 83256.aB.A.Spiked.2 83256.aB.A.Spiked           EC50  39.38690
+#> 83256.aB.A.Spiked.3 83256.aB.A.Spiked           EC90  75.71464
+```
+
+Every setting can also be given directly through `toxdrc_qc()`,
+`toxdrc_normalization()`, `toxdrc_toxicity()`, `toxdrc_modelling()`,
+`toxdrc_endpoint()` and `toxdrc_output()`, without using a preset at
+all. See `?config_runtoxdrc` for the full set.
+
+## Example data
+
+| Dataset | Endpoint | Description |
+|----|----|----|
+| `toxresult` | Continuous | A single 24-well plate, for trying individual functions |
+| `cellglow` | Continuous | 1,080 observations across 108 curves, from an RTgill-W1 assay |
+| `acutetox` | Quantal | Simulated acute lethality, covering normal, degenerate and control-mortality cases |
+
+## Authors
+
+- **Jack Salole** [jsalole](https://github.com/jsalole)
 
 ## Acknowledgments
 
-- This package is an extenision for the
+- This package is an extension of the
   [drc](https://CRAN.R-project.org/package=drc) package.
-- This package uses code suggested by [Nel on stack
-  overflow](https://stackoverflow.com/users/7133643/nel) for mselect2,
-  which updates mselect to work within a function.
+- `mselect2()` adapts code suggested by [Nel on Stack
+  Overflow](https://stackoverflow.com/users/7133643/nel), which allows
+  `mselect` to work within a function.

@@ -7,7 +7,7 @@
 flagCV(dataset, Conc, Response, max_val = 30, list_obj = NULL, quiet = FALSE)
 }
 \arguments{
-\item{dataset}{dataset A dataframe, containing the columns `Conc` and `Response`.}
+\item{dataset}{A dataframe, containing the columns `Conc` and `Response`.}
 
 \item{Conc}{Bare (unquoted) column name in `dataset` that groups the
 `Response` variable.}

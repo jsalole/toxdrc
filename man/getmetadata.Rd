@@ -4,7 +4,7 @@
 \alias{getmetadata}
 \title{Generate metadata from a dataframe}
 \usage{
-getmetadata(dataset, IDcols, list_obj = NULL, quiet = FALSE)
+getmetadata(dataset, IDcols = NULL, list_obj = NULL, quiet = FALSE)
 }
 \arguments{
 \item{dataset}{A dataframe.}
@@ -26,5 +26,5 @@ A 1 row dataframe of the identifying parameters of an experimental
  `list_obj$metadata`.
 }
 \description{
-Collects identifying or important values from an expeirmental replicate.
+Collects identifying or important values from an experimental replicate.
 }

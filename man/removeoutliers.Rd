@@ -2,7 +2,7 @@
 % Please edit documentation in R/removeoutliers.R
 \name{removeoutliers}
 \alias{removeoutliers}
-\title{Remove outliers iteratively using Grubbs' test.}
+\title{Remove outliers iteratively using Grubbs' test}
 \usage{
 removeoutliers(dataset, Conc, Response, list_obj = NULL, quiet = FALSE)
 }
@@ -28,7 +28,10 @@ A modified `dataset` with outliers removed. If
  `list_obj$removed_outliers`.
 }
 \description{
-This function removes statistical outliers from each testing group by iteratively applying Grubbs' test.
+Removes statistical outliers from each group of `Conc` by applying Grubbs'
+ test repeatedly, dropping the most extreme value each time the test is
+ significant at p < 0.05. Groups of two or fewer observations are left
+ untouched, since Grubbs' test needs at least three.
 }
 \examples{
 df <- data.frame(x = rep(1:2, each = 3),y = c(3, 5, 7, 3, 4, 30))

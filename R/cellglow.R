@@ -16,10 +16,6 @@
 #'   \item{Dye}{Three cell viability indicators; aB = alamarBlue, CFDA = 5-CFDA-AM, NR = Neutral Red}
 #'   \item{Type}{Only spiked exists in this dataset; indicates a reference toxicant was added to the effluent.}
 #'   \item{Replicate}{The experimental replicate; replication occured at a well-plate level.}
-
-#' /item
-
-#'   ...
 #' }
 #' @source https://doi.org/10.5683/SP3/ES7GDM
 "cellglow"

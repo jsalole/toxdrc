@@ -2,31 +2,41 @@
 % Please edit documentation in R/config_runtoxdrc.R
 \name{toxdrc_modelling}
 \alias{toxdrc_modelling}
-\title{Modelling configuration for for the runtoxdrc pipeline.}
+\title{Modelling configuration for the runtoxdrc pipeline.}
 \usage{
 toxdrc_modelling(
-  model.list = list(LL.4 = LL.4(), LN.4 = LN.4(), W1.4 = W1.4(), W2.4 = W2.4()),
+  model.list = NULL,
   model.metric = c("IC", "Res var", "Lack of fit"),
   EDx = 0.5,
   interval = c("tfls", "fls", "delta", "none"),
   level = 0.95,
   type = c("relative", "absolute"),
   quiet = FALSE,
-  EDargs.supplement = list()
+  EDargs.supplement = list(),
+  interpolate = FALSE,
+  partial.tol = 0.2
 )
 }
 \arguments{
-\item{model.list}{List. Model functions to be tested. Defaults to
- include `"LL.4"`, `"LN.4"`, `"W1.4"`, `"W2.4"`. Most models from the drc
- package are compatible; use `drc::getMeanFunctions()` for a more options. See
+\item{model.list}{Named list, or NULL. Model functions to be tested. NULL,
+the default, selects a list appropriate to the endpoint: `LL.4` for a
+continuous response, and `LL.2` together with `LL.3u` for a quantal one.
+Supply your own list to override, e.g.
+`list("LL.4" = LL.4(), "W1.4" = W1.4())`; with a single entry no
+comparison takes place and `model.metric` has no effect. Most models from
+the drc package are compatible; use `drc::getMeanFunctions()` for more
+options. Each entry must be named for the model function it holds. See
 [modelcomp()] for more information around formatting.}
 
 \item{model.metric}{Character. Criterion used to select the best
 model. Choices are `"IC"`, `"Res var"`, `"Lack of fit"`. Defaults
-to "IC".}
+to "IC". `"IC"` and `"Res var"` select the smallest value; `"Lack of fit"`
+selects the largest, since it is a goodness-of-fit p-value. See
+[modelcomp()] for details.}
 
-\item{EDx}{Numeric. The effective dose level to estimate. Defaults
-to 0.5.}
+\item{EDx}{Numeric. The effect level(s) to estimate, given as a proportion
+between 0 and 1, so `0.5` requests the EC50 and `c(0.1, 0.5)` requests the
+EC10 and EC50. Defaults to 0.5.}
 
 \item{interval}{Character. Method for calculating confidence intervals
 of EDx. Choices: `"tfls"`, `"fls"`, `"delta"`, `"none"`. Defaults
@@ -43,6 +53,16 @@ to FALSE.}
 
 \item{EDargs.supplement}{List. Optional user-supplied list of additional arguments
 compatible with `drc::ED()`.}
+
+\item{interpolate}{Logical. For a quantal endpoint, estimate the effect
+concentration by log-linear interpolation when no concentration produced a
+partial effect and therefore no model can be fitted. Defaults to FALSE.
+Has no effect on a continuous endpoint. See [interpolateECx()].}
+
+\item{partial.tol}{Numeric. How far an affected proportion must sit from
+both the control response and complete effect to count as a partial
+effect. Defaults to 0.2, so with no control response a group must be
+between 20\% and 80\% affected. Only used when `interpolate = TRUE`.}
 }
 \value{
 A named list containing model fitting and selection settings
@@ -57,5 +77,5 @@ toxdrc_modelling(EDargs.supplement = list(interval = "delta", level = 0.9))
 
 }
 \seealso{
-[config_runtoxdrc], [runtoxdrc()], [drc::ED()], [getMeanFunctions()], [modelcomp()]
+[config_runtoxdrc], [runtoxdrc()], [drc::ED()], [drc::getMeanFunctions()], [modelcomp()]
 }
