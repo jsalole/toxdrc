@@ -14,9 +14,9 @@ effect-concentration estimation to each.
 
 Fitting a single curve is already well served by
 [drc](https://CRAN.R-project.org/package=drc). **toxdrc** instead
-focuses on the application [drc](https://CRAN.R-project.org/package=drc)
-to analyzing datasets containing several curves that all need to be
-processed independantly, but identically.
+focuses on the application of `drc` to analyzing datasets containing
+several curves that all need to be processed independantly, but
+identically.
 
 ## Installation
 
@@ -51,14 +51,14 @@ results <- runtoxdrc(
   output = toxdrc_output(condense = TRUE)
 )
 
-head(results[, c("ID", "best_model_name", "Effect Measure", "Estimate")])
-#>                                      ID best_model_name Effect Measure Estimate
-#> 83167.aB.A.Spiked     83167.aB.A.Spiked            LL.2           EC50 41.65928
-#> 83256.aB.A.Spiked     83256.aB.A.Spiked            LL.2           EC50 40.37425
-#> 83344.aB.A.Spiked     83344.aB.A.Spiked            LL.3           EC50 38.78646
-#> 83475.aB.A.Spiked     83475.aB.A.Spiked            LL.2           EC50 32.03180
-#> 83476.aB.A.Spiked     83476.aB.A.Spiked            LL.2           EC50 45.89727
-#> 83167.CFDA.A.Spiked 83167.CFDA.A.Spiked            LL.3           EC50 67.99410
+head(results[, c("best_model_name", "Effect Measure", "Estimate")])
+#>                     best_model_name Effect Measure Estimate
+#> 83167.aB.A.Spiked              LL.2           EC50 41.65928
+#> 83256.aB.A.Spiked              LL.2           EC50 40.37425
+#> 83344.aB.A.Spiked              LL.3           EC50 38.78646
+#> 83475.aB.A.Spiked              LL.2           EC50 32.03180
+#> 83476.aB.A.Spiked              LL.2           EC50 45.89727
+#> 83167.CFDA.A.Spiked            LL.3           EC50 67.99410
 ```
 
 `IDcols` is what makes this work: the dataset is split on those columns,
@@ -223,11 +223,11 @@ all. See `?config_runtoxdrc` for the full set.
 
 ## Authors
 
-- **Jack Salole** [jsalole](https://github.com/jsalole)
+- **Jack Salole** - [jsalole](https://github.com/jsalole)
 
 ## Acknowledgments
 
-- This package is an extension of the
+- This package builds off of the
   [drc](https://CRAN.R-project.org/package=drc) package.
 - `mselect2()` adapts code suggested by [Nel on Stack
   Overflow](https://stackoverflow.com/users/7133643/nel), which allows
