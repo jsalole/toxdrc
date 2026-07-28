@@ -105,16 +105,28 @@ runtoxdrc <- function(
 ) {
   # Configuration blocks default to NULL so that "not supplied" can be told
   # apart from "supplied with the default value". Anything left NULL comes
-  # from the preset, which defaults to "continuous" — the same settings the
+  # from the preset, which defaults to "continuous" - the same settings the
   # arguments used to carry directly.
   defaults <- resolve_preset(preset)
 
-  if (is.null(endpoint)) endpoint <- defaults$endpoint
-  if (is.null(qc)) qc <- defaults$qc
-  if (is.null(normalization)) normalization <- defaults$normalization
-  if (is.null(toxicity)) toxicity <- defaults$toxicity
-  if (is.null(modelling)) modelling <- defaults$modelling
-  if (is.null(output)) output <- defaults$output
+  if (is.null(endpoint)) {
+    endpoint <- defaults$endpoint
+  }
+  if (is.null(qc)) {
+    qc <- defaults$qc
+  }
+  if (is.null(normalization)) {
+    normalization <- defaults$normalization
+  }
+  if (is.null(toxicity)) {
+    toxicity <- defaults$toxicity
+  }
+  if (is.null(modelling)) {
+    modelling <- defaults$modelling
+  }
+  if (is.null(output)) {
+    output <- defaults$output
+  }
 
   check_dataset(dataset)
   check_column(dataset, rlang::enquo(Conc), "Conc")

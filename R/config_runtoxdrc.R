@@ -16,12 +16,12 @@
 #' @details
 #' **Available configuration functions:**
 #' \itemize{
-#'   \item [toxdrc_endpoint()] — Continuous or quantal response, and how it is supplied
-#'   \item [toxdrc_qc()] — Quality control and filtering options
-#'   \item [toxdrc_normalization()] — Blank correction and normalization
-#'   \item [toxdrc_toxicity()] — Toxicity threshold and response-level options
-#'   \item [toxdrc_modelling()] — Model selection, fitting criteria, and EDx calculation
-#'   \item [toxdrc_output()] — Output settings
+#'   \item [toxdrc_endpoint()] - Continuous or quantal response, and how it is supplied
+#'   \item [toxdrc_qc()] - Quality control and filtering options
+#'   \item [toxdrc_normalization()] - Blank correction and normalization
+#'   \item [toxdrc_toxicity()] - Toxicity threshold and response-level options
+#'   \item [toxdrc_modelling()] - Model selection, fitting criteria, and EDx calculation
+#'   \item [toxdrc_output()] - Output settings
 #' }
 #'
 #' @usage NULL
@@ -390,8 +390,11 @@ toxdrc_output <- function(
       c(
         "`sections` must be a non-empty character vector.",
         "x" = paste0(
-          "Received an object of class <", class(sections)[1],
-          "> of length ", length(sections), "."
+          "Received an object of class <",
+          class(sections)[1],
+          "> of length ",
+          length(sections),
+          "."
         ),
         "i" = "Example: sections = c(\"ID\", \"effectmeasure\")."
       ),
